@@ -1,103 +1,216 @@
-import Image from "next/image";
+import { createClient } from "@/utils/supabase/server";
+import { logout } from "./logout/actions";
+import Link from "next/link";
+import InventoryCard from "@/components/dashboard/inventory-card";
+import NutrientOverview from "@/components/dashboard/nutrient-overview";
+import RadialGradient from "@/components/radial-gradient";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+export default async function Home() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  if (error || !data?.user) {
+    return (
+      <div className="flex-1 flex flex-col justify-center items-center">
+        <RadialGradient />
+        <div className="text-center space-y-8 max-w-md z-10">
+          <div className="space-y-4">
+            <h1 className="text-5xl font-light tracking-wide text-gray-900 dark:text-white">
+              Mise
+            </h1>
+            <div className="h-px w-16 bg-gray-300 dark:bg-gray-600 mx-auto"></div>
+            <p className="text-lg font-light text-gray-600 dark:text-gray-300 tracking-wide uppercase letter-spacing: 0.05em;">
+              Meal Prep Made Simple
+            </p>
+          </div>
+
+          <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/login"
+              className="px-8 py-3 rounded-sm border border-gray-300 text-gray-700 bg-white dark:bg-[#121212] hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 transition-all duration-300 font-light tracking-wide text-sm uppercase"
+            >
+              Log in
+            </a>
+            <a
+              href="/signup"
+              className="px-8 py-3 rounded-sm bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-300 transition-all duration-300 font-light tracking-wide text-sm uppercase"
+            >
+              Sign up
+            </a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="absolute bottom-8 text-center">
+          <p className="text-xs text-gray-500 dark:text-gray-500 tracking-wide">
+            Elevate your meal prep experience
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Fetch user data for dashboard
+  const { data: userData } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", data.user.id)
+    .single();
+
+  // Fetch recent meals (last 3 logs)
+  const { data: recentMeals } = await supabase
+    .from("food_logs")
+    .select(
+      `
+        *,
+        ingredient:ingredients(name),
+        recipe:recipes(name),
+        nutrients:food_log_nutrients(nutrient_key, amount)
+      `
+    )
+    .eq("user_id", data.user.id)
+    .order("logged_at", { ascending: false })
+    .limit(3);
+
+  return (
+    <div className="max-w-6xl mx-auto p-6 space-y-8">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Welcome back, {userData?.first_name || "Chef"}
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Here's your overview for today
+          </p>
+        </div>
+        <form>
+          <button
+            formAction={logout}
+            className="cursor-pointer px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          >
+            Logout
+          </button>
+        </form>
+      </div>
+
+      {/* Nutrition Overview Cards */}
+      <NutrientOverview />
+
+      {/* Quick Actions */}
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        Quick Actions
+      </h3>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <QuickAction icon="🍎" title="Log Food" href="/foodlog" color="blue" />
+        <QuickAction icon="📖" title="Recipes" href="/recipes" color="green" />
+        <QuickAction
+          icon="📦"
+          title="Inventory"
+          href="/inventory"
+          color="amber"
+        />
+        <QuickAction
+          icon="🥕"
+          title="Ingredients"
+          href="/ingredients"
+          color="purple"
+        />
+      </div>
+
+      {/* Two Column Layout */}
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Recent Meals */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            Recent Meals
+          </h2>
+          <div className="space-y-3">
+            {recentMeals?.length ? (
+              recentMeals.map((meal) => {
+                const name =
+                  meal.ingredient?.name || meal.recipe?.name || "Unknown";
+                const time = new Date(meal.logged_at).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+                const calories = meal.nutrients?.find(
+                  (n) => n.nutrient_key === "calories"
+                )?.amount;
+
+                return (
+                  <MealItem
+                    key={meal.id}
+                    name={name}
+                    time={time}
+                    calories={calories ? calories.toString() : "-"}
+                  />
+                );
+              })
+            ) : (
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                No recent meals logged.
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Inventory Status */}
+        <InventoryCard />
+      </div>
+    </div>
+  );
+}
+
+// Helper Components
+function QuickAction({
+  icon,
+  title,
+  href,
+  color,
+}: {
+  icon: string;
+  title: string;
+  href: string;
+  color: string;
+}) {
+  const colorClasses = {
+    blue: "bg-blue-600 hover:bg-blue-700",
+    green: "bg-green-600 hover:bg-green-700",
+    amber: "bg-amber-600 hover:bg-amber-700",
+    purple: "bg-purple-600 hover:bg-purple-700",
+  };
+
+  return (
+    <Link
+      href={href}
+      className={`${colorClasses[color]} text-white p-6 rounded-xl text-center transition-colors transform hover:scale-105`}
+    >
+      <div className="text-3xl mb-3">{icon}</div>
+      <div className="font-medium">{title}</div>
+    </Link>
+  );
+}
+
+function MealItem({
+  name,
+  time,
+  calories,
+}: {
+  name: string;
+  time: string;
+  calories: string;
+}) {
+  return (
+    <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+      <div>
+        <div className="font-medium text-gray-900 dark:text-white">{name}</div>
+        {/* <div className="text-sm text-gray-600 dark:text-gray-400">{time}</div> */}
+      </div>
+      <div className="text-right">
+        <div className="font-bold text-gray-900 dark:text-white">
+          {calories} cal
+        </div>
+      </div>
     </div>
   );
 }
