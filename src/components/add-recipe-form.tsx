@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 type Ingredient = {
   id: string;
@@ -172,10 +172,10 @@ export default function AddRecipeForm() {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsModalOpen(false);
     resetForm();
-  };
+  }, []);
 
   // Close modal when clicking outside
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -194,7 +194,7 @@ export default function AddRecipeForm() {
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [isModalOpen]);
+  }, [isModalOpen, closeModal]);
 
   return (
     <>

@@ -90,10 +90,10 @@ export default function AddInventoryForm({
     setIsSubmitting(false);
   };
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     resetForm();
     onClose();
-  };
+  }, [onClose]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -191,7 +191,7 @@ export default function AddInventoryForm({
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
 
   // Close modal when clicking outside
   const handleBackdropClick = (e: React.MouseEvent) => {

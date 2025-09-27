@@ -1,6 +1,6 @@
 "use client";
 
-import { ALL_NUTRIENTS, ALL_NUTRIENTS_DICT } from "@/constants/constants";
+import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
 import React, { useEffect, useState } from "react";
 import AddRecipeForm from "./add-recipe-form";
 
@@ -79,12 +79,10 @@ function NutritionSkeleton() {
 }
 
 function RecipeNutrients({
-  recipeId,
   servings,
   nutrients,
   loading,
 }: {
-  recipeId: string;
   servings: number;
   nutrients: Nutrient[];
   loading: boolean;
@@ -194,12 +192,12 @@ export default function RecipeList() {
   const [loading, setLoading] = useState(true);
   const [expandedRecipe, setExpandedRecipe] = useState<string | null>(null);
 
-  const [nutrientCache, setNutrientCache] = useState<
-    Record<string, Nutrient[]>
-  >({});
-  const [nutrientLoading, setNutrientLoading] = useState<
-    Record<string, boolean>
-  >({});
+  // const [nutrientCache, setNutrientCache] = useState<
+  //   Record<string, Nutrient[]>
+  // >({});
+  // const [nutrientLoading, setNutrientLoading] = useState<
+  //   Record<string, boolean>
+  // >({});
 
   useEffect(() => {
     async function fetchRecipes() {
@@ -229,22 +227,22 @@ export default function RecipeList() {
     return dict;
   }
 
-  const fetchNutrientsForRecipe = async (recipeId: string) => {
-    if (nutrientCache[recipeId]) return;
+  // const fetchNutrientsForRecipe = async (recipeId: string) => {
+  //   if (nutrientCache[recipeId]) return;
 
-    setNutrientLoading((prev) => ({ ...prev, [recipeId]: true }));
-    try {
-      const res = await fetch(`/api/recipes/${recipeId}/nutrients`);
-      const data = await res.json();
-      if (data.success) {
-        setNutrientCache((prev) => ({ ...prev, [recipeId]: data.nutrients }));
-      }
-    } catch (err) {
-      console.error("Error fetching recipe nutrients:", err);
-    } finally {
-      setNutrientLoading((prev) => ({ ...prev, [recipeId]: false }));
-    }
-  };
+  //   // setNutrientLoading((prev) => ({ ...prev, [recipeId]: true }));
+  //   try {
+  //     const res = await fetch(`/api/recipes/${recipeId}/nutrients`);
+  //     const data = await res.json();
+  //     if (data.success) {
+  //       setNutrientCache((prev) => ({ ...prev, [recipeId]: data.nutrients }));
+  //     }
+  //   } catch (err) {
+  //     console.error("Error fetching recipe nutrients:", err);
+  //   } finally {
+  //     // setNutrientLoading((prev) => ({ ...prev, [recipeId]: false }));
+  //   }
+  // };
 
   const toggleExpand = (recipeId: string) => {
     setExpandedRecipe(expandedRecipe === recipeId ? null : recipeId);
@@ -473,7 +471,6 @@ export default function RecipeList() {
 
                 {/* Nutrition */}
                 <RecipeNutrients
-                  recipeId={recipe.id}
                   servings={recipe.servings}
                   nutrients={recipe.recipe_nutrients}
                   loading={false}

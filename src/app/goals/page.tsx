@@ -93,7 +93,6 @@ export default function GoalsPage() {
 
   // Handle nutrient change - update both nutrient_key and unit in one go
   const handleNutrientChange = (nutrientKey: string) => {
-    const nutrient = ALL_NUTRIENTS_DICT[nutrientKey];
     setForm((prev) => ({
       ...prev,
       nutrient_key: nutrientKey,
@@ -407,12 +406,10 @@ export default function GoalsPage() {
                       </h3>
                       <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mt-1">
                         <span className="flex items-center gap-1">
-                          <span className="text-2xl">🎯</span>
                           Target: {goal.target_amount}{" "}
                           {nutrientInfo?.unit || ""}
                         </span>
                         <span className="flex items-center gap-1">
-                          <span className="text-2xl">📅</span>
                           Added {new Date(goal.created_at).toLocaleDateString()}
                         </span>
                       </div>
