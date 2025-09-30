@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+// Import the updated signup action
 import { signup } from "../login/actions";
 import Link from "next/link";
 
@@ -10,12 +11,79 @@ export default function SignupPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorField, setErrorField] = useState<string | null>(null);
+
+  // 1. Create the submission handler
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setServerError(null);
+    setErrorField(null); // Clear previous error field
+    setIsLoading(true);
+
+    // Create a FormData object manually from state
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("username", username.trim());
+    formData.append("email", email);
+    formData.append("password", password); // Use the password state
+
+    // --- Client-side Username Validation (kept from previous step) ---
+    const usernameRegex = /^[a-zA-Z0-9._]+$/;
+    const trimmedUsername = username.trim();
+
+    if (!usernameRegex.test(trimmedUsername)) {
+      setIsLoading(false);
+      setServerError(
+        "Username can only contain letters (a-z), numbers (0-9), underscores (_), and periods (.)."
+      );
+      setErrorField("username");
+      return;
+    }
+    // --- End Username Validation ---
+
+    try {
+      const result = await signup(formData);
+
+      if (result && result.error) {
+        const lowerCaseError = result.error.toLowerCase();
+        setServerError(result.error);
+        setIsLoading(false);
+
+        // 🔑 UPDATED: Logic to identify which field caused the error
+        if (
+          lowerCaseError.includes("password") ||
+          lowerCaseError.includes("length") ||
+          lowerCaseError.includes("weak")
+        ) {
+          setErrorField("password");
+        } else if (
+          lowerCaseError.includes("please use a different email")
+        ) {
+          setErrorField("email");
+        } else if (
+          lowerCaseError.includes("please use a different username")
+        ) {
+          setErrorField("username");
+        } else {
+          setErrorField("form"); // Default to a general form error
+        }
+      }
+    } catch (error) {
+      console.error("Unexpected signup error:", error);
+      setServerError("An unexpected error occurred. Please try again.");
+      setErrorField("form");
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center px-4 py-8 flex-1">
       <div className="max-w-md w-full space-y-8">
         {/* Header Section */}
+        <div>{errorField}</div>
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Create Your Account
@@ -26,14 +94,25 @@ export default function SignupPage() {
         </div>
 
         {/* Signup Form */}
-        <form className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700">
+        {/* 4. Attach the handleSubmit handler */}
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700"
+        >
           <div className="space-y-4">
-            {/* Name Row */}
+            {/* Name Row and other inputs are the same */}
+            {/* ... Your input fields (First Name, Last Name, Email, Username, Password) ... */}
+
+            {/* ERROR DISPLAY AREA */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="first-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                  htmlFor="first-name"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                   First Name
                 </label>
+
                 <input
                   id="first-name"
                   name="firstName"
@@ -48,9 +127,13 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                   Last Name
                 </label>
+
                 <input
                   id="last-name"
                   name="lastName"
@@ -66,10 +149,15 @@ export default function SignupPage() {
             </div>
 
             {/* Email Input */}
+
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 Email address
               </label>
+
               <input
                 id="email"
                 name="email"
@@ -78,16 +166,27 @@ export default function SignupPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent transition-all duration-200"
+                className={`relative block w-full px-4 py-3 border 
+            ${
+              serverError && errorField === "email"
+                ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500"
+                : "border-gray-300 dark:border-gray-600 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-200"
+            }
+            placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent`}
                 placeholder="Email address"
               />
             </div>
 
             {/* Username Input */}
+
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 Username
               </label>
+
               <input
                 id="username"
                 name="username"
@@ -96,16 +195,28 @@ export default function SignupPage() {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent transition-all duration-200"
+                // 🔑 UPDATED: Conditional class for red border
+                className={`relative block w-full px-4 py-3 border 
+            ${
+              serverError && errorField === "username"
+                ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500"
+                : "border-gray-300 dark:border-gray-600 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-200"
+            }
+            placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent`}
                 placeholder="Username"
               />
             </div>
 
             {/* Password Input */}
+
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 Password
               </label>
+
               <input
                 id="password"
                 name="password"
@@ -114,20 +225,38 @@ export default function SignupPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent transition-all duration-200"
+                className={`relative block w-full px-4 py-3 border 
+            ${
+              serverError && errorField === "password"
+                ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500"
+                : "border-gray-300 dark:border-gray-600 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-200"
+            }
+            placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent`}
                 placeholder="Password"
               />
             </div>
+            {serverError && (
+              <div
+                className="text-center p-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-300"
+                role="alert"
+              >
+                {/* <span className="font-medium">Sign up failed:</span>{" "} */}
+                {serverError}
+              </div>
+            )}
           </div>
 
           <div>
+            {/* 5. Change formAction to type="submit" */}
             <button
+              type="submit"
               disabled={isLoading}
-              formAction={signup}
               className=" cursor-pointer group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-700 dark:to-gray-600 hover:from-gray-900 hover:to-gray-800 dark:hover:from-gray-800 dark:hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
+              {/* ... Loading/Sign up button content ... */}
               {isLoading ? (
                 <>
+                  {/* Spinner SVG */}
                   <svg
                     className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -153,14 +282,26 @@ export default function SignupPage() {
               ) : (
                 <>
                   <span>Sign up</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
                   </svg>
                 </>
               )}
             </button>
           </div>
 
+          {/* ... Existing Sign in link ... */}
           <div className="text-center pt-4">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
