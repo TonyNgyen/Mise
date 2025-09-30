@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
-// ✅ Add or update inventory item
-// ✅ Add inventory item (merge if exists)
+type InsertData = {
+  user_id: string; // or number, depending on your schema
+  quantity: number;
+  unit: string;
+  ingredient_id?: string;
+  recipe_id?: string;
+};
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -54,8 +60,7 @@ export async function POST(req: Request) {
       if (error) throw error;
       result = data;
     } else {
-      // Insert new row → only set the provided key
-      const insertData: any = {
+      const insertData: InsertData = {
         user_id: user.id,
         quantity,
         unit,

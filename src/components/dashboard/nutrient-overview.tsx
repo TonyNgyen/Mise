@@ -138,7 +138,6 @@ function EmptyState({ type }: { type: "no-food" | "no-goals" }) {
 function NutrientOverview() {
   const [foodLogs, setFoodLogs] = useState<FoodLog[]>([]);
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("main");
 
   const fetchFoodLogs = async (date: string) => {
@@ -323,7 +322,7 @@ function NutrientOverview() {
               No nutrient data available
             </h3>
             <p className="text-gray-500 dark:text-gray-400">
-              The logged food items don't contain nutrient information
+              The logged food items don&apos;t contain nutrient information
             </p>
           </div>
         ) : (
@@ -331,7 +330,7 @@ function NutrientOverview() {
             <div className="border-b border-gray-200 dark:border-gray-700 mb-4">
               <nav className="flex space-x-4">
                 {Object.entries(categorizedNutrients)
-                  .filter(([_, nutrients]) => nutrients.length > 0)
+                  .filter(([nutrients]) => nutrients.length > 0)
                   .map(([category]) => (
                     <button
                       key={category}

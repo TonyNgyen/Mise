@@ -2,6 +2,13 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
+type Nutrient = {
+  food_log_id: string;
+  nutrient_key: string;
+  amount: number;
+  unit: string;
+};
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -55,7 +62,7 @@ export async function POST(req: Request) {
     const foodLogId = foodLog.id;
 
     // Calculate nutrients based on whether it's an ingredient or recipe
-    let nutrients: any[] = [];
+    let nutrients: Nutrient[] = [];
 
     if (ingredient_id) {
       // Get ingredient nutrients
@@ -133,7 +140,7 @@ export async function POST(req: Request) {
         console.log("2");
 
         if (inventoryError) {
-          console.log(inventoryError)
+          console.log(inventoryError);
           throw inventoryError;
         }
       } else if (recipe_id) {

@@ -330,7 +330,7 @@ export default function AddIngredientForm() {
                       Common Nutrients
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {commonNutrients.map((nutrient, index) => {
+                      {commonNutrients.map((nutrient) => {
                         const globalIndex = nutrients.findIndex(
                           (n) => n.nutrient_key === nutrient.nutrient_key
                         );
@@ -424,7 +424,7 @@ export default function AddIngredientForm() {
 
                         {/* Nutrients Grid for Active Category */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {activeNicheNutrients.map((nutrient, index) => {
+                          {activeNicheNutrients.map((nutrient) => {
                             const globalIndex = nutrients.findIndex(
                               (n) => n.nutrient_key === nutrient.nutrient_key
                             );

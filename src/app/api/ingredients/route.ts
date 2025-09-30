@@ -27,9 +27,6 @@ export async function POST(req: Request) {
 
     if (ingredientError) throw ingredientError;
     const ingredientId = ingredient.id;
-
-    // Step 2: Upsert nutrient definitions for any unknown keys
-    // Expect nutrients = [{ nutrient_key, unit, amount, display_name }]
     const definitionRows = nutrients.map(
       (n: { nutrient_key: string; unit: string; display_name?: string }) => ({
         key: n.nutrient_key,

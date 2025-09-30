@@ -44,14 +44,14 @@ export default function IngredientsList() {
           console.error("Error fetching ingredients:", data.error);
         } else {
           // Reshape nutrients for easier rendering
-          const formatted = data.ingredients.map((ing: any) => ({
+          const formatted = data.ingredients.map((ing: Ingredient) => ({
             id: ing.id,
             name: ing.name,
             brand: ing.brand,
             serving_size: ing.serving_size,
             serving_unit: ing.serving_unit,
             servings_per_container: ing.servings_per_container,
-            nutrients: ing.nutrients.map((n: any) => ({
+            nutrients: ing.nutrients.map((n) => ({
               id: n.id,
               amount: n.amount,
               nutrient_key: n.nutrient_key,

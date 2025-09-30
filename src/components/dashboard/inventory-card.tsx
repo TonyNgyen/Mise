@@ -1,11 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+type InventoryItemType = {
+  id: string;
+  ingredient?: {
+    name: string;
+  };
+  recipe?: {
+    name: string;
+  };
+  quantity: number;
+  unit: string;
+};
 
 function InventoryItem({
   name,
   quantity,
-  status,
 }: {
   name: string;
   quantity: string;
@@ -20,7 +31,7 @@ function InventoryItem({
   return (
     <div className="flex justify-between items-center py-2">
       <span className="text-gray-900 dark:text-white">{name}</span>
-      <span className={`text-sm font-medium ${statusColors[status || "good"]}`}>
+      <span className={`text-sm font-medium ${statusColors["good"]}`}>
         {quantity}
       </span>
     </div>
@@ -59,8 +70,8 @@ function EmptyInventoryState() {
 }
 
 function InventoryCard() {
-  const [inventory, setInventory] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const [inventory, setInventory] = useState<InventoryItemType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchInventory = async () => {
     try {
@@ -102,11 +113,11 @@ function InventoryCard() {
         <EmptyInventoryState />
       ) : (
         <div className="space-y-2">
-          {inventory.map((item: any) => (
+          {inventory.map((item) => (
             <InventoryItem
               key={item.id}
-              name={item.ingredient?.name || item.recipe?.name}
-              quantity={item.quantity + " " + item.unit}
+              name={item.ingredient?.name || item.recipe?.name || ""}
+              quantity={`${item.quantity} ${item.unit}`}
             />
           ))}
         </div>

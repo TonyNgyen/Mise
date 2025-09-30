@@ -10,7 +10,7 @@ import {
   LuApple,
   LuBox,
   LuUtensils,
-  LuSettings,
+  // LuSettings,
   LuTrophy,
 } from "react-icons/lu";
 

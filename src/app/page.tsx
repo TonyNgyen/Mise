@@ -5,6 +5,11 @@ import InventoryCard from "@/components/dashboard/inventory-card";
 import NutrientOverview from "@/components/dashboard/nutrient-overview";
 import RadialGradient from "@/components/radial-gradient";
 
+type FoodLogNutrient = {
+  nutrient_key: string;
+  amount: number;
+};
+
 export default async function Home() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
@@ -80,7 +85,7 @@ export default async function Home() {
             Welcome back, {userData?.first_name || "Chef"}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Here's your overview for today
+            Here&apos;s your overview for today
           </p>
         </div>
         <form>
@@ -129,19 +134,18 @@ export default async function Home() {
               recentMeals.map((meal) => {
                 const name =
                   meal.ingredient?.name || meal.recipe?.name || "Unknown";
-                const time = new Date(meal.logged_at).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                });
+                // const time = new Date(meal.logged_at).toLocaleTimeString([], {
+                //   hour: "2-digit",
+                //   minute: "2-digit",
+                // });
                 const calories = meal.nutrients?.find(
-                  (n) => n.nutrient_key === "calories"
+                  (n: FoodLogNutrient) => n.nutrient_key === "calories"
                 )?.amount;
 
                 return (
                   <MealItem
                     key={meal.id}
                     name={name}
-                    time={time}
                     calories={calories ? calories.toString() : "-"}
                   />
                 );
@@ -171,7 +175,7 @@ function QuickAction({
   icon: string;
   title: string;
   href: string;
-  color: string;
+  color: "blue" | "green" | "amber" | "purple";
 }) {
   const colorClasses = {
     blue: "bg-blue-600 hover:bg-blue-700",
@@ -191,15 +195,7 @@ function QuickAction({
   );
 }
 
-function MealItem({
-  name,
-  time,
-  calories,
-}: {
-  name: string;
-  time: string;
-  calories: string;
-}) {
+function MealItem({ name, calories }: { name: string; calories: string }) {
   return (
     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
       <div>
