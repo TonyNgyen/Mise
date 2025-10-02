@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-// Import the updated signup action
 import { signup } from "../login/actions";
 import Link from "next/link";
 
