@@ -22,8 +22,7 @@ export async function login(formData: FormData): Promise<LoginResult> {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    // 🔑 Change: Instead of redirecting on error, return the error object.
-    // Supabase error messages are usually good enough for login failure (e.g., "Invalid login credentials").
+    console.error("Login error:", error);
     return { error: error.message };
   }
 

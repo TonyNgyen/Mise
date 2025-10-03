@@ -21,15 +21,14 @@ export default function SignupPage() {
     setErrorField(null); // Clear previous error field
     setIsLoading(true);
 
-    // Create a FormData object manually from state
+    // ... (FormData creation and client-side username validation) ...
     const formData = new FormData();
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("username", username.trim());
     formData.append("email", email);
-    formData.append("password", password); // Use the password state
+    formData.append("password", password);
 
-    // --- Client-side Username Validation (kept from previous step) ---
     const usernameRegex = /^[a-zA-Z0-9._]+$/;
     const trimmedUsername = username.trim();
 
@@ -58,19 +57,22 @@ export default function SignupPage() {
           lowerCaseError.includes("weak")
         ) {
           setErrorField("password");
-        } else if (
-          lowerCaseError.includes("please use a different email")
-        ) {
+        } else if (lowerCaseError.includes("please use a different email")) {
           setErrorField("email");
-        } else if (
-          lowerCaseError.includes("please use a different username")
-        ) {
+        } else if (lowerCaseError.includes("please use a different username")) {
           setErrorField("username");
         } else {
           setErrorField("form"); // Default to a general form error
         }
       }
     } catch (error) {
+      // 🛑 FIX: Filter the NEXT_REDIRECT error 🛑
+      if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+        // Re-throw the error so Next.js can properly handle the redirect
+        throw error;
+      }
+
+      // Handle all other unexpected client-side or network errors
       console.error("Unexpected signup error:", error);
       setServerError("An unexpected error occurred. Please try again.");
       setErrorField("form");
@@ -82,7 +84,6 @@ export default function SignupPage() {
     <div className="flex items-center justify-center px-4 py-8 flex-1">
       <div className="max-w-md w-full space-y-8">
         {/* Header Section */}
-        <div>{errorField}</div>
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Create Your Account
@@ -250,7 +251,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className=" cursor-pointer group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-700 dark:to-gray-600 hover:from-gray-900 hover:to-gray-800 dark:hover:from-gray-800 dark:hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              className=" cursor-pointer group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               {/* ... Loading/Sign up button content ... */}
               {isLoading ? (

@@ -27,7 +27,7 @@ const ThemeToggle = () => {
       <select
         value={theme}
         onChange={(e) => setTheme(e.target.value)}
-        className="cursor-pointer appearance-none bg-white dark:bg-[#121212] text-sm text-[#121212] border border-gray-200 dark:border-gray-700 dark:text-white font-medium pl-3 pr-10 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="cursor-pointer appearance-none bg-white dark:bg-[#121212] text-sm text-[#121212] border border-gray-200 dark:border-gray-700 dark:text-white font-medium pl-3 pr-10 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 dark:hover:bg-gray-800 hover:bg-gray-100 transition-all duration-200 ease-in-out"
       >
         {options.map((opt) => (
           <option

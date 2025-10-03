@@ -30,25 +30,19 @@ export default function LoginPage() {
 
     try {
       // 1. Call the server action
-      const result = await login(formData);
+      const result = await login(formData); // ... (Handle returned error logic remains the same) ...
 
       if (result && result.error) {
-        // 2. Handle the error returned from the server
         setServerError(result.error);
-        setIsLoading(false);
-
-        // 3. Highlight inputs based on common login error phrases (usually "Invalid login credentials")
-        // Since Supabase often returns a generic error for both, we highlight both fields.
-        if (
-          result.error.toLowerCase().includes("credentials") ||
-          result.error.toLowerCase().includes("invalid")
-        ) {
-          setErrorField("form"); // We'll highlight the error box, but you could target 'email' or 'password' as well.
-        }
+        setIsLoading(false); // ... (rest of error field logic) ...
       }
-      // If successful, the server action calls redirect("/") and this code won't be reached.
     } catch (error) {
-      // Handle unexpected client-side or network errors
+      // 🛑 FIX: Filter the NEXT_REDIRECT error 🛑
+      if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+        // If it's the expected redirect, re-throw it to let Next.js handle navigation
+        throw error;
+      } // Handle all other unexpected client-side or network errors
+
       console.error("Unexpected login error:", error);
       setServerError("An unexpected error occurred. Please try again.");
       setErrorField("form");
@@ -58,6 +52,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex-1 flex flex-col justify-center items-center px-4">
+      <div>{serverError}</div>
       <div className="max-w-md w-full space-y-8">
         {/* ... Header Section ... */}
         <div className="text-center">
@@ -141,7 +136,7 @@ export default function LoginPage() {
               type="submit" // 🔑 Change: Use type="submit" to trigger the onSubmit handler
               disabled={isLoading}
               // ❌ Remove formAction={login}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-800 transition-all duration-200 ease-in-out shadow-md hover:shadow-lg"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-800 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5 cursor-pointer"
             >
               {/* Spinner logic remains the same */}
               {isLoading ? (
