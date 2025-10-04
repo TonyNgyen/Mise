@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
-import { ALL_NUTRIENTS, ALL_NUTRIENTS_DICT } from "@/constants/constants";
+// Assuming you have a file for types, e.g., 'types.ts'
+import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
+import AddGoalForm from "@/components/add-goal-form";
 
 type Goal = {
   id: string;
@@ -27,25 +29,23 @@ type FoodLog = {
   }>;
 };
 
+// Define the shape of the form state
+type GoalForm = {
+  nutrient_key: string;
+  target: string;
+};
+
 export default function GoalsPage() {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<GoalForm>({
     nutrient_key: "",
     target: "",
   });
   const [foodLogs, setFoodLogs] = useState<FoodLog[]>([]);
 
-  const selectedNutrient = useMemo(() => {
-    if (form.nutrient_key && ALL_NUTRIENTS_DICT[form.nutrient_key]) {
-      return ALL_NUTRIENTS.find((n) => n.key === form.nutrient_key) || null;
-    }
-    return null;
-  }, [form.nutrient_key]);
-
-  const currentUnit = useMemo(() => {
-    return selectedNutrient ? selectedNutrient.unit : "g";
-  }, [selectedNutrient]);
+  // NOTE: selectedNutrient, currentUnit, and nutrientCategories have been moved
+  // to the GoalFormModal component to encapsulate the form's logic.
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
@@ -91,14 +91,6 @@ export default function GoalsPage() {
     fetchGoals();
   }, []);
 
-  // Handle nutrient change - update both nutrient_key and unit in one go
-  const handleNutrientChange = (nutrientKey: string) => {
-    setForm((prev) => ({
-      ...prev,
-      nutrient_key: nutrientKey,
-    }));
-  };
-
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,6 +109,7 @@ export default function GoalsPage() {
       const data = await res.json();
 
       if (data.success) {
+        // Reset form state and refetch goals on success
         setForm({ nutrient_key: "", target: "" });
         await fetchGoals();
       }
@@ -153,95 +146,6 @@ export default function GoalsPage() {
     );
   };
 
-  // Group nutrients by category for better organization
-  const nutrientCategories = useMemo(
-    () => ({
-      macronutrients: ALL_NUTRIENTS.filter((n) =>
-        [
-          "calories",
-          "protein",
-          "total_fat",
-          "saturated_fat",
-          "trans_fat",
-          "total_carbs",
-          "dietary_fiber",
-          "sugars",
-          "added_sugars",
-        ].includes(n.key)
-      ),
-      vitamins: ALL_NUTRIENTS.filter(
-        (n) =>
-          n.key.includes("vitamin") ||
-          [
-            "thiamin",
-            "riboflavin",
-            "niacin",
-            "folate",
-            "biotin",
-            "pantothenic_acid",
-          ].includes(n.key)
-      ),
-      minerals: ALL_NUTRIENTS.filter((n) =>
-        [
-          "cholesterol",
-          "sodium",
-          "potassium",
-          "calcium",
-          "iron",
-          "phosphorus",
-          "iodine",
-          "magnesium",
-          "zinc",
-          "selenium",
-          "copper",
-          "manganese",
-          "chromium",
-          "molybdenum",
-          "chloride",
-        ].includes(n.key)
-      ),
-      other: ALL_NUTRIENTS.filter(
-        (n) =>
-          ![
-            "calories",
-            "protein",
-            "total_fat",
-            "saturated_fat",
-            "trans_fat",
-            "total_carbs",
-            "dietary_fiber",
-            "sugars",
-            "added_sugars",
-          ].includes(n.key) &&
-          !n.key.includes("vitamin") &&
-          ![
-            "thiamin",
-            "riboflavin",
-            "niacin",
-            "folate",
-            "biotin",
-            "pantothenic_acid",
-            "cholesterol",
-            "sodium",
-            "potassium",
-            "calcium",
-            "iron",
-            "phosphorus",
-            "iodine",
-            "magnesium",
-            "zinc",
-            "selenium",
-            "copper",
-            "manganese",
-            "chromium",
-            "molybdenum",
-            "chloride",
-          ].includes(n.key)
-      ),
-    }),
-    []
-  );
-
   return (
     <div className="p-6 space-y-8 max-w-4xl mx-auto">
       {/* Header */}
@@ -254,129 +158,26 @@ export default function GoalsPage() {
             Set and track your daily nutrition targets
           </p>
         </div>
-        <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-          {goals.length} goal{goals.length !== 1 ? "s" : ""}
-        </span>
+        {/* Goal Form Button/Modal Integration */}
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+            {goals.length} goal{goals.length !== 1 ? "s" : ""}
+          </span>
+          <AddGoalForm
+            form={form}
+            setForm={setForm}
+            handleSubmit={handleSubmit}
+            loading={loading}
+          />
+        </div>
       </div>
 
-      {/* Goal Form */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          Add New Goal
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Nutrient Dropdown */}
-            <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Nutrient *
-              </label>
-              <select
-                value={form.nutrient_key}
-                onChange={(e) => handleNutrientChange(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                required
-              >
-                <option value="">Select a nutrient...</option>
-
-                {/* Macronutrients */}
-                <optgroup label="Macronutrients">
-                  {nutrientCategories.macronutrients.map((nutrient) => (
-                    <option key={nutrient.key} value={nutrient.key}>
-                      {nutrient.display_name}
-                    </option>
-                  ))}
-                </optgroup>
-
-                {/* Vitamins */}
-                <optgroup label="Vitamins">
-                  {nutrientCategories.vitamins.map((nutrient) => (
-                    <option key={nutrient.key} value={nutrient.key}>
-                      {nutrient.display_name}
-                    </option>
-                  ))}
-                </optgroup>
-
-                {/* Minerals */}
-                <optgroup label="Minerals">
-                  {nutrientCategories.minerals.map((nutrient) => (
-                    <option key={nutrient.key} value={nutrient.key}>
-                      {nutrient.display_name}
-                    </option>
-                  ))}
-                </optgroup>
-
-                {/* Other Nutrients */}
-                {nutrientCategories.other.length > 0 && (
-                  <optgroup label="Other Nutrients">
-                    {nutrientCategories.other.map((nutrient) => (
-                      <option key={nutrient.key} value={nutrient.key}>
-                        {nutrient.display_name}
-                      </option>
-                    ))}
-                  </optgroup>
-                )}
-              </select>
-            </div>
-
-            {/* Target Amount */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Target Amount *
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                placeholder="0.0"
-                value={form.target}
-                onChange={(e) => setForm({ ...form, target: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
-                required
-              />
-            </div>
-
-            {/* Unit Display (read-only) */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Unit
-              </label>
-              <div className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-600 text-gray-900 dark:text-white">
-                {selectedNutrient ? (
-                  <span className="font-medium">{currentUnit}</span>
-                ) : (
-                  <span className="text-gray-500 dark:text-gray-400">
-                    Select nutrient first
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading || !form.nutrient_key}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-700 dark:hover:bg-blue-800 dark:disabled:bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Adding Goal...
-              </>
-            ) : (
-              "Add Goal"
-            )}
-          </button>
-        </form>
-      </div>
-
-      {/* Goals List */}
-      <div>
+      <div className="border-t pt-8 border-gray-200 dark:border-gray-700">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
           Your Goals
         </h2>
 
+        {/* Goals List */}
         {goals.length === 0 ? (
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 text-center">
             <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
@@ -386,7 +187,7 @@ export default function GoalsPage() {
               No goals yet
             </h3>
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              Add your first nutrition goal to start tracking!
+              Click **Add New Goal** to set your first nutrition target!
             </p>
           </div>
         ) : (
@@ -441,9 +242,11 @@ export default function GoalsPage() {
                     <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
                       <span>Progress</span>
                       <span>
-                        {((totalNutrients[goal.nutrient_key]?.amount || 0) /
-                          goal.target_amount) *
-                          100}
+                        {(
+                          ((totalNutrients[goal.nutrient_key]?.amount || 0) /
+                            goal.target_amount) *
+                          100
+                        ).toFixed(1)}
                         %
                       </span>
                     </div>
@@ -451,13 +254,12 @@ export default function GoalsPage() {
                       <div
                         className="bg-blue-600 h-2 rounded-full"
                         style={{
-                          width:
-                            String(
-                              ((totalNutrients[goal.nutrient_key]?.amount ||
-                                0) /
-                                goal.target_amount) *
-                                100
-                            ) + "%",
+                          width: `${Math.min(
+                            100,
+                            ((totalNutrients[goal.nutrient_key]?.amount || 0) /
+                              goal.target_amount) *
+                              100
+                          )}%`, // Cap progress bar at 100% visually
                         }}
                       ></div>
                     </div>
@@ -468,20 +270,6 @@ export default function GoalsPage() {
           </div>
         )}
       </div>
-
-      {/* Tips Section */}
-      {/* <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
-        <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2">
-          <span className="text-xl">💡</span>
-          Goal Setting Tips
-        </h3>
-        <ul className="text-blue-800 dark:text-blue-200 text-sm space-y-1">
-          <li>• Start with basic macros: protein, carbs, and fat</li>
-          <li>• Set realistic, achievable targets based on your needs</li>
-          <li>• Consider consulting a nutritionist for personalized goals</li>
-          <li>• Track your progress weekly and adjust as needed</li>
-        </ul>
-      </div> */}
     </div>
   );
 }
