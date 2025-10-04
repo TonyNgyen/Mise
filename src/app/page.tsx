@@ -4,10 +4,20 @@ import Link from "next/link";
 import InventoryCard from "@/components/dashboard/inventory-card";
 import NutrientOverview from "@/components/dashboard/nutrient-overview";
 import RadialGradient from "@/components/radial-gradient";
+import RecentMealsCard from "@/components/dashboard/recent-meals-card";
 
 type FoodLogNutrient = {
   nutrient_key: string;
   amount: number;
+};
+
+// Define a type for the fetched recent meal data structure
+type RecentMeal = {
+  id: string;
+  logged_at: string;
+  ingredient: { name: string } | null;
+  recipe: { name: string } | null;
+  nutrients: FoodLogNutrient[] | null;
 };
 
 export default async function Home() {
@@ -66,7 +76,7 @@ export default async function Home() {
     .from("food_logs")
     .select(
       `
-        *,
+        id, logged_at,
         ingredient:ingredients(name),
         recipe:recipes(name),
         nutrients:food_log_nutrients(nutrient_key, amount)
@@ -74,7 +84,8 @@ export default async function Home() {
     )
     .eq("user_id", data.user.id)
     .order("logged_at", { ascending: false })
-    .limit(3);
+    .limit(3)
+    .returns<RecentMeal[]>(); // Assert the return type
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
@@ -124,39 +135,8 @@ export default async function Home() {
 
       {/* Two Column Layout */}
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Recent Meals */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Recent Meals
-          </h2>
-          <div className="space-y-3">
-            {recentMeals?.length ? (
-              recentMeals.map((meal) => {
-                const name =
-                  meal.ingredient?.name || meal.recipe?.name || "Unknown";
-                // const time = new Date(meal.logged_at).toLocaleTimeString([], {
-                //   hour: "2-digit",
-                //   minute: "2-digit",
-                // });
-                const calories = meal.nutrients?.find(
-                  (n: FoodLogNutrient) => n.nutrient_key === "calories"
-                )?.amount;
-
-                return (
-                  <MealItem
-                    key={meal.id}
-                    name={name}
-                    calories={calories ? calories.toString() : "-"}
-                  />
-                );
-              })
-            ) : (
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                No recent meals logged.
-              </p>
-            )}
-          </div>
-        </div>
+        {/* Recent Meals (NEW COMPONENT) */}
+        <RecentMealsCard recentMeals={recentMeals} />
 
         {/* Inventory Status */}
         <InventoryCard />
@@ -194,19 +174,5 @@ function QuickAction({
     </Link>
   );
 }
-
-function MealItem({ name, calories }: { name: string; calories: string }) {
-  return (
-    <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-      <div>
-        <div className="font-medium text-gray-900 dark:text-white">{name}</div>
-        {/* <div className="text-sm text-gray-600 dark:text-gray-400">{time}</div> */}
-      </div>
-      <div className="text-right">
-        <div className="font-bold text-gray-900 dark:text-white">
-          {calories} cal
-        </div>
-      </div>
-    </div>
-  );
-}
+// NOTE: MealItem component has been removed from Home.tsx and placed inside
+// RecentMealsCard.tsx (or its own file for true modularity).
