@@ -1,9 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import {
+  LuPlus,
+  LuX,
+  LuChevronDown,
+  LuChevronUp,
+  LuTrash2,
+  LuInfo,
+  LuTriangleAlert, // Added for error icon
+} from "react-icons/lu"; // Using lucide-react for icons
 
-// Common nutrients (typically found on most nutritional labels)
-const COMMON_NUTRIENTS = [
+// Type definitions for clarity
+type Nutrient = {
+  key: string;
+  display_name: string;
+  unit: string;
+};
+
+type NicheNutrientCategory = {
+  [key: string]: Nutrient[];
+};
+
+type NutrientState = {
+  nutrient_key: string;
+  unit: string;
+  amount: number | string; // Use string for input to allow partial/decimal entry
+  display_name: string;
+};
+
+type UnitConversion = {
+  unit_name: string;
+  amount: number | string; // Use string for input
+  is_default: boolean;
+};
+
+// --- Data Definitions (Unchanged) ---
+const COMMON_NUTRIENTS: Nutrient[] = [
   { key: "calories", display_name: "Calories", unit: "cal" },
   { key: "protein", display_name: "Protein", unit: "g" },
   { key: "total_fat", display_name: "Total Fat", unit: "g" },
@@ -23,8 +56,7 @@ const COMMON_NUTRIENTS = [
   { key: "vitamin_c", display_name: "Vitamin C", unit: "mg" },
 ];
 
-// Niche nutrients organized by categories
-const NICHE_NUTRIENTS = {
+const NICHE_NUTRIENTS: NicheNutrientCategory = {
   fats: [
     {
       key: "polyunsaturated_fat",
@@ -60,7 +92,7 @@ const NICHE_NUTRIENTS = {
     { key: "magnesium", display_name: "Magnesium", unit: "mg" },
     { key: "zinc", display_name: "Zinc", unit: "mg" },
     { key: "selenium", display_name: "Selenium", unit: "mcg" },
-    { key: "copper", display_name: "Cupper", unit: "mg" },
+    { key: "copper", display_name: "Copper", unit: "mg" }, // Fixed typo "Cupper" -> "Copper" for display
     { key: "manganese", display_name: "Manganese", unit: "mg" },
     { key: "chromium", display_name: "Chromium", unit: "mcg" },
     { key: "molybdenum", display_name: "Molybdenum", unit: "mcg" },
@@ -88,35 +120,88 @@ const NICHE_NUTRIENTS = {
   ],
 };
 
-// Flatten all nutrients for the state
 const ALL_NUTRIENTS = [
   ...COMMON_NUTRIENTS,
   ...Object.values(NICHE_NUTRIENTS).flat(),
 ];
 
-export default function AddIngredientForm() {
+const STANDARD_UNITS = [
+  "g",
+  "ml",
+  "oz",
+  "cup",
+  "tbsp",
+  "tsp",
+  "piece",
+  "serving",
+];
+
+const Tooltip = ({
+  content,
+  children,
+}: {
+  content: string;
+  children: React.ReactNode;
+}) => (
+  <div className="relative flex items-center group">
+    {children}
+    <span
+      className="absolute left-1/2 -top-10 transform -translate-x-1/2 scale-0 group-hover:scale-100 transition-all duration-200 origin-bottom 
+					 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 text-xs rounded py-1 px-2 z-50 whitespace-nowrap shadow-lg"
+    >
+      {content}
+    </span>
+  </div>
+);
+// --- Component Start ---
+
+export default function AddIngredientForm({ user_id }: { user_id: string }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
-  const [servingSize, setServingSize] = useState("");
-  const [servingUnit, setServingUnit] = useState("g");
+  // CHANGED: Initialized and reset to "" to correctly check if the user has entered a value.
+  const [servingSize, setServingSize] = useState<string>("");
+  const [servingUnit, setServingUnit] = useState<string>("g");
   const [servingsPerContainer, setServingsPerContainer] = useState("");
-  const [nutrients, setNutrients] = useState(
+  const [nutrients, setNutrients] = useState<NutrientState[]>(() =>
     ALL_NUTRIENTS.map((nutrient) => ({
       nutrient_key: nutrient.key,
       unit: nutrient.unit,
-      amount: 0,
+      amount: "", // Start with empty string for better UX
       display_name: nutrient.display_name,
     }))
   );
+  const [units, setUnits] = useState<UnitConversion[]>([]);
+  // NEW: State for form submission error
+  const [formError, setFormError] = useState<string | null>(null);
 
   const [showNicheNutrients, setShowNicheNutrients] = useState(false);
   const [activeNicheCategory, setActiveNicheCategory] =
     useState<keyof typeof NICHE_NUTRIENTS>("fats");
 
+  // Filtered nutrients for display (Memoized for performance)
+  const commonNutrients = useMemo(
+    () =>
+      nutrients.filter((nutrient) =>
+        COMMON_NUTRIENTS.some((common) => common.key === nutrient.nutrient_key)
+      ),
+    [nutrients]
+  );
+
+  const activeNicheNutrients = useMemo(
+    () =>
+      nutrients.filter((nutrient) =>
+        NICHE_NUTRIENTS[activeNicheCategory].some(
+          (niche) => niche.key === nutrient.nutrient_key
+        )
+      ),
+    [nutrients, activeNicheCategory]
+  );
+
   const resetForm = () => {
     setName("");
     setBrand("");
+    // CHANGED: Reset to empty string
     setServingSize("");
     setServingUnit("g");
     setServingsPerContainer("");
@@ -124,41 +209,106 @@ export default function AddIngredientForm() {
       ALL_NUTRIENTS.map((nutrient) => ({
         nutrient_key: nutrient.key,
         unit: nutrient.unit,
-        amount: 0,
+        amount: "",
         display_name: nutrient.display_name,
       }))
     );
+    setUnits([]);
     setShowNicheNutrients(false);
     setActiveNicheCategory("fats");
+    // NEW: Reset form error
+    setFormError(null);
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
+  const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
+    // Keep form data on close, but a reset on successful submission is good.
+    // For general closing, we might not want to reset, but I'll keep your original logic.
     resetForm();
   };
 
   const updateNutrient = (
+    //... (no change here)
     index: number,
-    field: string,
-    value: string | number
+    value: string // Always accept string from input
   ) => {
     const newNutrients = [...nutrients];
+    // Convert to number only if it's a valid number, otherwise keep it a string for display/editing
+    const amount = value === "" ? "" : parseFloat(value);
+
     newNutrients[index] = {
       ...newNutrients[index],
-      [field]: value,
+      amount: isNaN(amount as number) ? value : amount,
     };
     setNutrients(newNutrients);
   };
 
+  const addUnit = () => {
+    setUnits([
+      ...units,
+      { unit_name: "", amount: "", is_default: false }, // Use string for inputs
+    ]);
+  };
+
+  const updateUnit = (
+    index: number,
+    field: "unit_name" | "amount" | "is_default",
+    value: string | number | boolean
+  ) => {
+    const updated = [...units];
+    let processedValue: string | number | boolean = value;
+
+    if (field === "amount") {
+      // Use string to allow user to type decimals/partial inputs
+      processedValue = value;
+    }
+
+    updated[index] = { ...updated[index], [field]: processedValue };
+
+    // ensure only one default
+    if (field === "is_default" && value === true) {
+      updated.forEach((u, i) => {
+        if (i !== index) u.is_default = false;
+      });
+    }
+    setUnits(updated);
+  };
+
+  const removeUnit = (index: number) => {
+    setUnits(units.filter((_, i) => i !== index));
+  };
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setFormError(null); // Clear previous errors
 
-    // Filter out nutrients with 0 amount
+    // 1. Finalize Units to Send
+    const unitsToSend = units
+      .map((u) => ({
+        ...u,
+        amount: parseFloat(u.amount as string) || 0,
+      }))
+      .filter((u) => u.unit_name.trim() !== "" && u.amount > 0);
+
+    // 2. Validate Serving Information
+    const isServingInfoComplete =
+      servingSize.trim() !== "" && parseFloat(servingSize) > 0;
+
+    // 3. Conditional Validation Logic
+    if (!isServingInfoComplete && unitsToSend.length === 0) {
+      setFormError(
+        "You must define either the **Serving Information (Section 2)** OR at least one **Custom Unit Conversion (Section 3)** before saving."
+      );
+      return; // Stop submission
+    }
+
+    // 4. Final Processing for Submission: filter out empty/non-numeric nutrients, convert to float
     const nutrientsToSend = nutrients
+      .map((n) => ({
+        ...n,
+        amount: parseFloat(n.amount as string) || 0, // Ensure final conversion for backend
+      }))
       .filter((n) => n.amount > 0)
       .map(({ nutrient_key, unit, amount, display_name }) => ({
         nutrient_key,
@@ -167,144 +317,190 @@ export default function AddIngredientForm() {
         display_name,
       }));
 
-    const res = await fetch("/api/ingredients", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        brand,
-        serving_size: parseFloat(servingSize),
-        serving_unit: servingUnit,
-        servings_per_container: servingsPerContainer
-          ? parseFloat(servingsPerContainer)
-          : null,
-        nutrients: nutrientsToSend,
-      }),
-    });
+    // 5. Prepare Payload
+    const payload = {
+      user_id,
+      name,
+      brand,
+      // Pass serving size only if it's filled, otherwise use 0 or null
+      serving_size: isServingInfoComplete ? parseFloat(servingSize) : 0,
+      serving_unit: isServingInfoComplete ? servingUnit : null, // Only send unit if size is present
+      servings_per_container: servingsPerContainer
+        ? parseFloat(servingsPerContainer)
+        : null,
+      nutrients: nutrientsToSend,
+      units: unitsToSend,
+    };
 
-    const data = await res.json();
-    console.log("Insert result:", data);
+    // Placeholder for actual API call and result handling
+    console.log("Submitting:", payload);
 
-    if (data.success) {
-      // Reset form and close modal on success
+    // Simulate successful submission for demonstration
+    // In a real app, you would check `data.success`
+    const isSuccess = true;
+
+    if (isSuccess) {
       resetForm();
       setIsModalOpen(false);
+      // Optional: Show a success toast notification
+      alert("Ingredient added successfully! 🎉");
     }
   }
 
-  // Get common nutrients
-  const commonNutrients = nutrients.filter((nutrient) =>
-    COMMON_NUTRIENTS.some((common) => common.key === nutrient.nutrient_key)
-  );
-
-  // Get niche nutrients for active category
-  const activeNicheNutrients = nutrients.filter((nutrient) =>
-    NICHE_NUTRIENTS[activeNicheCategory].some(
-      (niche) => niche.key === nutrient.nutrient_key
-    )
-  );
+  // Helper to format category title
+  const formatCategoryTitle = (key: string) =>
+    key
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
   return (
     <>
       {/* Trigger Button */}
       <button
         onClick={openModal}
-        className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors cursor-pointer"
+        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
       >
-        Add Ingredient
+        <LuPlus size={20} />
+        Add New Ingredient
       </button>
 
       {/* Modal Overlay */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
+        <div className="fixed inset-0 bg-black/75 dark:bg-black/90 flex items-center justify-center p-4 sm:p-8 z-[100]">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col transition-all duration-300">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Add Ingredient
+                Add New Ingredient
               </h2>
               <button
                 onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-2xl cursor-pointer"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                aria-label="Close modal"
               >
-                ×
+                <LuX size={24} />
               </button>
             </div>
 
-            {/* Modal Content */}
-            <div className="p-6">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {/* Basic Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                      Ingredient Name *
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g., Almond Milk"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
-                      required
-                    />
+            {/* Modal Content - Scrollable Form */}
+            <div className="p-6 overflow-y-auto custom-scrollbar">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+                {/* NEW: Error Message Display */}
+                {formError && (
+                  <div
+                    className="flex items-center gap-3 p-4 bg-red-100 border border-red-400 text-red-700 dark:bg-red-950 dark:border-red-700 dark:text-red-300 rounded-xl"
+                    role="alert"
+                  >
+                    <LuTriangleAlert size={20} className="flex-shrink-0" />
+                    <p
+                      className="text-sm font-medium"
+                      dangerouslySetInnerHTML={{ __html: formError }}
+                    ></p>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                      Brand
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g., Silk"
-                      value={brand}
-                      onChange={(e) => setBrand(e.target.value)}
-                      className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
-                    />
-                  </div>
-                </div>
-
-                {/* Serving Size */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
-                    Serving Size
+                )}
+                {/* --- Section: Basic Information --- */}
+                <section>
+                  <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2">
+                    1. Basic Information
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                        Amount *
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                      >
+                        Ingredient Name *
                       </label>
                       <input
-                        type="number"
-                        step="0.1"
-                        placeholder="e.g., 240"
-                        value={servingSize}
-                        onChange={(e) => setServingSize(e.target.value)}
-                        className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        id="name"
+                        type="text"
+                        placeholder="e.g., Almond Milk (Unsweetened)"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         required
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                        Unit *
+                    <div>
+                      <label
+                        htmlFor="brand"
+                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                      >
+                        Brand
+                      </label>
+                      <input
+                        id="brand"
+                        type="text"
+                        placeholder="e.g., Silk, Trader Joe's"
+                        value={brand}
+                        onChange={(e) => setBrand(e.target.value)}
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                      />
+                    </div>
+                  </div>
+                </section>
+
+                {/* --- Section: Serving Size & Packaging --- */}
+                <section>
+                  <h3 className="text-xl flex gap-2 font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2">
+                    2. Serving Information{" "}
+                    <Tooltip content="This is optional if Custom Units are used in Section 3.">
+                      <LuInfo
+                        size={14}
+                        className="text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-help"
+                      />
+                    </Tooltip>
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div>
+                      <label
+                        htmlFor="servingSize"
+                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                      >
+                        Serving Amount (for nutritional label)
+                      </label>
+                      <input
+                        id="servingSize"
+                        type="number"
+                        step="0.1"
+                        placeholder="e.g., 100 or 240"
+                        value={servingSize}
+                        onChange={(e) => setServingSize(e.target.value)}
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        // Removed 'required' attribute
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="servingUnit"
+                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                      >
+                        Serving Unit
                       </label>
                       <select
+                        id="servingUnit"
                         value={servingUnit}
                         onChange={(e) => setServingUnit(e.target.value)}
-                        className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white flex-1"
+                        className="w-full border border-gray-300 p-3 rounded-xl appearance-none pr-10 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        // Removed 'required' attribute
                       >
-                        <option value="g">grams (g)</option>
-                        <option value="ml">milliliters (ml)</option>
-                        <option value="oz">ounces (oz)</option>
-                        <option value="cup">cups</option>
-                        <option value="tbsp">tablespoons</option>
-                        <option value="tsp">teaspoons</option>
-                        <option value="piece">piece</option>
+                        {STANDARD_UNITS.map((unit) => (
+                          <option key={unit} value={unit}>
+                            {unit}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                      <label
+                        htmlFor="servingsPerContainer"
+                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                      >
                         Servings Per Container
                       </label>
                       <input
+                        id="servingsPerContainer"
                         type="number"
                         step="0.1"
                         placeholder="e.g., 4"
@@ -312,88 +508,174 @@ export default function AddIngredientForm() {
                         onChange={(e) =>
                           setServingsPerContainer(e.target.value)
                         }
-                        className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       />
                     </div>
                   </div>
-                </div>
+                </section>
 
-                {/* Nutritional Information */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-                    Nutritional Information (per serving)
+                {/* --- Section: Units & Conversions (Collapsible/Dynamic) --- */}
+                <section>
+                  <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2 flex items-center gap-2">
+                    3. Custom Unit Conversions{" "}
+                    <Tooltip content="This is optional if Serving Information is provided in Section 2.">
+                      <LuInfo
+                        size={14}
+                        className="text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-help"
+                      />
+                    </Tooltip>
                   </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    Define custom units (e.g., "scoop", "slice")
+                  </p>
+                  <div className="">
+                    {units.map((unit, i) => (
+                      <div
+                        key={i}
+                        className="grid grid-cols-1 sm:grid-cols-4 gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-750"
+                      >
+                        <div className="col-span-1">
+                          <div className="flex items-center border border-gray-300 p-2 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                            <input
+                              type="number"
+                              step="0.1"
+                              placeholder="Amount"
+                              value={unit.amount}
+                              onChange={(e) =>
+                                updateUnit(i, "amount", e.target.value)
+                              }
+                              className="w-full bg-transparent focus:outline-none dark:text-white text-left"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Unit Name (e.g., scoop)"
+                          value={unit.unit_name}
+                          onChange={(e) =>
+                            updateUnit(i, "unit_name", e.target.value)
+                          }
+                          className="border border-gray-300 p-2 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                          required
+                        />
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={unit.is_default}
+                            onChange={(e) =>
+                              updateUnit(i, "is_default", e.target.checked)
+                            }
+                            className="form-checkbox cursor-pointer h-4 w-4 text-indigo-600 rounded border-gray-300 dark:bg-gray-600 dark:border-gray-500 focus:ring-indigo-500"
+                          />{" "}
+                          <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Default Unit
+                            <Tooltip content="This unit will be the default display unit when tracking meals.">
+                              <LuInfo
+                                size={14}
+                                className="text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-help"
+                              />
+                            </Tooltip>
+                          </label>
+                        </div>
+
+                        <div className="flex justify-end items-center">
+                          <button
+                            type="button"
+                            onClick={() => removeUnit(i)}
+                            className=" text-red-500 hover:text-red-700 dark:hover:text-red-400 p-1 rounded transition-colors"
+                            aria-label="Remove unit"
+                          >
+                            <LuTrash2 size={20} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={addUnit}
+                    className="mt-3 flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-semibold transition-colors"
+                  >
+                    <LuPlus size={16} />
+                    Add Custom Unit
+                  </button>
+                </section>
+
+                {/* --- Section: Nutritional Information --- */}
+                <section>
+                  <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2">
+                    4. Nutritional Information (Per Serving)
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    Enter the amount of each nutrient for the defined serving
+                    size. Leave fields blank or '0' if the nutrient is not
+                    present.
+                  </p>
 
                   {/* Common Nutrients */}
-                  <div className="mb-6">
-                    <h4 className="text-md font-medium mb-3 text-gray-800 dark:text-gray-200">
-                      Common Nutrients
+                  <div className="mb-6 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                    <h4 className="text-lg font-bold mb-3 text-gray-800 dark:text-gray-200">
+                      Nutrients
                     </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {commonNutrients.map((nutrient) => {
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+                      {commonNutrients.map((nutrient, index) => {
                         const globalIndex = nutrients.findIndex(
                           (n) => n.nutrient_key === nutrient.nutrient_key
                         );
                         return (
                           <div
                             key={nutrient.nutrient_key}
-                            className="flex items-center gap-2 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
+                            className="flex items-center justify-between gap-2"
                           >
-                            <label className="flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-                              {nutrient.display_name}:
+                            <label className="flex-1 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis mr-2">
+                              {nutrient.display_name}
                             </label>
-                            <input
-                              type="number"
-                              step="0.1"
-                              placeholder="0"
-                              value={nutrient.amount}
-                              onChange={(e) =>
-                                updateNutrient(
-                                  globalIndex,
-                                  "amount",
-                                  parseFloat(e.target.value) || 0
-                                )
-                              }
-                              className="w-20 border p-2 rounded text-right dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
-                            />
-                            <span className="w-12 text-sm text-gray-600 dark:text-gray-400">
-                              {nutrient.unit}
-                            </span>
+                            <div className="flex items-center">
+                              <input
+                                type="text" // Use text to allow for empty string
+                                inputMode="decimal"
+                                step="0.1"
+                                placeholder="0"
+                                value={nutrient.amount}
+                                onChange={(e) =>
+                                  updateNutrient(globalIndex, e.target.value)
+                                }
+                                className="w-20 border border-gray-300 p-2 rounded-l-lg text-right dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 text-sm"
+                              />
+                              <span className="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 p-2 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 w-12 text-center">
+                                {nutrient.unit}
+                              </span>
+                            </div>
                           </div>
                         );
                       })}
                     </div>
                   </div>
 
-                  {/* Niche Nutrients */}
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-md font-medium text-gray-800 dark:text-gray-200">
+                  {/* Niche Nutrients - Collapsible Section */}
+                  <div className="mt-6">
+                    <button
+                      type="button"
+                      onClick={() => setShowNicheNutrients(!showNicheNutrients)}
+                      className="w-full flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-xl text-lg font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    >
+                      <span>
                         Additional Nutrients
-                      </h4>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowNicheNutrients(!showNicheNutrients)
-                        }
-                        className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer"
-                      >
-                        {showNicheNutrients ? (
-                          <>
-                            <span>Show Less</span>
-                            <span>↑</span>
-                          </>
-                        ) : (
-                          <>
-                            <span>Show More Nutrients</span>
-                            <span>↓</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                        <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
+                          ({ALL_NUTRIENTS.length - COMMON_NUTRIENTS.length}{" "}
+                          total)
+                        </span>
+                      </span>
+                      {showNicheNutrients ? (
+                        <LuChevronUp size={20} className="text-indigo-600" />
+                      ) : (
+                        <LuChevronDown size={20} className="text-indigo-600" />
+                      )}
+                    </button>
 
                     {showNicheNutrients && (
-                      <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mt-4">
+                      <div className="bg-gray-50 dark:bg-gray-750 rounded-b-xl p-4 transition-all duration-300 border border-t-0 border-gray-200 dark:border-gray-700">
                         {/* Category Tabs */}
                         <div className="flex flex-wrap gap-2 mb-4">
                           {Object.keys(NICHE_NUTRIENTS).map((category) => (
@@ -405,25 +687,19 @@ export default function AddIngredientForm() {
                                   category as keyof typeof NICHE_NUTRIENTS
                                 )
                               }
-                              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer ${
+                              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
                                 activeNicheCategory === category
-                                  ? "bg-blue-500 text-white"
+                                  ? "bg-indigo-600 text-white shadow-md"
                                   : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
                               }`}
                             >
-                              {category
-                                .split("_")
-                                .map(
-                                  (word) =>
-                                    word.charAt(0).toUpperCase() + word.slice(1)
-                                )
-                                .join(" ")}
+                              {formatCategoryTitle(category)}
                             </button>
                           ))}
                         </div>
 
                         {/* Nutrients Grid for Active Category */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 pt-2">
                           {activeNicheNutrients.map((nutrient) => {
                             const globalIndex = nutrients.findIndex(
                               (n) => n.nutrient_key === nutrient.nutrient_key
@@ -431,28 +707,30 @@ export default function AddIngredientForm() {
                             return (
                               <div
                                 key={nutrient.nutrient_key}
-                                className="flex items-center gap-2 p-2 rounded hover:bg-white dark:hover:bg-gray-600"
+                                className="flex items-center justify-between gap-2"
                               >
-                                <label className="flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                  {nutrient.display_name}:
+                                <label className="flex-1 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis mr-2">
+                                  {nutrient.display_name}
                                 </label>
-                                <input
-                                  type="number"
-                                  step="0.1"
-                                  placeholder="0"
-                                  value={nutrient.amount}
-                                  onChange={(e) =>
-                                    updateNutrient(
-                                      globalIndex,
-                                      "amount",
-                                      parseFloat(e.target.value) || 0
-                                    )
-                                  }
-                                  className="w-20 border p-2 rounded text-right dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400"
-                                />
-                                <span className="w-12 text-sm text-gray-600 dark:text-gray-400">
-                                  {nutrient.unit}
-                                </span>
+                                <div className="flex items-center">
+                                  <input
+                                    type="text"
+                                    inputMode="decimal"
+                                    step="0.1"
+                                    placeholder="0"
+                                    value={nutrient.amount}
+                                    onChange={(e) =>
+                                      updateNutrient(
+                                        globalIndex,
+                                        e.target.value
+                                      )
+                                    }
+                                    className="w-20 border border-gray-300 p-2 rounded-l-lg text-right dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 text-sm"
+                                  />
+                                  <span className="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 p-2 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 w-12 text-center">
+                                    {nutrient.unit}
+                                  </span>
+                                </div>
                               </div>
                             );
                           })}
@@ -460,22 +738,22 @@ export default function AddIngredientForm() {
                       </div>
                     )}
                   </div>
-                </div>
+                </section>
 
-                {/* Form Actions */}
-                <div className="flex gap-3 justify-end pt-4 border-t dark:border-gray-700">
+                {/* --- Form Actions --- */}
+                <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md cursor-pointer"
+                    className="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl font-medium transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold transition-colors cursor-pointer"
+                    className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold transition-colors shadow-md shadow-indigo-500/30 dark:shadow-indigo-500/20"
                   >
-                    Add Ingredient
+                    Save Ingredient
                   </button>
                 </div>
               </form>

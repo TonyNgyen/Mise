@@ -120,16 +120,16 @@ export default async function Home() {
         <QuickAction icon="🍎" title="Log Food" href="/foodlog" color="blue" />
         <QuickAction icon="📖" title="Recipes" href="/recipes" color="green" />
         <QuickAction
-          icon="📦"
-          title="Inventory"
-          href="/inventory"
-          color="amber"
-        />
-        <QuickAction
           icon="🥕"
           title="Ingredients"
           href="/ingredients"
           color="purple"
+        />
+        <QuickAction
+          icon="📦"
+          title="Inventory"
+          href="/inventory"
+          color="amber"
         />
       </div>
 

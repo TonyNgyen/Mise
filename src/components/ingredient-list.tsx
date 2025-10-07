@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AddIngredientForm from "./add-ingredient-form";
 
 type Nutrient = {
@@ -21,12 +21,22 @@ type Ingredient = {
   nutrients: Nutrient[];
 };
 
-export default function IngredientsList() {
+const SORTABLE_NUTRIENTS = [
+  { key: "name", display: "Name" },
+  { key: "calories", display: "Calories" },
+  { key: "protein", display: "Protein" },
+  { key: "total_fat", display: "Fat" },
+  { key: "total_carbs", display: "Carbs" },
+];
+
+export default function IngredientsList({ user_id }: { user_id: string }) {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedIngredient, setExpandedIngredient] = useState<number | null>(
     null
   );
+  const [sortKey, setSortKey] = useState<string>("name"); // Default sort by name
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
     const fetchIngredients = async () => {
@@ -87,6 +97,58 @@ export default function IngredientsList() {
     );
   };
 
+  const getIngredientNutrientAmount = (
+    ingredient: Ingredient,
+    nutrientKey: string
+  ): number => {
+    // Find the nutrient object by key and return its amount, or 0 if not found
+    const nutrient = ingredient.nutrients.find(
+      (n) => n.nutrient_key === nutrientKey
+    );
+    return nutrient?.amount ?? 0;
+  };
+
+  const sortedIngredients = useMemo(() => {
+    // Create a mutable copy of the ingredients array
+    const sorted = [...ingredients];
+
+    sorted.sort((a, b) => {
+      let aValue: string | number;
+      let bValue: string | number;
+
+      if (sortKey === "name") {
+        aValue = a.name.toLowerCase();
+        bValue = b.name.toLowerCase();
+      } else {
+        // Handle sorting by nutrient
+        aValue = getIngredientNutrientAmount(a, sortKey);
+        bValue = getIngredientNutrientAmount(b, sortKey);
+      }
+
+      // Comparison logic
+      if (aValue < bValue) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
+      return 0; // Values are equal
+    });
+
+    return sorted;
+  }, [ingredients, sortKey, sortDirection]);
+
+  const handleSortChange = (key: string) => {
+    if (key === sortKey) {
+      // Toggle direction if the same key is clicked
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // Set new key and reset direction to ascending
+      setSortKey(key);
+      setSortDirection("asc");
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-6">
@@ -115,7 +177,7 @@ export default function IngredientsList() {
           <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
             Add your first ingredient to get started with meal prep!
           </p>
-          <AddIngredientForm />
+          <AddIngredientForm user_id={user_id} />
         </div>
       </div>
     );
@@ -128,7 +190,7 @@ export default function IngredientsList() {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             My Ingredients
           </h1>
-          <AddIngredientForm />
+          <AddIngredientForm user_id={user_id} />
         </div>
 
         <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
@@ -136,8 +198,32 @@ export default function IngredientsList() {
         </span>
       </div>
 
+      <div className="flex flex-wrap items-center gap-2 mb-6">
+        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">
+          Sort by:
+        </span>
+        {SORTABLE_NUTRIENTS.map((item) => (
+          <button
+            key={item.key}
+            onClick={() => handleSortChange(item.key)}
+            className={`
+              text-xs px-3 py-1 rounded-full transition-all duration-150 cursor-pointer
+              ${
+                sortKey === item.key
+                  ? "bg-indigo-600 text-white shadow-md hover:bg-indigo-700"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+              }
+            `}
+          >
+            {item.display}{" "}
+            {/* Display icon for active sort key and direction */}
+            {sortKey === item.key && (sortDirection === "asc" ? "↑" : "↓")}
+          </button>
+        ))}
+      </div>
+
       <div className="grid gap-4">
-        {ingredients.map((ingredient) => (
+        {sortedIngredients.map((ingredient) => (
           <div
             key={ingredient.id}
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-200"

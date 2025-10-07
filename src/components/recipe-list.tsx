@@ -1,7 +1,7 @@
 "use client";
 
 import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import AddRecipeForm from "./add-recipe-form";
 
 type Ingredient = {
@@ -33,6 +33,15 @@ type Nutrient = {
   unit: string;
   total_amount: number;
 };
+
+const SORTABLE_KEYS = [
+  { key: "name", display: "Name" },
+  { key: "created_at", display: "Date" },
+  { key: "calories", display: "Calories/Serving" },
+  { key: "protein", display: "Protein/Serving" },
+  { key: "total_fat", display: "Fat/Serving" },
+  { key: "total_carbs", display: "Carbs/Serving" },
+];
 
 // Skeleton Loading Component
 function NutritionSkeleton() {
@@ -191,13 +200,8 @@ export default function RecipeList() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedRecipe, setExpandedRecipe] = useState<string | null>(null);
-
-  // const [nutrientCache, setNutrientCache] = useState<
-  //   Record<string, Nutrient[]>
-  // >({});
-  // const [nutrientLoading, setNutrientLoading] = useState<
-  //   Record<string, boolean>
-  // >({});
+  const [sortKey, setSortKey] = useState<string>("created_at");
+  const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc"); // Default to newest first
 
   useEffect(() => {
     async function fetchRecipes() {
@@ -218,6 +222,68 @@ export default function RecipeList() {
     fetchRecipes();
   }, []);
 
+  const getRecipeNutrientAmountPerServing = (
+    recipe: Recipe,
+    nutrientKey: string
+  ): number => {
+    const nutrient = recipe.recipe_nutrients.find(
+      (n) => n.nutrient_key === nutrientKey
+    );
+    // Return the total amount divided by servings, or 0
+    return nutrient ? nutrient.total_amount / recipe.servings : 0;
+  };
+
+  // 👇 NEW: Memoized sorted list
+  const sortedRecipes = useMemo(() => {
+    // Create a mutable copy of the recipes array
+    const sorted = [...recipes];
+
+    sorted.sort((a, b) => {
+      let aValue: string | number;
+      let bValue: string | number;
+
+      if (sortKey === "name") {
+        aValue = a.name.toLowerCase();
+        bValue = b.name.toLowerCase();
+      } else if (sortKey === "created_at") {
+        // Treat dates as strings for comparison
+        aValue = a.created_at;
+        bValue = b.created_at;
+      } else {
+        // Handle sorting by nutrient (amount per serving)
+        aValue = getRecipeNutrientAmountPerServing(a, sortKey);
+        bValue = getRecipeNutrientAmountPerServing(b, sortKey);
+      }
+
+      // Comparison logic
+      if (aValue < bValue) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
+      return 0; // Values are equal
+    });
+
+    return sorted;
+  }, [recipes, sortKey, sortDirection]);
+
+  // 👇 NEW: Sort handler function
+  const handleSortChange = (key: string) => {
+    if (key === sortKey) {
+      // Toggle direction if the same key is clicked
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // Set new key, set direction to 'asc' for name/nutrient, 'desc' for date
+      setSortKey(key);
+      if (key === "created_at") {
+        setSortDirection("desc"); // Newest first for date
+      } else {
+        setSortDirection("asc");
+      }
+    }
+  };
+
   function getPreviewNutrients(nutrients: Nutrient[]) {
     const keys = ["calories", "protein", "total_carbs"];
     const dict: Record<string, Nutrient | undefined> = {};
@@ -226,23 +292,6 @@ export default function RecipeList() {
     }
     return dict;
   }
-
-  // const fetchNutrientsForRecipe = async (recipeId: string) => {
-  //   if (nutrientCache[recipeId]) return;
-
-  //   // setNutrientLoading((prev) => ({ ...prev, [recipeId]: true }));
-  //   try {
-  //     const res = await fetch(`/api/recipes/${recipeId}/nutrients`);
-  //     const data = await res.json();
-  //     if (data.success) {
-  //       setNutrientCache((prev) => ({ ...prev, [recipeId]: data.nutrients }));
-  //     }
-  //   } catch (err) {
-  //     console.error("Error fetching recipe nutrients:", err);
-  //   } finally {
-  //     // setNutrientLoading((prev) => ({ ...prev, [recipeId]: false }));
-  //   }
-  // };
 
   const toggleExpand = (recipeId: string) => {
     setExpandedRecipe(expandedRecipe === recipeId ? null : recipeId);
@@ -305,8 +354,32 @@ export default function RecipeList() {
         </span>
       </div>
 
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">
+          Sort by:
+        </span>
+        {SORTABLE_KEYS.map((item) => (
+          <button
+            key={item.key}
+            onClick={() => handleSortChange(item.key)}
+            className={`
+              text-xs px-3 py-1 rounded-full transition-all duration-150 cursor-pointer
+              ${
+                sortKey === item.key
+                  ? "bg-purple-600 text-white shadow-md hover:bg-purple-700"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+              }
+            `}
+          >
+            {item.display}{" "}
+            {/* Display icon for active sort key and direction */}
+            {sortKey === item.key && (sortDirection === "asc" ? "↑" : "↓")}
+          </button>
+        ))}
+      </div>
+
       <div className="grid gap-6">
-        {recipes.map((recipe) => (
+        {sortedRecipes.map((recipe) => (
           <div
             key={recipe.id}
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-200"

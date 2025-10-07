@@ -67,10 +67,14 @@ export default function FoodLogger() {
   return (
     <div className="p-6 space-y-6 max-w-4xl mx-auto">
       <div className="flex items-start justify-between">
-        <div>
+        <div className="flex gap-4">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Food Log
           </h1>
+          <AddLogForm
+            selectedDate={selectedDate}
+            onLogSuccess={handleLogSuccess}
+          />
         </div>
 
         {/* Date Picker and Log Button */}
@@ -86,19 +90,12 @@ export default function FoodLogger() {
               className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white text-sm"
             />
           </div>
-          {/* The new modal component is placed here */}
-          <AddLogForm
-            selectedDate={selectedDate}
-            onLogSuccess={handleLogSuccess}
-          />
         </div>
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          Daily Summary
-        </h2>
-      </div>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        Daily Summary
+      </h2>
 
       {/* Food Logs and Nutrition Summary */}
       <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">

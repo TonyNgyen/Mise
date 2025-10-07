@@ -151,10 +151,19 @@ export default function GoalsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Nutrition Goals
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <div className="flex items-center gap-4">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Nutrition Goals
+            </h1>{" "}
+            <AddGoalForm
+              form={form}
+              setForm={setForm}
+              handleSubmit={handleSubmit}
+              loading={loading}
+            />
+          </div>
+
+          <p className="text-gray-600 dark:text-gray-400 mt-4">
             Set and track your daily nutrition targets
           </p>
         </div>
@@ -163,12 +172,6 @@ export default function GoalsPage() {
           <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
             {goals.length} goal{goals.length !== 1 ? "s" : ""}
           </span>
-          <AddGoalForm
-            form={form}
-            setForm={setForm}
-            handleSubmit={handleSubmit}
-            loading={loading}
-          />
         </div>
       </div>
 
@@ -187,7 +190,7 @@ export default function GoalsPage() {
               No goals yet
             </h3>
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              Click **Add New Goal** to set your first nutrition target!
+              Set your first nutrition goal!
             </p>
           </div>
         ) : (

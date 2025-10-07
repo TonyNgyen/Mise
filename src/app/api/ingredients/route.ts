@@ -5,7 +5,17 @@ import { ALL_NUTRIENTS } from "@/constants/constants";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, brand, serving_size, serving_unit, servings_per_container, nutrients } = body;
+    const {
+      user_id,
+      name,
+      brand,
+      serving_size,
+      serving_unit,
+      servings_per_container,
+      nutrients,
+      units,
+    } = body;
+
     console.log("nutrients: ", nutrients);
 
     const supabase = await createClient();
@@ -15,11 +25,12 @@ export async function POST(req: Request) {
       .from("ingredients")
       .insert([
         {
+          user_id,
           name,
           brand,
           serving_size,
           serving_unit,
-          servings_per_container
+          servings_per_container,
         },
       ])
       .select("id")
@@ -56,6 +67,21 @@ export async function POST(req: Request) {
       .insert(nutrientRows);
 
     if (nutrientError) throw nutrientError;
+
+    if (units?.length) {
+      const unitRows = units.map((u: any) => ({
+        ingredient_id: ingredientId,
+        unit_name: u.unit_name,
+        amount: u.amount,
+        is_default: !!u.is_default,
+        created_by: user_id,
+      }));
+
+      const { error: unitError } = await supabase
+        .from("ingredient_units")
+        .insert(unitRows);
+      if (unitError) throw unitError;
+    }
 
     return NextResponse.json({ success: true, ingredientId });
   } catch (error) {

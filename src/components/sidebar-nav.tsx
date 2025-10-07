@@ -19,10 +19,11 @@ export default function SidebarNav() {
 
   const navItems = [
     { href: "/", label: "Dashboard", icon: LuLayoutDashboard },
+    { href: "/foodlog", label: "Food Log", icon: LuUtensils },
     { href: "/recipes", label: "Recipes", icon: LuChefHat },
     { href: "/ingredients", label: "Ingredients", icon: LuApple },
     { href: "/inventory", label: "Inventory", icon: LuBox },
-    { href: "/foodlog", label: "Food Log", icon: LuUtensils },
+
     { href: "/goals", label: "Goals", icon: LuTrophy },
     // { href: "/settings", label: "Settings", icon: LuSettings },
   ];
