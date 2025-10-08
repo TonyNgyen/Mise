@@ -109,6 +109,12 @@ export async function GET() {
           nutrient_key,
           unit,
           amount
+        ),
+        units:ingredient_units (
+          id,
+          unit_name,
+          is_default,
+          amount
         )
       `
       );

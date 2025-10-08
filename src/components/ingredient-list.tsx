@@ -11,6 +11,13 @@ type Nutrient = {
   amount: number;
 };
 
+type Unit = {
+  id: number;
+  unit_name: string;
+  is_default: boolean;
+  amount: number;
+};
+
 type Ingredient = {
   id: number;
   name: string;
@@ -19,6 +26,7 @@ type Ingredient = {
   serving_unit?: string;
   servings_per_container?: number;
   nutrients: Nutrient[];
+  units: Unit[];
 };
 
 const SORTABLE_NUTRIENTS = [
@@ -68,6 +76,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
               display_name: n.display_name,
               unit: n.unit,
             })),
+            units: ing.units, // Include units if needed
           }));
           setIngredients(formatted);
         }
@@ -240,12 +249,23 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                   </p>
                 )}
                 <div className="space-y-1 mt-1">
-                  {ingredient.serving_size && (
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
-                      Serving: {ingredient.serving_size}{" "}
-                      {ingredient.serving_unit}
-                    </p>
-                  )}
+                  {(() => {
+                    const defaultUnit = ingredient.units.find(
+                      (u) => u.is_default
+                    );
+                    return defaultUnit ? (
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        Serving: {defaultUnit.amount} {defaultUnit.unit_name} (
+                        {ingredient.serving_size}
+                        {ingredient.serving_unit})
+                      </p>
+                    ) : (
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        Serving: {ingredient.serving_size}
+                        {ingredient.serving_unit}
+                      </p>
+                    );
+                  })()}
                   {ingredient.servings_per_container && (
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       Servings per container:{" "}

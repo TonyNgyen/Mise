@@ -105,8 +105,7 @@ export default function AddRecipeForm() {
       );
       const data = await res.json();
 
-      // Simulate slow network to show loading state better (remove in production)
-      // await new Promise(resolve => setTimeout(resolve, 500));
+      console.log(data);
 
       if (data.success) {
         setIngredients((prev) =>

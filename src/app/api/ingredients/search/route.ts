@@ -10,7 +10,29 @@ export async function GET(req: Request) {
 
   const { data, error } = await supabase
     .from("ingredients")
-    .select("*")
+    .select(
+      `
+        id,
+        name,
+        brand,
+        serving_size,
+        serving_unit,
+        servings_per_container,
+        created_at,
+        nutrients:ingredient_nutrients (
+          id,
+          nutrient_key,
+          unit,
+          amount
+        ),
+        units:ingredient_units (
+          id,
+          unit_name,
+          is_default,
+          amount
+        )
+      `
+    )
     .ilike("name", `%${q}%`)
     .limit(10);
 
