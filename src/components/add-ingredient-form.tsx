@@ -323,7 +323,7 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
       name,
       brand,
       // Pass serving size only if it's filled, otherwise use 0 or null
-      serving_size: isServingInfoComplete ? parseFloat(servingSize) : 0,
+      serving_size: isServingInfoComplete ? parseFloat(servingSize) : null,
       serving_unit: isServingInfoComplete ? servingUnit : null, // Only send unit if size is present
       servings_per_container: servingsPerContainer
         ? parseFloat(servingsPerContainer)
@@ -332,18 +332,20 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
       units: unitsToSend,
     };
 
-    // Placeholder for actual API call and result handling
-    console.log("Submitting:", payload);
+    const res = await fetch("/api/ingredients", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
-    // Simulate successful submission for demonstration
-    // In a real app, you would check `data.success`
-    const isSuccess = true;
+    const data = await res.json();
 
-    if (isSuccess) {
+    if (res.ok && data.success) {
       resetForm();
       setIsModalOpen(false);
-      // Optional: Show a success toast notification
       alert("Ingredient added successfully! 🎉");
+    } else {
+      alert("Failed to add ingredient. Please try again.");
     }
   }
 

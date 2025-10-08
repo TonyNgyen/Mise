@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       units,
     } = body;
 
-    console.log("nutrients: ", nutrients);
+    console.log("Received body:", body);
 
     const supabase = await createClient();
 
@@ -52,7 +52,6 @@ export async function POST(req: Request) {
 
     if (definitionError) throw definitionError;
 
-    // Step 3: Insert into ingredient_nutrients
     const nutrientRows = nutrients.map(
       (n: { nutrient_key: string; unit: string; amount: number }) => ({
         ingredient_id: ingredientId,
