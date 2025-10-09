@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
 // Assuming you have lucide-react installed for professional icons
 import {
   LuPlus,
@@ -11,12 +12,30 @@ import {
   LuSearch,
 } from "react-icons/lu"; // Using lucide-react for icons
 
+type Nutrient = {
+  id: number;
+  nutrient_key: string;
+  unit: string;
+  amount: number;
+};
+
+type Unit = {
+  id: number;
+  unit_name: string;
+  is_default: boolean;
+  amount: number;
+};
+
 // --- Type Definitions (Improved) ---
 type Ingredient = {
   id: string;
   name: string;
-  brand: string | null;
-  serving_unit: string | null;
+  brand?: string;
+  serving_size?: number;
+  serving_unit?: string;
+  servings_per_container?: number;
+  nutrients: Nutrient[];
+  units: Unit[];
 };
 
 type IngredientRow = {
@@ -27,8 +46,14 @@ type IngredientRow = {
   searchResults?: Ingredient[];
   isSearching?: boolean;
   isSelected: boolean;
-  // Store selected ingredient details for display/reset
   selectedIngredient?: Ingredient;
+  nutrients: Nutrient[];
+  units: Unit[];
+};
+
+const getMainNutrients = (nutrients: Nutrient[]) => {
+  const mainKeys = ["calories", "protein", "total_fat", "total_carbs"];
+  return nutrients.filter((n) => mainKeys.includes(n.nutrient_key));
 };
 
 // --- AddRecipeForm Component ---
@@ -43,6 +68,8 @@ export default function AddRecipeForm() {
       quantity: "",
       unit: "",
       isSelected: false,
+      nutrients: [],
+      units: [],
     },
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,6 +82,8 @@ export default function AddRecipeForm() {
     quantity: "",
     unit: "",
     isSelected: false,
+    nutrients: [],
+    units: [],
   });
 
   const addIngredient = () => {
@@ -129,6 +158,15 @@ export default function AddRecipeForm() {
   };
 
   const selectIngredient = (index: number, ingredient: Ingredient) => {
+    // --- REVISED LOGIC TO FIND THE DEFAULT UNIT ---
+    const primaryUnit = ingredient.units.find((u) => u.is_default);
+
+    const defaultUnitName =
+      primaryUnit?.unit_name || // 1. Use the explicit default unit from the 'units' array
+      ingredient.serving_unit || // 2. Fallback to the 'serving_unit' field
+      ingredient.units[0]?.unit_name || // 3. Fallback to the first unit in the list
+      ""; // 4. Fallback to an empty string
+
     setIngredients((prev) =>
       prev.map((ing, i) =>
         i === index
@@ -136,7 +174,7 @@ export default function AddRecipeForm() {
               ...ing,
               ingredient_id: ingredient.id,
               ingredient_name: ingredient.name,
-              unit: ingredient.serving_unit || "g", // Use default unit
+              unit: defaultUnitName, // <-- Use the determined default unit
               searchResults: [],
               isSearching: false,
               isSelected: true,
@@ -387,17 +425,46 @@ export default function AddRecipeForm() {
                       {/* --- Unit Input (Narrow) --- */}
                       <div className="w-1/6 min-w-[60px]">
                         <label className="sr-only">Unit</label>
-                        <input
-                          type="text"
-                          placeholder="g"
-                          value={ing.unit}
-                          onChange={(e) =>
-                            handleInputChange(idx, "unit", e.target.value)
-                          }
-                          className="w-full px-2 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
-                          required={ing.isSelected}
-                          disabled={isSubmitting || !ing.isSelected}
-                        />
+                        {ing.isSelected && ing.selectedIngredient ? (
+                          <select // <- Changed to select
+                            value={ing.unit}
+                            onChange={(e) =>
+                              handleInputChange(idx, "unit", e.target.value)
+                            }
+                            className="w-full px-1 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm appearance-none"
+                            required
+                            disabled={isSubmitting}
+                          >
+                            {/* Map through the available units */}
+                            {ing.selectedIngredient.units.map((unit) => (
+                              <option key={unit.id} value={unit.unit_name}>
+                                {unit.unit_name}
+                              </option>
+                            ))}
+                            {/* Fallback option for serving_unit if not in units list */}
+                            {ing.selectedIngredient.serving_unit &&
+                              !ing.selectedIngredient.units.some(
+                                (u) =>
+                                  u.unit_name ===
+                                  ing.selectedIngredient!.serving_unit
+                              ) && (
+                                <option
+                                  value={ing.selectedIngredient.serving_unit}
+                                >
+                                  {ing.selectedIngredient.serving_unit}
+                                </option>
+                              )}
+                          </select>
+                        ) : (
+                          // Disabled placeholder when no ingredient is selected
+                          <input
+                            type="text"
+                            placeholder="Unit"
+                            value=""
+                            className="w-full px-2 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
+                            disabled
+                          />
+                        )}
                       </div>
 
                       {/* --- Ingredient Name (Search/Selected Tag) (Wide) --- */}
@@ -407,11 +474,11 @@ export default function AddRecipeForm() {
                           <div className="flex items-center justify-between px-3 py-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg border border-indigo-300 dark:border-indigo-700 text-sm font-medium text-indigo-800 dark:text-indigo-200 transition-colors">
                             <span className="truncate">
                               {ing.selectedIngredient?.name}
-                              {ing.selectedIngredient?.brand && (
+                              {/* {ing.selectedIngredient?.brand && (
                                 <span className="text-xs text-indigo-600 dark:text-indigo-400 ml-1">
                                   ({ing.selectedIngredient.brand})
                                 </span>
-                              )}
+                              )} */}
                             </span>
                             <button
                               type="button"
@@ -467,20 +534,41 @@ export default function AddRecipeForm() {
                                   <div className="font-semibold text-gray-900 dark:text-white leading-tight">
                                     {res.name}
                                   </div>
-                                  {res.brand || res.serving_unit ? (
+                                  {res.brand ||
+                                  res.serving_unit ||
+                                  res.units ? (
                                     <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                                       {res.brand && (
                                         <span className="mr-2">
                                           {res.brand}
                                         </span>
                                       )}
-                                      {res.serving_unit && (
+                                      {(res.serving_unit || res.units || res.serving_unit) && (
                                         <span className="font-mono text-xs text-indigo-600 dark:text-indigo-400">
-                                          Default unit: {res.serving_unit}
+                                          Default unit:{" "}
+                                          {res.units.find((u) => u.is_default)
+                                            ?.unit_name || res.serving_unit}
                                         </span>
                                       )}
                                     </div>
                                   ) : null}
+                                  {getMainNutrients(res.nutrients).length >
+                                    0 && (
+                                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 flex flex-wrap gap-2">
+                                      {getMainNutrients(res.nutrients).map(
+                                        (n) => (
+                                          <span key={n.id}>
+                                            {
+                                              ALL_NUTRIENTS_DICT[n.nutrient_key]
+                                                .display_name
+                                            }
+                                            : {n.amount}
+                                            {n.unit}
+                                          </span>
+                                        )
+                                      )}
+                                    </div>
+                                  )}
                                 </li>
                               ))}
                             </ul>

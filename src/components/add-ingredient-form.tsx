@@ -264,16 +264,71 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
       processedValue = value;
     }
 
-    updated[index] = { ...updated[index], [field]: processedValue };
+    updated[index] = { ...updated[index], [field]: processedValue }; // ensure only one default
 
-    // ensure only one default
     if (field === "is_default" && value === true) {
       updated.forEach((u, i) => {
         if (i !== index) u.is_default = false;
       });
     }
+
+    // NEW: If a unit name is added/changed, and no unit is currently default,
+    // and there's no serving size, you might want to auto-select.
+    // However, it's safer to do the auto-selection on submit, as it's a final
+    // validation/auto-fill step. We'll keep the submit logic cleaner.
+
     setUnits(updated);
   };
+
+  const unitsForDisplay = useMemo(() => {
+    // 1. Filter out invalid units (same logic as used in handleSubmit pre-validation)
+    let processedUnits = units
+      .map((u) => ({
+        ...u,
+        amount: parseFloat(u.amount as string) || 0,
+      }))
+      .filter((u) => u.unit_name.trim() !== "" && u.amount > 0);
+
+    // 2. Check current conditions for auto-default
+    const isServingInfoComplete =
+      servingSize.trim() !== "" && parseFloat(servingSize) > 0;
+    const hasDefaultUnit = processedUnits.some((u) => u.is_default);
+
+    if (
+      !isServingInfoComplete &&
+      processedUnits.length > 0 &&
+      !hasDefaultUnit
+    ) {
+      // Auto-select the first valid unit if Section 2 is empty and no custom default exists
+      processedUnits = processedUnits.map((u, i) => ({
+        ...u,
+        // Use the original boolean if one was manually checked, otherwise default to the first
+        is_default: units[i]?.is_default || i === 0,
+      }));
+    } else if (isServingInfoComplete && hasDefaultUnit) {
+      // OPTIONAL: If Section 2 IS filled, and a custom default exists,
+      // you might want to clear the custom default to avoid confusion,
+      // but for now, we'll let the user choose the default unless they
+      // clear Section 2.
+    }
+
+    // 3. Re-map back to the original structure for rendering (using the modified is_default)
+    return units.map((u, i) => {
+      // Find the corresponding unit in the processed list (if it still exists)
+      const processedUnit = processedUnits.find(
+        (pu) =>
+          pu.unit_name === u.unit_name &&
+          (u.amount === "" || pu.amount === parseFloat(u.amount as string))
+      );
+
+      return {
+        ...u,
+        // Use the auto-updated default status, but fall back to the original for units
+        // that might have been filtered out (though filtering on valid units is better UX)
+        is_default: processedUnit ? processedUnit.is_default : u.is_default,
+      };
+    });
+  }, [units, servingSize]); // Recalculate whenever units or servingSize changes
 
   const removeUnit = (index: number) => {
     setUnits(units.filter((_, i) => i !== index));
@@ -281,29 +336,40 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setFormError(null); // Clear previous errors
+    setFormError(null); // Clear previous errors // 1. Finalize Units to Send // Create a working copy of units state for modification and validation
 
-    // 1. Finalize Units to Send
-    const unitsToSend = units
+    let workingUnits = units
       .map((u) => ({
         ...u,
         amount: parseFloat(u.amount as string) || 0,
       }))
-      .filter((u) => u.unit_name.trim() !== "" && u.amount > 0);
+      .filter((u) => u.unit_name.trim() !== "" && u.amount > 0); // 2. Validate Serving Information
 
-    // 2. Validate Serving Information
     const isServingInfoComplete =
       servingSize.trim() !== "" && parseFloat(servingSize) > 0;
 
-    // 3. Conditional Validation Logic
-    if (!isServingInfoComplete && unitsToSend.length === 0) {
+    // 3. AUTO-DEFAULT UNIT LOGIC (The requested feature for the payload)
+    const hasCustomUnits = workingUnits.length > 0;
+    const hasDefaultUnit = workingUnits.some((u) => u.is_default);
+
+    if (!isServingInfoComplete && hasCustomUnits && !hasDefaultUnit) {
+      // Automatically set the first valid custom unit as the default for the PAYLOAD
+      workingUnits = workingUnits.map((u, i) => ({
+        ...u,
+        is_default: i === 0,
+      }));
+    }
+
+    const finalUnitsToSend = workingUnits;
+
+    // 4. Conditional Validation Logic
+    if (!isServingInfoComplete && finalUnitsToSend.length === 0) {
       setFormError(
         "You must define either the **Serving Information (Section 2)** OR at least one **Custom Unit Conversion (Section 3)** before saving."
       );
       return; // Stop submission
     }
 
-    // 4. Final Processing for Submission: filter out empty/non-numeric nutrients, convert to float
     const nutrientsToSend = nutrients
       .map((n) => ({
         ...n,
@@ -315,21 +381,19 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
         unit,
         amount,
         display_name,
-      }));
+      })); // 6. Prepare Payload
 
-    // 5. Prepare Payload
     const payload = {
       user_id,
       name,
-      brand,
-      // Pass serving size only if it's filled, otherwise use 0 or null
+      brand, // Pass serving size only if it's filled, otherwise use 0 or null
       serving_size: isServingInfoComplete ? parseFloat(servingSize) : null,
       serving_unit: isServingInfoComplete ? servingUnit : null, // Only send unit if size is present
       servings_per_container: servingsPerContainer
         ? parseFloat(servingsPerContainer)
         : null,
       nutrients: nutrientsToSend,
-      units: unitsToSend,
+      units: finalUnitsToSend, // Use the finalized array
     };
 
     const res = await fetch("/api/ingredients", {
@@ -531,7 +595,7 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
                     Define custom units (e.g., "scoop", "slice")
                   </p>
                   <div className="">
-                    {units.map((unit, i) => (
+                    {unitsForDisplay.map((unit, i) => (
                       <div
                         key={i}
                         className="grid grid-cols-1 sm:grid-cols-4 gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-750"
@@ -564,7 +628,7 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
                         <div className="flex items-center gap-2">
                           <input
                             type="checkbox"
-                            checked={unit.is_default}
+                            checked={unit.is_default} // Now reflects the calculated default
                             onChange={(e) =>
                               updateUnit(i, "is_default", e.target.checked)
                             }
