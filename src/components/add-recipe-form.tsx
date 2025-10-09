@@ -290,7 +290,7 @@ export default function AddRecipeForm() {
       {/* Trigger Button (Styled to fit a common theme) */}
       <button
         onClick={openModal}
-        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
+        className="mx-auto flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
       >
         <LuBookOpen size={20} />
         Add New Recipe
@@ -325,7 +325,7 @@ export default function AddRecipeForm() {
             >
               {/* --- 1. Recipe Info --- */}
               <section className="space-y-4">
-                <h2 className="text-xl font-bold text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-1">
+                <h2 className="text-xl font-bold text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-1 text-left">
                   Recipe Details
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -333,7 +333,7 @@ export default function AddRecipeForm() {
                   <div>
                     <label
                       htmlFor="recipe-name"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-left"
                     >
                       Recipe Name *
                     </label>
@@ -353,7 +353,7 @@ export default function AddRecipeForm() {
                   <div>
                     <label
                       htmlFor="servings"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-left"
                     >
                       Number of Servings *
                     </label>
@@ -416,7 +416,7 @@ export default function AddRecipeForm() {
                           onChange={(e) =>
                             handleInputChange(idx, "quantity", e.target.value)
                           }
-                          className="w-full px-2 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
+                          className="text-left w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
                           required={ing.isSelected}
                           disabled={isSubmitting || !ing.isSelected}
                         />
@@ -431,7 +431,7 @@ export default function AddRecipeForm() {
                             onChange={(e) =>
                               handleInputChange(idx, "unit", e.target.value)
                             }
-                            className="w-full px-1 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm appearance-none"
+                            className="w-full px-3 py-2 text-left border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm appearance-none"
                             required
                             disabled={isSubmitting}
                           >
@@ -461,7 +461,7 @@ export default function AddRecipeForm() {
                             type="text"
                             placeholder="Unit"
                             value=""
-                            className="w-full px-2 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
+                            className="w-full px-3 py-2 text-left border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
                             disabled
                           />
                         )}
@@ -526,7 +526,7 @@ export default function AddRecipeForm() {
                               {ing.searchResults.map((res) => (
                                 <li
                                   key={res.id}
-                                  className="px-4 py-2 cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors border-b dark:border-gray-600 last:border-b-0"
+                                  className="text-left px-4 py-2 cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors border-b dark:border-gray-600 last:border-b-0"
                                   onClick={() =>
                                     !isSubmitting && selectIngredient(idx, res)
                                   }
