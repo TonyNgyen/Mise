@@ -255,7 +255,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                     );
                     return defaultUnit ? (
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        Serving: {defaultUnit.amount} {defaultUnit.unit_name} {(ingredient.serving_size && ingredient.serving_unit) && `${ingredient.serving_size}${ingredient.serving_unit}`} 
+                        Serving: {defaultUnit.amount} {defaultUnit.unit_name} {(ingredient.serving_size && ingredient.serving_unit) && `(${ingredient.serving_size}${ingredient.serving_unit})`} 
                       </p>
                     ) : (
                       <p className="text-gray-600 dark:text-gray-400 text-sm">

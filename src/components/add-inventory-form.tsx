@@ -178,6 +178,19 @@ export default function AddInventoryForm({
         quantity: payloadQuantity,
         unit: ingredientUnit || "grams",
       };
+      const res = await fetch("/api/inventory", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        onSuccess();
+        handleClose(); // calls resetForm
+      } else {
+        alert("Failed to add item: " + (data.message || "Unknown error"));
+      }
     } else {
       if (!selectedRecipe) {
         alert("Please select a recipe");
@@ -197,27 +210,27 @@ export default function AddInventoryForm({
       };
     }
 
-    try {
-      const res = await fetch("/api/inventory", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    // try {
+    //   const res = await fetch("/api/inventory", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(payload),
+    //   });
 
-      const data = await res.json();
+    //   const data = await res.json();
 
-      if (data.success) {
-        onSuccess();
-        handleClose(); // calls resetForm
-      } else {
-        alert("Failed to add item: " + (data.message || "Unknown error"));
-      }
-    } catch (error) {
-      console.error("Error adding to inventory:", error);
-      alert("Failed to add item. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    //   if (data.success) {
+    //     onSuccess();
+    //     handleClose(); // calls resetForm
+    //   } else {
+    //     alert("Failed to add item: " + (data.message || "Unknown error"));
+    //   }
+    // } catch (error) {
+    //   console.error("Error adding to inventory:", error);
+    //   alert("Failed to add item. Please try again.");
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   // Close modal with Escape key
@@ -451,10 +464,6 @@ export default function AddInventoryForm({
                     {selectedIngredient?.serving_unit && (
                       <option value={selectedIngredient.serving_unit}>
                         {selectedIngredient.serving_unit}
-                        {/* Optional: Add serving size info */}
-                        {selectedIngredient.serving_size
-                          ? ` (${selectedIngredient.serving_size})`
-                          : ""}
                       </option>
                     )}
 
