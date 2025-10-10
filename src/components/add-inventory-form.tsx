@@ -2,13 +2,23 @@
 
 import React, { useState, useEffect } from "react";
 
+type IngredientUnit = {
+  id: string;
+  unit_name: string;
+  amount: number;
+  is_default: boolean;
+};
+
 type Ingredient = {
   id: string;
   name: string;
   brand: string | null;
-  serving_size: number;
+  serving_size: number | null; // Changed to allow null based on your data example
+  serving_unit: string | null; // NEW: Added based on your data
   servings_per_container: number | null;
+  units: IngredientUnit[]; // NEW: Added the nested units array
 };
+
 type Recipe = { id: string; name: string };
 
 interface AddInventoryFormProps {
@@ -38,6 +48,7 @@ export default function AddInventoryForm({
   const [activeTab, setActiveTab] = useState<"ingredient" | "recipe">(
     "ingredient"
   );
+  const [availableUnits, setAvailableUnits] = useState<IngredientUnit[]>([]);
 
   // ✅ Search ingredients
   useEffect(() => {
@@ -74,7 +85,25 @@ export default function AddInventoryForm({
     return () => clearTimeout(timeout);
   }, [recipeQuery]);
 
-  // ✅ Reset form when modal closes
+  useEffect(() => {
+    if (selectedIngredient) {
+      // Use the units already fetched with the ingredient search result
+      setAvailableUnits(selectedIngredient.units);
+
+      // This logic can be removed if handled in the onClick, but keep it
+      // here to ensure state consistency if selectedIngredient is set elsewhere.
+      const defaultUnitName =
+        selectedIngredient.units.find((u) => u.is_default)?.unit_name ||
+        selectedIngredient.serving_unit ||
+        "grams";
+      setIngredientUnit(defaultUnitName);
+    } else {
+      // Clear if no ingredient is selected
+      setAvailableUnits([]);
+      setIngredientUnit("grams"); // Default unit when nothing is selected
+    }
+  }, [selectedIngredient]);
+
   const resetForm = () => {
     setIngredientQuery("");
     setRecipeQuery("");
@@ -88,6 +117,7 @@ export default function AddInventoryForm({
     setIngredientResults([]);
     setRecipeResults([]);
     setIsSubmitting(false);
+    setAvailableUnits([]);
   };
 
   const handleClose = React.useCallback(() => {
@@ -119,12 +149,21 @@ export default function AddInventoryForm({
       }
       let payloadQuantity = parseFloat(ingredientQuantity);
       if (ingredientUnit === "servings") {
+        if (selectedIngredient.serving_size === null) {
+          alert(
+            "Selected ingredient must have a serving size to track servings."
+          );
+          setIsSubmitting(false);
+          return;
+        }
         payloadQuantity = selectedIngredient.serving_size * payloadQuantity;
       } else if (ingredientUnit === "containers") {
-        if (!selectedIngredient.servings_per_container) {
-          alert(
-            "Selected ingredient does not have servings per container info"
-          );
+        // Containers: Convert to the standard unit amount
+        if (
+          !selectedIngredient.servings_per_container ||
+          selectedIngredient.serving_size === null
+        ) {
+          alert("Selected ingredient does not have container/serving info.");
           setIsSubmitting(false);
           return;
         }
@@ -137,7 +176,7 @@ export default function AddInventoryForm({
         ingredient_id: selectedIngredient.id,
         recipe_id: null,
         quantity: payloadQuantity,
-        unit: "grams",
+        unit: ingredientUnit || "grams",
       };
     } else {
       if (!selectedRecipe) {
@@ -252,15 +291,11 @@ export default function AddInventoryForm({
           {/* Ingredient Search */}
           {activeTab === "ingredient" && (
             <div>
-              <button
-                onClick={() => console.log(selectedIngredient)}
-                className="bg-red-100 p-4 rounded-md text-black"
-              >
-                Selected Ingredient
-              </button>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Search Ingredients
               </label>
+              {/* {ingredientQuantity}
+              {ingredientUnit} */}
               <div className="relative">
                 <input
                   type="text"
@@ -284,6 +319,13 @@ export default function AddInventoryForm({
                           setSelectedIngredient(ing);
                           setIngredientQuery(ing.name);
                           setIngredientResults([]);
+
+                          const defaultCustomUnit = ing.units.find(
+                            (u) => u.is_default
+                          )?.unit_name;
+                          const defaultUnit =
+                            defaultCustomUnit || ing.serving_unit || "grams";
+                          setIngredientUnit(defaultUnit);
                         }}
                       >
                         <div className="font-medium text-gray-900 dark:text-white">
@@ -395,11 +437,40 @@ export default function AddInventoryForm({
                     onChange={(e) => setIngredientUnit(e.target.value)}
                     className="cursor-pointer w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
                     required
-                    disabled={isSubmitting}
+                    // Disabled if no ingredient is selected
+                    disabled={isSubmitting || !selectedIngredient}
                   >
-                    <option value="grams">grams (g)</option>
+                    {/* Always include 'servings' and 'containers' (if applicable) */}
                     <option value="servings">servings</option>
-                    <option value="containers">containers</option>
+
+                    {selectedIngredient?.servings_per_container && (
+                      <option value="containers">containers</option>
+                    )}
+
+                    {/* Standard Serving Unit (e.g., 'grams' or 'mL') */}
+                    {selectedIngredient?.serving_unit && (
+                      <option value={selectedIngredient.serving_unit}>
+                        {selectedIngredient.serving_unit}
+                        {/* Optional: Add serving size info */}
+                        {selectedIngredient.serving_size
+                          ? ` (${selectedIngredient.serving_size})`
+                          : ""}
+                      </option>
+                    )}
+
+                    {/* Custom Units from the database (availableUnits state) */}
+                    {availableUnits.map((unit) => (
+                      <option key={unit.id} value={unit.unit_name}>
+                        {unit.unit_name}
+                      </option>
+                    ))}
+
+                    {/* Default / Placeholder option */}
+                    {!selectedIngredient && (
+                      <option value="" disabled>
+                        Select an Ingredient
+                      </option>
+                    )}
                   </select>
                 </div>
               </>
