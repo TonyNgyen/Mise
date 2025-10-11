@@ -208,13 +208,20 @@ export async function GET() {
           name,
           brand,
           serving_size,
-          serving_unit
+          serving_unit,
+          units:ingredient_units (
+          id,
+          unit_name,
+          is_default,
+          amount
+        )
         ),
         recipe:recipe_id (
           id,
           name,
           servings
         )
+
       `
       )
       .eq("user_id", user.id);

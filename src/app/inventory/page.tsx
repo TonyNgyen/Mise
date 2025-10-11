@@ -24,6 +24,7 @@ export default function InventoryPage() {
     try {
       const res = await fetch("/api/inventory");
       const data = await res.json();
+      console.log("Fetched inventory:", data);
       if (data.success) setInventory(data.inventory);
     } catch (error) {
       console.error("Error fetching inventory:", error);
