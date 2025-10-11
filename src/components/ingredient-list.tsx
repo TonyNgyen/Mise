@@ -46,47 +46,47 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
   const [sortKey, setSortKey] = useState<string>("name"); // Default sort by name
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-  useEffect(() => {
-    const fetchIngredients = async () => {
-      setLoading(true);
+  const fetchIngredients = async () => {
+    setLoading(true);
 
-      try {
-        const res = await fetch("/api/ingredients", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
+    try {
+      const res = await fetch("/api/ingredients", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (data.error) {
-          console.error("Error fetching ingredients:", data.error);
-        } else {
-          // Reshape nutrients for easier rendering
-          const formatted = data.ingredients.map((ing: Ingredient) => ({
-            id: ing.id,
-            name: ing.name,
-            brand: ing.brand,
-            serving_size: ing.serving_size,
-            serving_unit: ing.serving_unit,
-            servings_per_container: ing.servings_per_container,
-            nutrients: ing.nutrients.map((n) => ({
-              id: n.id,
-              amount: n.amount,
-              nutrient_key: n.nutrient_key,
-              display_name: n.display_name,
-              unit: n.unit,
-            })),
-            units: ing.units, // Include units if needed
-          }));
-          setIngredients(formatted);
-        }
-      } catch (error) {
-        console.error("Failed to fetch ingredients:", error);
-      } finally {
-        setLoading(false);
+      if (data.error) {
+        console.error("Error fetching ingredients:", data.error);
+      } else {
+        // Reshape nutrients for easier rendering
+        const formatted = data.ingredients.map((ing: Ingredient) => ({
+          id: ing.id,
+          name: ing.name,
+          brand: ing.brand,
+          serving_size: ing.serving_size,
+          serving_unit: ing.serving_unit,
+          servings_per_container: ing.servings_per_container,
+          nutrients: ing.nutrients.map((n) => ({
+            id: n.id,
+            amount: n.amount,
+            nutrient_key: n.nutrient_key,
+            display_name: n.display_name,
+            unit: n.unit,
+          })),
+          units: ing.units, // Include units if needed
+        }));
+        setIngredients(formatted);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch ingredients:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchIngredients();
   }, []);
 
@@ -186,7 +186,10 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
           <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
             Add your first ingredient to get started with meal prep!
           </p>
-          <AddIngredientForm user_id={user_id} />
+          <AddIngredientForm
+            user_id={user_id}
+            fetchIngredients={fetchIngredients}
+          />
         </div>
       </div>
     );
@@ -199,7 +202,10 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             My Ingredients
           </h1>
-          <AddIngredientForm user_id={user_id} />
+          <AddIngredientForm
+            user_id={user_id}
+            fetchIngredients={fetchIngredients}
+          />
         </div>
 
         <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
@@ -255,7 +261,10 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                     );
                     return defaultUnit ? (
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        Serving: {defaultUnit.amount} {defaultUnit.unit_name} {(ingredient.serving_size && ingredient.serving_unit) && `(${ingredient.serving_size}${ingredient.serving_unit})`} 
+                        Serving: {defaultUnit.amount} {defaultUnit.unit_name}{" "}
+                        {ingredient.serving_size &&
+                          ingredient.serving_unit &&
+                          `(${ingredient.serving_size}${ingredient.serving_unit})`}
                       </p>
                     ) : (
                       <p className="text-gray-600 dark:text-gray-400 text-sm">

@@ -155,7 +155,7 @@ const Tooltip = ({
 );
 // --- Component Start ---
 
-export default function AddIngredientForm({ user_id }: { user_id: string }) {
+export default function AddIngredientForm({ user_id, fetchIngredients }: { user_id: string, fetchIngredients: () => void }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
@@ -408,6 +408,7 @@ export default function AddIngredientForm({ user_id }: { user_id: string }) {
       resetForm();
       setIsModalOpen(false);
       alert("Ingredient added successfully! 🎉");
+      fetchIngredients(); // Refresh the ingredient list after adding a new one
     } else {
       alert("Failed to add ingredient. Please try again.");
     }
