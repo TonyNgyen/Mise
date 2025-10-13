@@ -10,7 +10,7 @@ import {
   LuApple,
   LuBox,
   LuUtensils,
-  // LuSettings,
+  LuSettings,
   LuTrophy,
 } from "react-icons/lu";
 
@@ -23,9 +23,8 @@ export default function SidebarNav() {
     { href: "/recipes", label: "Recipes", icon: LuChefHat },
     { href: "/ingredients", label: "Ingredients", icon: LuApple },
     { href: "/inventory", label: "Inventory", icon: LuBox },
-
     { href: "/goals", label: "Goals", icon: LuTrophy },
-    // { href: "/settings", label: "Settings", icon: LuSettings },
+    { href: "/settings", label: "Settings", icon: LuSettings },
   ];
 
   return (
