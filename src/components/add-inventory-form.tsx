@@ -370,12 +370,6 @@ export default function AddInventoryForm({
           {/* Recipe Search */}
           {activeTab === "recipe" && (
             <div>
-              <button
-                onClick={() => console.log(selectedRecipe)}
-                className="bg-red-100 p-4 rounded-md text-black"
-              >
-                Selected Recipe
-              </button>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Search Recipes
               </label>
