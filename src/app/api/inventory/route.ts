@@ -187,14 +187,12 @@ export async function GET() {
   try {
     const supabase = await createClient();
 
-    // Get user
     const {
       data: { user },
       error: userError,
     } = await supabase.auth.getUser();
     if (userError || !user) throw userError || new Error("User not found");
 
-    // Query inventory and join ingredient/recipe details
     const { data, error } = await supabase
       .from("inventories")
       .select(
