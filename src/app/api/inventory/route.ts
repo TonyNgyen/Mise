@@ -142,7 +142,7 @@ export async function POST(req: Request) {
         "update_recipe_inventory",
         {
           p_recipe_id: recipe_id,
-          p_quantity_change: parsedQuantity, // Note: Positive quantity for stocking
+          p_quantity_change: parsedQuantity,
           p_unit: unit,
         }
       ));
