@@ -110,13 +110,11 @@ export async function POST(req: Request) {
 
     const supabase = await createClient();
 
-    // 2. User Authentication (same as /api/foodLogs)
     const {
       data: { user },
       error: userError,
     } = await supabase.auth.getUser();
     if (userError || !user) {
-      // Use 401 for unauthorized access
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
@@ -125,19 +123,17 @@ export async function POST(req: Request) {
 
     let inventoryError = null;
 
-    // 3. Centralized Inventory Update via RPC/Stored Procedure
-    // The quantity here is positive because this route is for adding/stocking inventory.
+
     if (ingredient_id) {
       ({ error: inventoryError } = await supabase.rpc(
         "update_ingredient_inventory",
         {
           p_ingredient_id: ingredient_id,
-          p_quantity_change: parsedQuantity, // Note: Positive quantity for stocking
+          p_quantity_change: parsedQuantity,
           p_unit: unit,
         }
       ));
     } else if (recipe_id) {
-      // The foodLog API had a note about updating recipe inventory (if you store recipes in inventory)
       ({ error: inventoryError } = await supabase.rpc(
         "update_recipe_inventory",
         {
@@ -152,11 +148,6 @@ export async function POST(req: Request) {
       console.error("Inventory update error:", inventoryError);
       throw inventoryError;
     }
-
-    // 4. Success Response
-    // Since the RPC/Stored Procedure handles the logic, we just return success.
-    // If you need the final inventory data, you'd add a fetch here, but for this
-    // simple update, a success message is enough.
     return NextResponse.json({
       success: true,
       message: "Inventory updated successfully",
