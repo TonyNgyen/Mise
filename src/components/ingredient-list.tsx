@@ -175,8 +175,8 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
 
   if (ingredients.length === 0) {
     return (
-      <div className="p-6 text-center">
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 max-w-md mx-auto">
+      <div className="p-6">
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 max-w-md mx-auto flex flex-col items-center">
           <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
             🥗
           </div>

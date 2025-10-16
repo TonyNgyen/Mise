@@ -109,10 +109,9 @@ export default function AddLogForm({
       const data = await res.json();
 
       if (data.success) {
-        onLogSuccess(); // Notify parent to refresh logs
+        onLogSuccess();
         handleClose();
-        // Optional: show a toast/non-intrusive notification instead of alert
-        // alert("Food logged successfully!");
+        alert("Food logged successfully!");
       } else {
         console.error("Error data:", data.error);
         alert("Error logging food: " + data.error);

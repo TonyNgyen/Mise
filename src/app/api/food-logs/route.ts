@@ -88,8 +88,6 @@ export async function POST(req: Request) {
         }));
       }
     } else if (recipe_id) {
-      // Calculate recipe nutrients (you'll need to implement this based on your recipe structure)
-      // This is a simplified version - you'll need to aggregate nutrients from recipe ingredients
       const { data: recipeNutrients, error: recipeError } = await supabase
         .from("recipe_nutrients")
         .select("*")
@@ -124,11 +122,8 @@ export async function POST(req: Request) {
       if (nutrientError) throw nutrientError;
     }
 
-    // Update inventory if requested
     if (update_inventory) {
       if (ingredient_id) {
-        // Update ingredient inventory
-        console.log("1");
         const { error: inventoryError } = await supabase.rpc(
           "update_ingredient_inventory",
           {
@@ -137,14 +132,12 @@ export async function POST(req: Request) {
             p_unit: unit,
           }
         );
-        console.log("2");
 
         if (inventoryError) {
           console.log(inventoryError);
           throw inventoryError;
         }
       } else if (recipe_id) {
-        // Update recipe inventory (if you store recipes in inventory)
         const { error: inventoryError } = await supabase.rpc(
           "update_recipe_inventory",
           {

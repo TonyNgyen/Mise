@@ -9,8 +9,6 @@ export async function POST(req: Request) {
       user_id,
       name,
       brand,
-      serving_size,
-      serving_unit,
       servings_per_container,
       nutrients,
       units,
@@ -28,8 +26,6 @@ export async function POST(req: Request) {
           user_id,
           name,
           brand,
-          serving_size,
-          serving_unit,
           servings_per_container,
         },
       ])
@@ -100,8 +96,6 @@ export async function GET() {
         id,
         name,
         brand,
-        serving_size,
-        serving_unit,
         servings_per_container,
         created_at,
         nutrients:ingredient_nutrients (

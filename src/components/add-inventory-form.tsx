@@ -1,5 +1,6 @@
 "use client";
 
+import { createClient } from "@/utils/supabase/client";
 import React, { useState, useEffect } from "react";
 
 type IngredientUnit = {
@@ -129,108 +130,91 @@ export default function AddInventoryForm({
     e.preventDefault();
     setIsSubmitting(true);
 
-    let payload: {
-      ingredient_id: string | null;
-      recipe_id: string | null;
-      quantity: number;
-      unit: string;
-    };
-
-    if (activeTab === "ingredient") {
-      if (!selectedIngredient) {
-        alert("Please select an ingredient");
-        setIsSubmitting(false);
-        return;
-      }
-      if (!ingredientQuantity) {
-        alert("Please enter quantity");
-        setIsSubmitting(false);
-        return;
-      }
-      let payloadQuantity = parseFloat(ingredientQuantity);
-      if (ingredientUnit === "servings") {
-        if (selectedIngredient.serving_size === null) {
-          alert(
-            "Selected ingredient must have a serving size to track servings."
-          );
-          setIsSubmitting(false);
+    try {
+      if (activeTab === "ingredient") {
+        // --- Ingredient path ---
+        if (!selectedIngredient) {
+          alert("Please select an ingredient");
           return;
         }
-        payloadQuantity = selectedIngredient.serving_size * payloadQuantity;
-      } else if (ingredientUnit === "containers") {
-        // Containers: Convert to the standard unit amount
-        if (
-          !selectedIngredient.servings_per_container ||
-          selectedIngredient.serving_size === null
-        ) {
-          alert("Selected ingredient does not have container/serving info.");
-          setIsSubmitting(false);
+        if (!ingredientQuantity) {
+          alert("Please enter quantity");
           return;
         }
-        payloadQuantity =
-          selectedIngredient.serving_size *
-          selectedIngredient.servings_per_container *
-          payloadQuantity;
-      }
-      payload = {
-        ingredient_id: selectedIngredient.id,
-        recipe_id: null,
-        quantity: payloadQuantity,
-        unit: ingredientUnit || "grams",
-      };
-      const res = await fetch("/api/inventory", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
 
-      if (data.success) {
-        onSuccess();
-        handleClose(); // calls resetForm
+        let payloadQuantity = parseFloat(ingredientQuantity);
+        if (ingredientUnit === "servings") {
+          if (selectedIngredient.serving_size === null) {
+            alert(
+              "Selected ingredient must have a serving size to track servings."
+            );
+            return;
+          }
+        } else if (ingredientUnit === "containers") {
+          if (
+            !selectedIngredient.servings_per_container ||
+            selectedIngredient.serving_size === null
+          ) {
+            alert("Selected ingredient does not have container/serving info.");
+            return;
+          }
+          payloadQuantity =
+            selectedIngredient.serving_size *
+            selectedIngredient.servings_per_container *
+            payloadQuantity;
+        }
+
+        const payload = {
+          ingredient_id: selectedIngredient.id,
+          recipe_id: null,
+          quantity: payloadQuantity,
+          unit: ingredientUnit || "grams",
+        };
+
+        const res = await fetch("/api/inventory", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message || "Unknown error");
       } else {
-        alert("Failed to add item: " + (data.message || "Unknown error"));
+        // --- ✅ Recipe path (simplified) ---
+        if (!selectedRecipe) {
+          alert("Please select a recipe");
+          return;
+        }
+        if (!recipeQuantity) {
+          alert("Please enter quantity");
+          return;
+        }
+
+        let payload = {
+          recipe_id: selectedRecipe.id,
+          quantity: parseFloat(recipeQuantity),
+          p_user_id: "",
+        };
+
+        const res = await fetch("/api/inventory", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message || "Unknown error");
       }
-    } else {
-      if (!selectedRecipe) {
-        alert("Please select a recipe");
-        setIsSubmitting(false);
-        return;
-      }
-      if (!recipeQuantity) {
-        alert("Please enter quantity");
-        setIsSubmitting(false);
-        return;
-      }
-      payload = {
-        ingredient_id: null,
-        recipe_id: selectedRecipe.id,
-        quantity: parseFloat(recipeQuantity),
-        unit: recipeUnit,
-      };
+
+      // ✅ If everything succeeds
+      onSuccess();
+      handleClose(); // resets form
+    } catch (err: any) {
+      console.error("Error updating inventory:", err);
+      alert("Failed to update inventory: " + (err.message || "Unknown error"));
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // try {
-    //   const res = await fetch("/api/inventory", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(payload),
-    //   });
-
-    //   const data = await res.json();
-
-    //   if (data.success) {
-    //     onSuccess();
-    //     handleClose(); // calls resetForm
-    //   } else {
-    //     alert("Failed to add item: " + (data.message || "Unknown error"));
-    //   }
-    // } catch (error) {
-    //   console.error("Error adding to inventory:", error);
-    //   alert("Failed to add item. Please try again.");
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
   };
 
   // Close modal with Escape key

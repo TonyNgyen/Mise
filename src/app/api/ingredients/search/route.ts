@@ -15,8 +15,6 @@ export async function GET(req: Request) {
         id,
         name,
         brand,
-        serving_size,
-        serving_unit,
         servings_per_container,
         created_at,
         nutrients:ingredient_nutrients (

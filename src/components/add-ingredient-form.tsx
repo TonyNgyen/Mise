@@ -155,7 +155,13 @@ const Tooltip = ({
 );
 // --- Component Start ---
 
-export default function AddIngredientForm({ user_id, fetchIngredients }: { user_id: string, fetchIngredients: () => void }) {
+export default function AddIngredientForm({
+  user_id,
+  fetchIngredients,
+}: {
+  user_id: string;
+  fetchIngredients: () => void;
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
@@ -351,6 +357,22 @@ export default function AddIngredientForm({ user_id, fetchIngredients }: { user_
     // 3. AUTO-DEFAULT UNIT LOGIC (The requested feature for the payload)
     const hasCustomUnits = workingUnits.length > 0;
     const hasDefaultUnit = workingUnits.some((u) => u.is_default);
+
+    if (isServingInfoComplete) {
+      if (hasDefaultUnit) {
+        workingUnits.push({
+          unit_name: servingUnit,
+          amount: parseFloat(servingSize),
+          is_default: false,
+        });
+      } else {
+        workingUnits.push({
+          unit_name: servingUnit,
+          amount: parseFloat(servingSize),
+          is_default: true,
+        });
+      }
+    }
 
     if (!isServingInfoComplete && hasCustomUnits && !hasDefaultUnit) {
       // Automatically set the first valid custom unit as the default for the PAYLOAD

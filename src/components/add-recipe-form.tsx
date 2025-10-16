@@ -539,15 +539,20 @@ export default function AddRecipeForm() {
                                   res.units ? (
                                     <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                                       {res.brand && (
-                                        <span className="mr-2">
+                                        <span className="border-r-1 pr-1 mr-1 border-r-gray-600 dark:border-r-gray-400">
                                           {res.brand}
                                         </span>
                                       )}
-                                      {(res.serving_unit || res.units || res.serving_unit) && (
+                                      {(res.serving_unit || res.units) && (
                                         <span className="font-mono text-xs text-indigo-600 dark:text-indigo-400">
-                                          Default unit:{" "}
-                                          {res.units.find((u) => u.is_default)
-                                            ?.unit_name || res.serving_unit}
+                                          {
+                                            res.units.find((u) => u.is_default)
+                                              ?.amount
+                                          } {" "}
+                                          {
+                                            res.units.find((u) => u.is_default)
+                                              ?.unit_name
+                                          }
                                         </span>
                                       )}
                                     </div>
