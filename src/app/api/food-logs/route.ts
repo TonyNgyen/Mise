@@ -113,7 +113,6 @@ export async function POST(req: Request) {
       }
     }
 
-    // Insert nutrients
     if (nutrients.length > 0) {
       const { error: nutrientError } = await supabase
         .from("food_log_nutrients")
