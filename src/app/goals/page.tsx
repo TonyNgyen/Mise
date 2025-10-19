@@ -167,7 +167,6 @@ export default function GoalsPage() {
             Set and track your daily nutrition targets
           </p>
         </div>
-        {/* Goal Form Button/Modal Integration */}
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
             {goals.length} goal{goals.length !== 1 ? "s" : ""}
@@ -175,7 +174,7 @@ export default function GoalsPage() {
         </div>
       </div>
 
-      <div className="border-t pt-8 border-gray-200 dark:border-gray-700">
+      <div className="">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
           Your Goals
         </h2>
