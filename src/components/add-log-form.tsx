@@ -2,13 +2,34 @@
 
 import React, { useState, useEffect } from "react";
 
-// Assuming these types are imported or defined in a shared types file
-type Ingredient = { id: string; name: string; brand: string | null };
+type Nutrient = {
+  id: string;
+  unit: string;
+  amount: number;
+  nutrient_key: string;
+};
+
+type UnitOption = {
+  id: string;
+  amount: number;
+  unit_name: string;
+  is_default: boolean;
+};
+
+type Ingredient = {
+  id: string;
+  name: string;
+  brand: string;
+  servings_per_container: number;
+  created_at: string;
+  nutrients: Nutrient[];
+  units: UnitOption[];
+};
 type Recipe = { id: string; name: string };
 
 interface AddLogFormProps {
   selectedDate: string;
-  onLogSuccess: () => void; // Callback to refresh logs in the parent
+  onLogSuccess: () => void;
 }
 
 export default function AddLogForm({
@@ -27,13 +48,10 @@ export default function AddLogForm({
     useState<Ingredient | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState("grams");
+  const [unit, setUnit] = useState("");
   const [updateInventory, setUpdateInventory] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // --- Utility functions for search ---
-
-  // Search ingredients
   useEffect(() => {
     if (!isOpen) return;
     if (ingredientQuery.length < 2) return setIngredientResults([]);
@@ -66,7 +84,7 @@ export default function AddLogForm({
     setSelectedIngredient(null);
     setSelectedRecipe(null);
     setQuantity("");
-    setUnit("grams");
+    setUnit("");
     setUpdateInventory(true);
   };
 
@@ -93,6 +111,16 @@ export default function AddLogForm({
     }
 
     try {
+      console.log(
+        JSON.stringify({
+          ingredient_id: selectedIngredient?.id || null,
+          recipe_id: selectedRecipe?.id || null,
+          quantity: parseFloat(quantity),
+          unit,
+          logged_at: new Date(selectedDate).toISOString(),
+          update_inventory: updateInventory,
+        })
+      );
       const res = await fetch("/api/food-logs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -229,7 +257,7 @@ export default function AddLogForm({
                             setSelectedIngredient(ing);
                             setIngredientQuery(ing.name);
                             setIngredientResults([]);
-                            setUnit("grams");
+                            setUnit(ing.units[0].unit_name);
                           }}
                         >
                           {ing.name} {ing.brand && `(${ing.brand})`}
@@ -304,8 +332,15 @@ export default function AddLogForm({
                     required
                     disabled={isSubmitting}
                   >
-                    <option value="grams">grams (g)</option>
-                    <option value="servings">servings</option>
+                    {activeTab === "ingredient" && selectedIngredient && (
+                      <>
+                        {selectedIngredient.units.map((u) => (
+                          <option key={u.unit_name} value={u.unit_name}>
+                            {u.unit_name}
+                          </option>
+                        ))}
+                      </>
+                    )}
                   </select>
                 </div>
               </div>
