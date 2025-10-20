@@ -83,8 +83,6 @@ export async function GET() {
           id,
           name,
           brand,
-          serving_size,
-          serving_unit,
           units:ingredient_units (
             id,
             unit_name,
