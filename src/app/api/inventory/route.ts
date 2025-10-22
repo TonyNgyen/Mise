@@ -14,7 +14,6 @@ export async function POST(req: Request) {
     } = await supabase.auth.getUser();
     if (userError || !user) throw userError || new Error("User not found");
 
-    // --- Ingredient path (already implemented elsewhere, leaving as-is) ---
     if (ingredient_id) {
       const { error: ingredientError } = await supabase.rpc(
         "update_ingredient_inventory",
@@ -25,10 +24,7 @@ export async function POST(req: Request) {
         }
       );
       if (ingredientError) throw ingredientError;
-    }
-
-    // --- ✅ Recipe path (new addition) ---
-    else if (recipe_id) {
+    } else if (recipe_id) {
       // Call your SQL function that handles updating all ingredient inventories
       const { error: recipeError } = await supabase.rpc(
         "use_recipe_inventory",
