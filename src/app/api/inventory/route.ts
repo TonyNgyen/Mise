@@ -25,7 +25,6 @@ export async function POST(req: Request) {
       );
       if (ingredientError) throw ingredientError;
     } else if (recipe_id) {
-      // Call your SQL function that handles updating all ingredient inventories
       const { error: recipeError } = await supabase.rpc(
         "use_recipe_inventory",
         {
@@ -51,7 +50,6 @@ export async function POST(req: Request) {
   }
 }
 
-// --- GET: fetch full inventory for logged-in user ---
 export async function GET() {
   try {
     const supabase = await createClient();
