@@ -290,7 +290,7 @@ export default function AddRecipeForm() {
       {/* Trigger Button (Styled to fit a common theme) */}
       <button
         onClick={openModal}
-        className="mx-auto flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
+        className="cursor-pointer mx-auto flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
       >
         <LuBookOpen size={20} />
         Add New Recipe
@@ -310,7 +310,7 @@ export default function AddRecipeForm() {
               </h1>
               <button
                 onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
                 disabled={isSubmitting}
                 aria-label="Close modal"
               >
@@ -383,7 +383,7 @@ export default function AddRecipeForm() {
                     type="button"
                     onClick={addIngredient}
                     disabled={isSubmitting}
-                    className="flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/50 text-indigo-700 dark:text-indigo-300 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="cursor-pointer flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/50 text-indigo-700 dark:text-indigo-300 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <LuPlus size={16} />
                     Add Item
@@ -484,7 +484,7 @@ export default function AddRecipeForm() {
                               type="button"
                               onClick={() => deselectIngredient(idx)}
                               disabled={isSubmitting}
-                              className="ml-2 text-indigo-500 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-100 p-0.5 rounded-full hover:bg-indigo-200/50 dark:hover:bg-indigo-800/50 transition-colors"
+                              className="cursor-pointer ml-2 text-indigo-500 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-100 p-0.5 rounded-full hover:bg-indigo-200/50 dark:hover:bg-indigo-800/50 transition-colors"
                             >
                               <LuX size={14} />
                             </button>
@@ -586,7 +586,7 @@ export default function AddRecipeForm() {
                           type="button"
                           onClick={() => removeIngredient(idx)}
                           disabled={isSubmitting}
-                          className="p-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                          className="cursor-pointer p-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                           aria-label={`Remove ingredient ${idx + 1}`}
                         >
                           <LuTrash2 size={18} />
@@ -603,14 +603,14 @@ export default function AddRecipeForm() {
                   type="button"
                   onClick={closeModal}
                   disabled={isSubmitting}
-                  className="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl font-medium transition-colors disabled:opacity-50"
+                  className="cursor-pointer px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl font-medium transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:disabled:bg-indigo-400 text-white rounded-xl font-bold transition-colors shadow-md shadow-indigo-500/30 dark:shadow-indigo-500/20 flex items-center justify-center disabled:cursor-not-allowed"
+                  className="cursor-pointer px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:disabled:bg-indigo-400 text-white rounded-xl font-bold transition-colors shadow-md shadow-indigo-500/30 dark:shadow-indigo-500/20 flex items-center justify-center disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>

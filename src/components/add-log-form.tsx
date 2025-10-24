@@ -158,7 +158,7 @@ export default function AddLogForm({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
+        className="cursor-pointer bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
       >
         Log Food
       </button>
@@ -182,7 +182,7 @@ export default function AddLogForm({
               </h2>
               <button
                 onClick={handleClose}
-                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <svg
@@ -211,7 +211,7 @@ export default function AddLogForm({
                   className={`px-4 py-2 font-medium text-sm ${
                     activeTab === "ingredient"
                       ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                      : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                      : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
                   }`}
                 >
                   🥕 Ingredient
@@ -222,7 +222,7 @@ export default function AddLogForm({
                   className={`px-4 py-2 font-medium text-sm ${
                     activeTab === "recipe"
                       ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                      : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                      : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
                   }`}
                 >
                   📖 Recipe
@@ -366,7 +366,7 @@ export default function AddLogForm({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-700 dark:hover:bg-blue-800 dark:disabled:bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
+                className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-700 dark:hover:bg-blue-800 dark:disabled:bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

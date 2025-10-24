@@ -72,7 +72,7 @@ export default function Page() {
           <button
             key={typedKey}
             onClick={() => setActiveTab(typedKey)}
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 font-medium
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 font-medium cursor-pointer
               ${
                 isActive
                   ? "bg-blue-600 text-white shadow-sm"

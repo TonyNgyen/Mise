@@ -267,7 +267,7 @@ export default function AddInventoryForm({
               className={`px-4 py-2 font-medium text-sm cursor-pointer ${
                 activeTab === "ingredient"
                   ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
               }`}
             >
               🥕 Ingredient
@@ -278,7 +278,7 @@ export default function AddInventoryForm({
               className={`px-4 py-2 font-medium text-sm cursor-pointer ${
                 activeTab === "recipe"
                   ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
               }`}
             >
               📖 Recipe

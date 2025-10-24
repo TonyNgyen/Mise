@@ -132,7 +132,7 @@ function RecipeNutrients({
         </h4>
         <button
           onClick={() => setShowPerServing(!showPerServing)}
-          className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full transition-colors"
+          className="cursor-pointer px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full transition-colors"
         >
           {showPerServing ? "Per Serving" : "Total"}
         </button>
@@ -367,7 +367,7 @@ export default function RecipeList() {
               ${
                 sortKey === item.key
                   ? "bg-purple-600 text-white shadow-md hover:bg-purple-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 cursor-pointer"
               }
             `}
           >
@@ -474,7 +474,7 @@ export default function RecipeList() {
 
               <button
                 onClick={() => toggleExpand(recipe.id)}
-                className="ml-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="ml-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
               >
                 {expandedRecipe === recipe.id ? (
                   <svg

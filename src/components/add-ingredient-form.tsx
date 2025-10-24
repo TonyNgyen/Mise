@@ -448,7 +448,7 @@ export default function AddIngredientForm({
       {/* Trigger Button */}
       <button
         onClick={openModal}
-        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
+        className="cursor-pointer flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
       >
         <LuPlus size={20} />
         Add New Ingredient
@@ -465,7 +465,7 @@ export default function AddIngredientForm({
               </h2>
               <button
                 onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
                 aria-label="Close modal"
               >
                 <LuX size={24} />
@@ -672,7 +672,7 @@ export default function AddIngredientForm({
                           <button
                             type="button"
                             onClick={() => removeUnit(i)}
-                            className=" text-red-500 hover:text-red-700 dark:hover:text-red-400 p-1 rounded transition-colors"
+                            className=" text-red-500 hover:text-red-700 dark:hover:text-red-400 p-1 rounded transition-colors cursor-pointer"
                             aria-label="Remove unit"
                           >
                             <LuTrash2 size={20} />
@@ -684,7 +684,7 @@ export default function AddIngredientForm({
                   <button
                     type="button"
                     onClick={addUnit}
-                    className="mt-3 flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-semibold transition-colors"
+                    className="cursor-pointer mt-3 flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-semibold transition-colors"
                   >
                     <LuPlus size={16} />
                     Add Custom Unit
@@ -747,7 +747,7 @@ export default function AddIngredientForm({
                     <button
                       type="button"
                       onClick={() => setShowNicheNutrients(!showNicheNutrients)}
-                      className="w-full flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-xl text-lg font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      className="cursor-pointer w-full flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-xl text-lg font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                     >
                       <span>
                         Additional Nutrients
@@ -779,7 +779,7 @@ export default function AddIngredientForm({
                               className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
                                 activeNicheCategory === category
                                   ? "bg-indigo-600 text-white shadow-md"
-                                  : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
+                                  : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500 cursor-pointer"
                               }`}
                             >
                               {formatCategoryTitle(category)}
@@ -834,13 +834,13 @@ export default function AddIngredientForm({
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl font-medium transition-colors"
+                    className="cursor-pointer px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl font-medium transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold transition-colors shadow-md shadow-indigo-500/30 dark:shadow-indigo-500/20"
+                    className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold transition-colors shadow-md shadow-indigo-500/30 dark:shadow-indigo-500/20"
                   >
                     Save Ingredient
                   </button>

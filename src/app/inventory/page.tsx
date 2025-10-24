@@ -120,7 +120,7 @@ export default function InventoryPage() {
             </p>
             <button
               onClick={openModal}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200"
+              className="cursor-pointer mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200"
             >
               Add Your First Item
             </button>

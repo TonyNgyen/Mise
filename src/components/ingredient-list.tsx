@@ -226,7 +226,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
               ${
                 sortKey === item.key
                   ? "bg-indigo-600 text-white shadow-md hover:bg-indigo-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 cursor-pointer"
               }
             `}
           >

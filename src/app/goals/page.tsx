@@ -220,7 +220,7 @@ export default function GoalsPage() {
 
                     <button
                       onClick={() => handleDelete(goal.id)}
-                      className="ml-4 p-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      className="cursor-pointer ml-4 p-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                       title="Delete goal"
                     >
                       <svg

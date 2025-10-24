@@ -105,7 +105,7 @@ export default function FoodLogger() {
           </h3>
           <button
             onClick={() => setShowLogs(!showLogs)}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-sm text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
           >
             {showLogs ? "Hide Logs" : "Show Log Details"}
           </button>
