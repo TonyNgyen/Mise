@@ -65,8 +65,6 @@ export default function RecentMealsCard({ recentMeals }: RecentMealsCardProps) {
   );
 }
 
-// NOTE: Since MealItem is small and used only here, you can define it here.
-// However, a cleaner Next.js structure might move it to its own file.
 function MealItem({ name, calories }: { name: string; calories: string }) {
   return (
     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
