@@ -8,7 +8,6 @@ type FoodLogNutrient = {
   amount: number;
 };
 
-// Define the shape of the data prop
 interface RecentMealsCardProps {
   recentMeals: Array<{
     id: string;
