@@ -45,9 +45,10 @@ export async function POST(req: Request) {
       "add_ingredient_log",
       {
         p_ingredient_id: ingredient_id,
-        p_amount: quantity,
         p_unit: unit,
-        p_update_inventory: update_inventory
+        p_amount: quantity,
+        p_update_inventory: update_inventory,
+        p_log_datetime: logged_at,
       }
     );
 
@@ -170,7 +171,7 @@ export async function GET(req: Request) {
         nutrients:food_log_nutrients(*)
       `
       )
-      .order("logged_at", { ascending: false });
+      .order("log_datetime", { ascending: false });
 
     if (date) {
       const startDate = new Date(date);
@@ -178,8 +179,8 @@ export async function GET(req: Request) {
       endDate.setDate(endDate.getDate() + 1);
 
       query = query
-        .gte("logged_at", startDate.toISOString())
-        .lt("logged_at", endDate.toISOString());
+        .gte("log_datetime", startDate.toISOString())
+        .lt("log_datetime", endDate.toISOString());
     }
 
     const { data: foodLogs, error } = await query;

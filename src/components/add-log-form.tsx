@@ -111,16 +111,6 @@ export default function AddLogForm({
     }
 
     try {
-      console.log(
-        JSON.stringify({
-          ingredient_id: selectedIngredient?.id || null,
-          recipe_id: selectedRecipe?.id || null,
-          quantity: parseFloat(quantity),
-          unit,
-          logged_at: new Date(selectedDate).toISOString(),
-          update_inventory: updateInventory,
-        })
-      );
       const res = await fetch("/api/food-logs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

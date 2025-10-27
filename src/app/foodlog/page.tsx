@@ -29,6 +29,7 @@ export default function FoodLogger() {
   const fetchFoodLogs = async (date: string) => {
     const res = await fetch(`/api/food-logs?date=${date}`);
     const data = await res.json();
+    console.log(data)
     if (data.success) setFoodLogs(data.food_logs || []);
   };
 
