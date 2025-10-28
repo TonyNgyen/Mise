@@ -153,7 +153,6 @@ const Tooltip = ({
     </span>
   </div>
 );
-// --- Component Start ---
 
 export default function AddIngredientForm({
   user_id,
@@ -165,7 +164,6 @@ export default function AddIngredientForm({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
-  // CHANGED: Initialized and reset to "" to correctly check if the user has entered a value.
   const [servingSize, setServingSize] = useState<string>("");
   const [servingUnit, setServingUnit] = useState<string>("g");
   const [servingsPerContainer, setServingsPerContainer] = useState("");
@@ -173,19 +171,17 @@ export default function AddIngredientForm({
     ALL_NUTRIENTS.map((nutrient) => ({
       nutrient_key: nutrient.key,
       unit: nutrient.unit,
-      amount: "", // Start with empty string for better UX
+      amount: "",
       display_name: nutrient.display_name,
     }))
   );
   const [units, setUnits] = useState<UnitConversion[]>([]);
-  // NEW: State for form submission error
   const [formError, setFormError] = useState<string | null>(null);
 
   const [showNicheNutrients, setShowNicheNutrients] = useState(false);
   const [activeNicheCategory, setActiveNicheCategory] =
     useState<keyof typeof NICHE_NUTRIENTS>("fats");
 
-  // Filtered nutrients for display (Memoized for performance)
   const commonNutrients = useMemo(
     () =>
       nutrients.filter((nutrient) =>

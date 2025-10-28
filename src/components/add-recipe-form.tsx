@@ -57,7 +57,11 @@ const getMainNutrients = (nutrients: Nutrient[]) => {
 };
 
 // --- AddRecipeForm Component ---
-export default function AddRecipeForm() {
+export default function AddRecipeForm({
+  fetchRecipes,
+}: {
+  fetchRecipes: () => void;
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [servings, setServings] = useState<number>(1);
@@ -250,6 +254,7 @@ export default function AddRecipeForm() {
 
       if (res.ok && data.success) {
         alert("Recipe created successfully! 🎉");
+        fetchRecipes(); // Refresh the recipe list
         closeModal(); // Use the callback for cleanup
       } else {
         alert(`Failed to create recipe: ${data.message || "Unknown error"}`);
@@ -548,7 +553,7 @@ export default function AddRecipeForm() {
                                           {
                                             res.units.find((u) => u.is_default)
                                               ?.amount
-                                          } {" "}
+                                          }{" "}
                                           {
                                             res.units.find((u) => u.is_default)
                                               ?.unit_name

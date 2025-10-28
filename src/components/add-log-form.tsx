@@ -65,7 +65,6 @@ export default function AddLogForm({
     return () => clearTimeout(timeout);
   }, [ingredientQuery, isOpen]);
 
-  // Search recipes
   useEffect(() => {
     if (!isOpen) return;
     if (recipeQuery.length < 2) return setRecipeResults([]);
@@ -77,7 +76,6 @@ export default function AddLogForm({
     return () => clearTimeout(timeout);
   }, [recipeQuery, isOpen]);
 
-  // Reset form function
   const resetForm = () => {
     setIngredientQuery("");
     setRecipeQuery("");
@@ -88,7 +86,6 @@ export default function AddLogForm({
     setUpdateInventory(true);
   };
 
-  // Close modal and reset state
   const handleClose = () => {
     resetForm();
     setIsOpen(false);
@@ -156,7 +153,7 @@ export default function AddLogForm({
       {/* Modal Backdrop and Content */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity"
           aria-labelledby="modal-title"
           role="dialog"
           aria-modal="true"
@@ -247,7 +244,16 @@ export default function AddLogForm({
                             setSelectedIngredient(ing);
                             setIngredientQuery(ing.name);
                             setIngredientResults([]);
-                            setUnit(ing.units[0].unit_name);
+                            const defaultUnit = ing.units.find(
+                              (u) => u.is_default
+                            );
+                            if (defaultUnit) {
+                              setUnit(defaultUnit.unit_name);
+                            } else if (ing.units.length > 0) {
+                              setUnit(ing.units[0].unit_name);
+                            } else {
+                              setUnit("");
+                            }
                           }}
                         >
                           {ing.name} {ing.brand && `(${ing.brand})`}
@@ -324,12 +330,24 @@ export default function AddLogForm({
                   >
                     {activeTab === "ingredient" && selectedIngredient && (
                       <>
-                        {selectedIngredient.units.map((u) => (
-                          <option key={u.unit_name} value={u.unit_name}>
-                            {u.unit_name}
-                          </option>
-                        ))}
+                        {selectedIngredient.units
+                          .filter((u) => u.is_default)
+                          .map((u) => (
+                            <option key={u.unit_name} value={u.unit_name}>
+                              {u.unit_name}
+                            </option>
+                          ))}
+                        {selectedIngredient.units
+                          .filter((u) => !u.is_default)
+                          .map((u) => (
+                            <option key={u.unit_name} value={u.unit_name}>
+                              {u.unit_name}
+                            </option>
+                          ))}
                       </>
+                    )}
+                    {activeTab === "recipe" && selectedRecipe && (
+                      <>{<option value="servings">servings</option>}</>
                     )}
                   </select>
                 </div>

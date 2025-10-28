@@ -29,15 +29,12 @@ export default function RecentMealsCard({ recentMeals }: RecentMealsCardProps) {
           recentMeals.map((meal) => {
             const name =
               meal.ingredient?.name || meal.recipe?.name || "Unknown";
-            const calories = meal.nutrients?.find(
-              (n: FoodLogNutrient) => n.nutrient_key === "calories"
-            )?.amount;
 
             return (
               <MealItem
                 key={meal.id}
                 name={name}
-                calories={calories ? calories.toString() : "-"}
+                nutrients={meal.nutrients || []}
               />
             );
           })
@@ -64,7 +61,15 @@ export default function RecentMealsCard({ recentMeals }: RecentMealsCardProps) {
   );
 }
 
-function MealItem({ name, calories }: { name: string; calories: string }) {
+function MealItem({ name, nutrients }: { name: string; nutrients: FoodLogNutrient[] }) {
+  const nutrientsDict: { [key: string]: number } = {};
+  if (Array.isArray(nutrients)) {
+    nutrients.forEach((n) => {
+      nutrientsDict[n.nutrient_key] = n.amount;
+    });
+  }
+  console.log(nutrients)
+  console.log(nutrientsDict);
   return (
     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
       <div>
@@ -72,7 +77,7 @@ function MealItem({ name, calories }: { name: string; calories: string }) {
       </div>
       <div className="text-right">
         <div className="font-bold text-gray-900 dark:text-white">
-          {calories} cal
+          {nutrientsDict["calories"]} cal
         </div>
       </div>
     </div>

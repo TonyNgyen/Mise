@@ -351,10 +351,7 @@ function NutrientOverview() {
                   value={`${nutrient.consumed.toFixed(0)}${nutrient.unit}`}
                   subtitle={
                     nutrient.hasGoal
-                      ? `${nutrient.percent?.toFixed(0)}% of goal`
-                      : hasNoGoals
-                      ? "No goals set"
-                      : "No goal for this nutrient"
+                      ? `${nutrient.percent?.toFixed(0)}% of goal` : ""
                   }
                   color={getColor(nutrient.percent, nutrient.hasGoal)}
                   compact={activeTab !== "main"}

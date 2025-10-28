@@ -14,7 +14,7 @@ type FoodLogNutrient = {
 // Define a type for the fetched recent meal data structure
 type RecentMeal = {
   id: string;
-  logged_at: string;
+  log_datetime: string;
   ingredient: { name: string } | null;
   recipe: { name: string } | null;
   nutrients: FoodLogNutrient[] | null;
@@ -76,16 +76,16 @@ export default async function Home() {
     .from("food_logs")
     .select(
       `
-        id, logged_at,
+        id, log_datetime,
         ingredient:ingredients(name),
         recipe:recipes(name),
         nutrients:food_log_nutrients(nutrient_key, amount)
       `
     )
     .eq("user_id", data.user.id)
-    .order("logged_at", { ascending: false })
+    .order("log_datetime", { ascending: false })
     .limit(3)
-    .returns<RecentMeal[]>(); // Assert the return type
+    .returns<RecentMeal[]>();
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">

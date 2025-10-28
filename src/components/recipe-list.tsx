@@ -203,22 +203,23 @@ export default function RecipeList() {
   const [sortKey, setSortKey] = useState<string>("created_at");
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc"); // Default to newest first
 
-  useEffect(() => {
-    async function fetchRecipes() {
-      try {
-        const res = await fetch("/api/recipes");
-        const data = await res.json();
-        console.log("Fetched recipes:", data);
-        if (data.success) {
-          setRecipes(data.recipes);
-        }
-      } catch (err) {
-        console.error("Error fetching recipes:", err);
-      } finally {
-        setLoading(false);
+  const fetchRecipes = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/recipes");
+      const data = await res.json();
+      console.log("Fetched recipes:", data);
+      if (data.success) {
+        setRecipes(data.recipes);
       }
+    } catch (err) {
+      console.error("Error fetching recipes:", err);
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchRecipes();
   }, []);
 
@@ -333,7 +334,7 @@ export default function RecipeList() {
           <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
             Create your first recipe to start cooking!
           </p>
-          <AddRecipeForm />
+          <AddRecipeForm fetchRecipes={fetchRecipes} />
         </div>
       </div>
     );
@@ -346,7 +347,7 @@ export default function RecipeList() {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             My Recipes
           </h1>
-          <AddRecipeForm />
+          <AddRecipeForm fetchRecipes={fetchRecipes} />
         </div>
 
         <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
