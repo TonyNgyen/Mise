@@ -40,81 +40,21 @@ export async function POST(req: Request) {
     } = await supabase.auth.getUser();
     if (userError || !user) throw userError || new Error("User not found");
 
-    // Start a transaction
-    const { data: foodLog, error: logError } = await supabase.rpc(
-      "add_ingredient_log",
-      {
-        p_ingredient_id: ingredient_id,
-        p_unit: unit,
-        p_amount: quantity,
-        p_update_inventory: update_inventory,
-        p_log_datetime: logged_at,
-      }
-    );
-
-    if (logError) throw logError;
-
-    // const foodLogId = foodLog.id;
-
-    // Calculate nutrients based on whether it's an ingredient or recipe
-    let nutrients: Nutrient[] = [];
-
-    // if (ingredient_id) {
-    //   // Get ingredient nutrients
-    //   const { data: ingredientNutrients } = await supabase
-    //     .from("ingredient_nutrients")
-    //     .select("nutrient_key, amount, unit")
-    //     .eq("ingredient_id", ingredient_id);
-
-    //   const { data: ingredientInfo } = await supabase
-    //     .from("ingredients")
-    //     .select("serving_size, serving_unit")
-    //     .eq("id", ingredient_id)
-    //     .single();
-
-    //   if (ingredientNutrients && ingredientInfo) {
-    //     nutrients = ingredientNutrients.map((nutrient) => ({
-    //       food_log_id: foodLogId,
-    //       nutrient_key: nutrient.nutrient_key,
-    //       amount:
-    //         nutrient.amount *
-    //         (parseFloat(quantity) / ingredientInfo.serving_size), // Assuming nutrients are per 100g
-    //       unit: nutrient.unit,
-    //     }));
-    //   }
-    // } else if (recipe_id) {
-    //   const { data: recipeNutrients, error: recipeError } = await supabase
-    //     .from("recipe_nutrients")
-    //     .select("*")
-    //     .eq("recipe_id", recipe_id);
-
-    //   const { data: recipeInfo } = await supabase
-    //     .from("recipes")
-    //     .select("servings")
-    //     .eq("id", recipe_id)
-    //     .single();
-
-    //   console.log("Recipe Nutrients:", recipeNutrients, "Error:", recipeError);
-
-    //   if (recipeNutrients) {
-    //     nutrients = recipeNutrients.map((nutrient) => ({
-    //       food_log_id: foodLogId,
-    //       nutrient_key: nutrient.nutrient_key,
-    //       amount:
-    //         nutrient.total_amount *
-    //         (parseFloat(quantity) / recipeInfo?.servings),
-    //       unit: nutrient.unit,
-    //     }));
-    //   }
-    // }
-
-    // if (nutrients.length > 0) {
-    //   const { error: nutrientError } = await supabase
-    //     .from("food_log_nutrients")
-    //     .insert(nutrients);
-
-    //   if (nutrientError) throw nutrientError;
-    // }
+    if (ingredient_id) {
+      const { data: foodLog, error: logError } = await supabase.rpc(
+        "add_ingredient_log",
+        {
+          p_ingredient_id: ingredient_id,
+          p_unit: unit,
+          p_amount: quantity,
+          p_update_inventory: update_inventory,
+          p_log_datetime: logged_at,
+        }
+      );
+      if (logError) throw logError;
+    } else if (recipe_id) {
+      const { data: foodLog, error: logError } = await supabase.rpc(
+        "add_recipe_log",
 
     if (update_inventory) {
       if (ingredient_id) {
