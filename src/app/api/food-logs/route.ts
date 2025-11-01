@@ -23,7 +23,6 @@ export async function POST(req: Request) {
 
     const supabase = await createClient();
 
-    // Validate that either ingredient_id or recipe_id is provided
     if (!ingredient_id && !recipe_id) {
       return NextResponse.json(
         {
