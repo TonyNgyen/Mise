@@ -54,38 +54,46 @@ export async function POST(req: Request) {
     } else if (recipe_id) {
       const { data: foodLog, error: logError } = await supabase.rpc(
         "add_recipe_log",
-
-    if (update_inventory) {
-      if (ingredient_id) {
-        const { error: inventoryError } = await supabase.rpc(
-          "update_ingredient_inventory",
-          {
-            p_ingredient_id: ingredient_id,
-            p_quantity_change: -parseFloat(quantity),
-            p_unit: unit,
-          }
-        );
-
-        if (inventoryError) {
-          console.log(inventoryError);
-          throw inventoryError;
+        {
+          p_recipe_id: recipe_id,
+          p_amount: quantity,
+          p_update_inventory: update_inventory,
+          p_log_datetime: logged_at,
         }
-      } else if (recipe_id) {
-        const { error: inventoryError } = await supabase.rpc(
-          "update_recipe_inventory",
-          {
-            p_recipe_id: recipe_id,
-            p_quantity_change: -parseFloat(quantity),
-            p_unit: unit,
+      );
+
+      if (update_inventory) {
+        if (ingredient_id) {
+          const { error: inventoryError } = await supabase.rpc(
+            "update_ingredient_inventory",
+            {
+              p_ingredient_id: ingredient_id,
+              p_quantity_change: -parseFloat(quantity),
+              p_unit: unit,
+            }
+          );
+
+          if (inventoryError) {
+            console.log(inventoryError);
+            throw inventoryError;
           }
-        );
+        } else if (recipe_id) {
+          const { error: inventoryError } = await supabase.rpc(
+            "update_recipe_inventory",
+            {
+              p_recipe_id: recipe_id,
+              p_quantity_change: -parseFloat(quantity),
+              p_unit: unit,
+            }
+          );
 
-        if (inventoryError) throw inventoryError;
+          if (inventoryError) throw inventoryError;
+        }
       }
-    }
 
-    // return NextResponse.json({ success: true, food_log_id: foodLogId });
-    return NextResponse.json({ success: true });
+      // return NextResponse.json({ success: true, food_log_id: foodLogId });
+      return NextResponse.json({ success: true });
+    }
   } catch (error) {
     console.error("Food log error:", error);
     return NextResponse.json({ success: false, error: error }, { status: 500 });
