@@ -74,7 +74,6 @@ export async function POST(req: Request) {
           );
 
           if (inventoryError) {
-            console.log(inventoryError);
             throw inventoryError;
           }
         } else if (recipe_id) {
