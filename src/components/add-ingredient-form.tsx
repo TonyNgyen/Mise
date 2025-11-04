@@ -203,7 +203,6 @@ export default function AddIngredientForm({
   const resetForm = () => {
     setName("");
     setBrand("");
-    // CHANGED: Reset to empty string
     setServingSize("");
     setServingUnit("g");
     setServingsPerContainer("");
@@ -218,25 +217,20 @@ export default function AddIngredientForm({
     setUnits([]);
     setShowNicheNutrients(false);
     setActiveNicheCategory("fats");
-    // NEW: Reset form error
     setFormError(null);
   };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
-    // Keep form data on close, but a reset on successful submission is good.
-    // For general closing, we might not want to reset, but I'll keep your original logic.
     resetForm();
   };
 
   const updateNutrient = (
-    //... (no change here)
     index: number,
-    value: string // Always accept string from input
+    value: string
   ) => {
     const newNutrients = [...nutrients];
-    // Convert to number only if it's a valid number, otherwise keep it a string for display/editing
     const amount = value === "" ? "" : parseFloat(value);
 
     newNutrients[index] = {
@@ -249,7 +243,7 @@ export default function AddIngredientForm({
   const addUnit = () => {
     setUnits([
       ...units,
-      { unit_name: "", amount: "", is_default: false }, // Use string for inputs
+      { unit_name: "", amount: "", is_default: false },
     ]);
   };
 
@@ -262,11 +256,11 @@ export default function AddIngredientForm({
     let processedValue: string | number | boolean = value;
 
     if (field === "amount") {
-      // Use string to allow user to type decimals/partial inputs
+
       processedValue = value;
     }
 
-    updated[index] = { ...updated[index], [field]: processedValue }; // ensure only one default
+    updated[index] = { ...updated[index], [field]: processedValue };
 
     if (field === "is_default" && value === true) {
       updated.forEach((u, i) => {
