@@ -332,8 +332,7 @@ export default function AddIngredientForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setFormError(null); // Clear previous errors // 1. Finalize Units to Send // Create a working copy of units state for modification and validation
-
+    setFormError(null);
     let workingUnits = units
       .map((u) => ({
         ...u,
