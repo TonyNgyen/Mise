@@ -711,7 +711,7 @@ export default function AddIngredientForm({
                             </label>
                             <div className="flex items-center">
                               <input
-                                type="text" // Use text to allow for empty string
+                                type="number"
                                 inputMode="decimal"
                                 step="0.1"
                                 placeholder="0"
