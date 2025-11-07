@@ -783,7 +783,7 @@ export default function AddIngredientForm({
                                 </label>
                                 <div className="flex items-center">
                                   <input
-                                    type="text"
+                                    type="number"
                                     inputMode="decimal"
                                     step="0.1"
                                     placeholder="0"
