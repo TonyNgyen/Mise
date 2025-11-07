@@ -1,6 +1,4 @@
 "use client";
-
-import { createClient } from "@/utils/supabase/client";
 import React, { useState, useEffect } from "react";
 
 type IngredientUnit = {
@@ -190,7 +188,7 @@ export default function AddInventoryForm({
           return;
         }
 
-        let payload = {
+        const payload = {
           recipe_id: selectedRecipe.id,
           quantity: parseFloat(recipeQuantity),
           p_user_id: "",
@@ -209,9 +207,11 @@ export default function AddInventoryForm({
       // ✅ If everything succeeds
       onSuccess();
       handleClose(); // resets form
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error updating inventory:", err);
-      alert("Failed to update inventory: " + (err.message || "Unknown error"));
+      const message = err instanceof Error ? err.message : "Unknown error";
+
+      alert(`Error: ${message}`);
     } finally {
       setIsSubmitting(false);
     }

@@ -112,7 +112,7 @@ export default function AddRecipeForm({
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
     resetForm();
-  }, []);
+  }, [resetForm]);
 
   // --- Search & Selection Logic ---
 

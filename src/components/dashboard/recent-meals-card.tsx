@@ -11,7 +11,7 @@ type FoodLogNutrient = {
 interface RecentMealsCardProps {
   recentMeals: Array<{
     id: string;
-    logged_at: string;
+    log_datetime: string;
     ingredient: { name: string } | null;
     recipe: { name: string } | null;
     nutrients: FoodLogNutrient[] | null;

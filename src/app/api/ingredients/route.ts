@@ -2,23 +2,22 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server"; // or your pg client
 import { ALL_NUTRIENTS } from "@/constants/constants";
 
+type Unit = {
+  unit_name: string;
+  amount: number;
+  is_default?: boolean;
+};
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const {
-      user_id,
-      name,
-      brand,
-      servings_per_container,
-      nutrients,
-      units,
-    } = body;
+    const { user_id, name, brand, servings_per_container, nutrients, units } =
+      body;
 
     console.log("Received body:", body);
 
     const supabase = await createClient();
 
-    // Step 1: Insert into ingredients
     const { data: ingredient, error: ingredientError } = await supabase
       .from("ingredients")
       .insert([
@@ -64,7 +63,7 @@ export async function POST(req: Request) {
     if (nutrientError) throw nutrientError;
 
     if (units?.length) {
-      const unitRows = units.map((u: any) => ({
+      const unitRows = units.map((u: Unit) => ({
         ingredient_id: ingredientId,
         unit_name: u.unit_name,
         amount: u.amount,
@@ -115,7 +114,6 @@ export async function GET() {
 
     if (ingredientsError) throw ingredientsError;
 
-    // Enrich nutrients with display_name from ALL_NUTRIENTS
     const enrichedIngredients =
       ingredients?.map((ingredient) => ({
         ...ingredient,
@@ -125,7 +123,7 @@ export async function GET() {
           );
           return {
             ...n,
-            display_name: match?.display_name ?? n.nutrient_key, // fallback to key
+            display_name: match?.display_name ?? n.nutrient_key,
           };
         }),
       })) ?? [];

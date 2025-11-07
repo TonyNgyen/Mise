@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
-// Assuming you have a file for types, e.g., 'types.ts'
+import React, { useEffect, useState } from "react";
 import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
 import AddGoalForm from "@/components/add-goal-form";
 
@@ -29,7 +28,6 @@ type FoodLog = {
   }>;
 };
 
-// Define the shape of the form state
 type GoalForm = {
   nutrient_key: string;
   target: string;
@@ -43,9 +41,6 @@ export default function GoalsPage() {
     target: "",
   });
   const [foodLogs, setFoodLogs] = useState<FoodLog[]>([]);
-
-  // NOTE: selectedNutrient, currentUnit, and nutrientCategories have been moved
-  // to the GoalFormModal component to encapsulate the form's logic.
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];

@@ -1,14 +1,6 @@
 // app/api/food-logs/route.ts
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-
-type Nutrient = {
-  food_log_id: string;
-  nutrient_key: string;
-  amount: number;
-  unit: string;
-};
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -40,7 +32,7 @@ export async function POST(req: Request) {
     if (userError || !user) throw userError || new Error("User not found");
 
     if (ingredient_id) {
-      const { data: foodLog, error: logError } = await supabase.rpc(
+      const {error: logError } = await supabase.rpc(
         "add_ingredient_log",
         {
           p_ingredient_id: ingredient_id,
@@ -52,7 +44,7 @@ export async function POST(req: Request) {
       );
       if (logError) throw logError;
     } else if (recipe_id) {
-      const { data: foodLog, error: logError } = await supabase.rpc(
+      const {error: logError } = await supabase.rpc(
         "add_recipe_log",
         {
           p_recipe_id: recipe_id,
@@ -61,6 +53,8 @@ export async function POST(req: Request) {
           p_log_datetime: logged_at,
         }
       );
+
+      if (logError) throw logError;
 
       if (update_inventory) {
         if (ingredient_id) {
@@ -90,7 +84,6 @@ export async function POST(req: Request) {
         }
       }
 
-      // return NextResponse.json({ success: true, food_log_id: foodLogId });
       return NextResponse.json({ success: true });
     }
   } catch (error) {
@@ -99,7 +92,6 @@ export async function POST(req: Request) {
   }
 }
 
-// Get food logs
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);

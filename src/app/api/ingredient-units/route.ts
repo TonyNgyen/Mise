@@ -1,6 +1,12 @@
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
+type Unit = {
+  unit_name: string;
+  amount: number;
+  is_default?: boolean;
+};
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -19,11 +25,11 @@ export async function POST(req: Request) {
     if (ingredient.user_id !== user_id) throw new Error("Unauthorized");
 
     // Prevent multiple defaults
-    const hasMultipleDefaults = units.filter(u => u.is_default).length > 1;
+    const hasMultipleDefaults = units.filter((u:Unit) => u.is_default).length > 1;
     if (hasMultipleDefaults) throw new Error("Only one default unit allowed");
 
     // Insert units
-    const rows = units.map(u => ({
+    const rows = units.map((u:Unit) => ({
       ingredient_id,
       unit_name: u.unit_name,
       amount: u.amount,

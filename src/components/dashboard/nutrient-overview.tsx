@@ -278,7 +278,7 @@ function NutrientOverview() {
   const hasNoFoodLogs = foodLogs.length === 0;
 
   // Check if there are no goals
-  const hasNoGoals = goals.length === 0;
+  // const hasNoGoals = goals.length === 0;
 
   // Check if there are no nutrients to display
   const hasNoNutrients = nutrientData.length === 0;

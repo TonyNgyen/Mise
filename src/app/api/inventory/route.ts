@@ -41,12 +41,12 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Inventory POST error:", err);
-    return NextResponse.json(
-      { success: false, message: err.message || "Unknown error" },
-      { status: 500 }
-    );
+
+    const message = err instanceof Error ? err.message : "Unknown error";
+
+    return NextResponse.json({ success: false, message }, { status: 500 });
   }
 }
 

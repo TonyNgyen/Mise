@@ -226,10 +226,7 @@ export default function AddIngredientForm({
     resetForm();
   };
 
-  const updateNutrient = (
-    index: number,
-    value: string
-  ) => {
+  const updateNutrient = (index: number, value: string) => {
     const newNutrients = [...nutrients];
     const amount = value === "" ? "" : parseFloat(value);
 
@@ -241,10 +238,7 @@ export default function AddIngredientForm({
   };
 
   const addUnit = () => {
-    setUnits([
-      ...units,
-      { unit_name: "", amount: "", is_default: false },
-    ]);
+    setUnits([...units, { unit_name: "", amount: "", is_default: false }]);
   };
 
   const updateUnit = (
@@ -256,7 +250,6 @@ export default function AddIngredientForm({
     let processedValue: string | number | boolean = value;
 
     if (field === "amount") {
-
       processedValue = value;
     }
 
@@ -309,7 +302,7 @@ export default function AddIngredientForm({
     }
 
     // 3. Re-map back to the original structure for rendering (using the modified is_default)
-    return units.map((u, i) => {
+    return units.map((u) => {
       // Find the corresponding unit in the processed list (if it still exists)
       const processedUnit = processedUnits.find(
         (pu) =>
@@ -604,7 +597,7 @@ export default function AddIngredientForm({
                     </Tooltip>
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                    Define custom units (e.g., "scoop", "slice")
+                    Define custom units (e.g., &quot;scoop&quot;, &quot;slice&quot;)
                   </p>
                   <div className="">
                     {unitsForDisplay.map((unit, i) => (
@@ -680,24 +673,22 @@ export default function AddIngredientForm({
                   </button>
                 </section>
 
-                {/* --- Section: Nutritional Information --- */}
                 <section>
                   <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2">
                     4. Nutritional Information (Per Serving)
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                     Enter the amount of each nutrient for the defined serving
-                    size. Leave fields blank or '0' if the nutrient is not
-                    present.
+                    size. Leave fields blank or &apos;0&apos; if the nutrient is
+                    not present.
                   </p>
 
-                  {/* Common Nutrients */}
                   <div className="mb-6 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
                     <h4 className="text-lg font-bold mb-3 text-gray-800 dark:text-gray-200">
                       Nutrients
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
-                      {commonNutrients.map((nutrient, index) => {
+                      {commonNutrients.map((nutrient) => {
                         const globalIndex = nutrients.findIndex(
                           (n) => n.nutrient_key === nutrient.nutrient_key
                         );

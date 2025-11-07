@@ -6,20 +6,6 @@ import NutrientOverview from "@/components/dashboard/nutrient-overview";
 import RadialGradient from "@/components/radial-gradient";
 import RecentMealsCard from "@/components/dashboard/recent-meals-card";
 
-type FoodLogNutrient = {
-  nutrient_key: string;
-  amount: number;
-};
-
-// Define a type for the fetched recent meal data structure
-type RecentMeal = {
-  id: string;
-  log_datetime: string;
-  ingredient: { name: string } | null;
-  recipe: { name: string } | null;
-  nutrients: FoodLogNutrient[] | null;
-};
-
 export default async function Home() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
@@ -72,20 +58,28 @@ export default async function Home() {
     .single();
 
   // Fetch recent meals (last 3 logs)
-  const { data: recentMeals } = await supabase
+  const { data: recentMealsRaw } = await supabase
     .from("food_logs")
     .select(
       `
-        id, log_datetime,
-        ingredient:ingredients(name),
-        recipe:recipes(name),
-        nutrients:food_log_nutrients(nutrient_key, amount)
-      `
+      id, log_datetime,
+      ingredient:ingredients!left(name),
+      recipe:recipes!left(name),
+      nutrients:food_log_nutrients(nutrient_key, amount)
+    `
     )
     .eq("user_id", data.user.id)
     .order("log_datetime", { ascending: false })
-    .limit(3)
-    .returns<RecentMeal[]>();
+    .limit(3);
+
+  const recentMeals =
+    recentMealsRaw?.map((meal) => ({
+      ...meal,
+      ingredient: Array.isArray(meal.ingredient)
+        ? meal.ingredient[0] || null
+        : meal.ingredient,
+      recipe: Array.isArray(meal.recipe) ? meal.recipe[0] || null : meal.recipe,
+    })) || null;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
@@ -174,5 +168,3 @@ function QuickAction({
     </Link>
   );
 }
-// NOTE: MealItem component has been removed from Home.tsx and placed inside
-// RecentMealsCard.tsx (or its own file for true modularity).
