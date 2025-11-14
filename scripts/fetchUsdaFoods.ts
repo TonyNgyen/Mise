@@ -1,24 +1,233 @@
 import fetch from "node-fetch";
 import fs from "fs";
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: ".env.local" });
 
-const API_KEY =
-  process.env.USDA_API_KEY;
+const API_KEY = process.env.USDA_API_KEY;
 const SEARCH_URL = "https://api.nal.usda.gov/fdc/v1/foods/search";
 const FOOD_URL = "https://api.nal.usda.gov/fdc/v1/food";
 
 const popularFoods = [
   "apple",
   "banana",
-  "chicken breast",
-  "rice",
-  "egg",
-  "milk",
-  "bread",
-  "beef",
+  "orange",
+  "strawberry",
+  "blueberry",
+  "raspberry",
+  "grape",
+  "watermelon",
+  "cantaloupe",
+  "honeydew",
+  "pineapple",
+  "mango",
+  "peach",
+  "pear",
+  "plum",
+  "cherry",
+  "avocado",
+  "lemon",
+  "lime",
+  "grapefruit",
+  "kiwi",
+  "pomegranate",
+  "papaya",
+  "fig",
+  "date",
+  "coconut",
+  "blackberry",
+
+  "carrot",
   "potato",
+  "sweet potato",
+  "tomato",
+  "cucumber",
+  "lettuce",
+  "spinach",
+  "kale",
   "broccoli",
+  "cauliflower",
+  "cabbage",
+  "bell pepper",
+  "onion",
+  "garlic",
+  "mushroom",
+  "zucchini",
+  "eggplant",
+  "celery",
+  "asparagus",
+  "green beans",
+  "peas",
+  "corn",
+  "beet",
+  "radish",
+  "ginger",
+
+  "chicken breast",
+  "chicken thigh",
+  "chicken wing",
+  "ground beef",
+  "steak",
+  "ribeye",
+  "sirloin",
+  "pork chop",
+  "pork loin",
+  "ground pork",
+  "bacon",
+  "sausage",
+  "turkey breast",
+  "ham",
+  "lamb chop",
+  "lamb leg",
+
+  "salmon",
+  "tuna",
+  "tilapia",
+  "cod",
+  "shrimp",
+  "crab",
+  "lobster",
+  "scallop",
+  "sardine",
+  "anchovy",
+  "trout",
+  "halibut",
+  "mussels",
+  "clams",
+  "oysters",
+
+  "milk",
+  "whole milk",
+  "2% milk",
+  "skim milk",
+  "yogurt",
+  "greek yogurt",
+  "butter",
+  "cheese",
+  "cheddar cheese",
+  "mozzarella cheese",
+  "parmesan cheese",
+  "cottage cheese",
+  "cream cheese",
+  "sour cream",
+  "heavy cream",
+
+  "egg",
+  "egg white",
+  "egg yolk",
+
+  "rice",
+  "white rice",
+  "brown rice",
+  "oatmeal",
+  "quinoa",
+  "barley",
+  "couscous",
+  "wheat flour",
+  "pasta",
+  "spaghetti",
+  "macaroni",
+  "ramen",
+  "bread",
+  "white bread",
+  "whole wheat bread",
+  "tortilla",
+  "bagel",
+
+  "black beans",
+  "pinto beans",
+  "kidney beans",
+  "chickpeas",
+  "lentils",
+  "edamame",
+  "soybeans",
+  "split peas",
+
+  "almonds",
+  "peanuts",
+  "cashews",
+  "walnuts",
+  "pecans",
+  "pistachios",
+  "sunflower seeds",
+  "pumpkin seeds",
+  "chia seeds",
+  "flax seeds",
+
+  "olive oil",
+  "vegetable oil",
+  "canola oil",
+  "avocado oil",
+  "butter",
+  "ghee",
+  "lard",
+  "margarine",
+
+  "chocolate",
+  "dark chocolate",
+  "candy",
+  "gummy bears",
+  "chips",
+  "potato chips",
+  "tortilla chips",
+  "popcorn",
+  "pretzels",
+  "crackers",
+  "cookies",
+  "brownies",
+  "ice cream",
+  "granola bar",
+  "protein bar",
+
+  "water",
+  "soda",
+  "cola",
+  "diet soda",
+  "coffee",
+  "tea",
+  "orange juice",
+  "apple juice",
+  "lemonade",
+  "sports drink",
+  "energy drink",
+  "milkshake",
+  "smoothie",
+
+  "ketchup",
+  "mustard",
+  "mayonnaise",
+  "ranch dressing",
+  "Caesar dressing",
+  "balsamic vinegar",
+  "soy sauce",
+  "fish sauce",
+  "hot sauce",
+  "bbq sauce",
+  "salsa",
+  "hummus",
+  "peanut butter",
+  "almond butter",
+  "jam",
+  "jelly",
+  "honey",
+  "maple syrup",
+  "pesto",
+  "marinara sauce",
+
+  "basil",
+  "parsley",
+  "cilantro",
+  "rosemary",
+  "thyme",
+  "oregano",
+  "dill",
+  "cinnamon",
+  "nutmeg",
+  "cumin",
+  "paprika",
+  "chili powder",
+  "turmeric",
+  "black pepper",
+  "salt",
 ];
 
 // --- Interfaces ---
@@ -48,13 +257,13 @@ interface FoodDetail {
 interface SearchResult {
   fdcId: number;
   description: string;
+  foodNutrients: Nutrient[];
 }
 
 interface SearchResponse {
   foods: SearchResult[];
 }
 
-// --- Nutrient Mapping ---
 const NUTRIENT_MAP: Record<string, string> = {
   Energy: "calories",
   "Energy (Atwater General Factors)": "calories",
@@ -126,7 +335,7 @@ const NUTRIENT_MAP: Record<string, string> = {
 async function searchFood(foodName: string): Promise<SearchResult[]> {
   const url = `${SEARCH_URL}?query=${encodeURIComponent(
     foodName
-  )}&api_key=${API_KEY}&pageSize=3&dataType=Foundation`;
+  )}&api_key=${API_KEY}&pageSize=5&dataType=Foundation`;
   const res = await fetch(url);
   if (!res.ok) {
     console.error(`❌ Search failed for ${foodName}: ${res.statusText}`);
@@ -143,10 +352,10 @@ async function getFoodDetails(fdcId: number): Promise<FoodDetail | null> {
     console.error(`❌ Detail fetch failed for ID ${fdcId}: ${res.statusText}`);
     return null;
   }
-  return (await res.json()) as FoodDetail;
+  const resJson = (await res.json()) as FoodDetail;
+  return resJson as FoodDetail;
 }
 
-// --- Main ---
 async function main() {
   const results: Record<string, any[]> = {};
 
@@ -163,7 +372,7 @@ async function main() {
       const matchedNutrients: Record<string, { value: number; unit: string }> =
         {};
 
-      for (const n of details.foodNutrients || []) {
+      for (const n of s.foodNutrients || []) {
         const mappedKey = NUTRIENT_MAP[n.nutrientName];
         if (mappedKey) {
           matchedNutrients[mappedKey] = {
@@ -175,7 +384,8 @@ async function main() {
 
       detailedFoods.push({
         name: details.description,
-        servingSize: details.servingSize || null,
+        servingSize:
+          details.servingSize || details.foodPortions?.[0].gramWeight || null,
         servingSizeUnit: details.servingSizeUnit || null,
         householdServing: details.householdServingFullText || null,
         measures: details.foodPortions?.map((p) => ({
@@ -189,6 +399,7 @@ async function main() {
 
     results[food] = detailedFoods;
   }
+  console.log(results);
 
   // fs.writeFileSync("usda_foods_full.json", JSON.stringify(results, null, 2));
   // console.log("✅ Saved to usda_foods_full.json");
