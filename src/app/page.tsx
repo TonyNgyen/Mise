@@ -5,6 +5,7 @@ import InventoryCard from "@/components/dashboard/inventory-card";
 import NutrientOverview from "@/components/dashboard/nutrient-overview";
 import RadialGradient from "@/components/radial-gradient";
 import RecentMealsCard from "@/components/dashboard/recent-meals-card";
+import { LuUtensils, LuBookOpen, LuCarrot, LuBoxes } from "react-icons/lu";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -111,19 +112,25 @@ export default async function Home() {
         Quick Actions
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <QuickAction icon="🍎" title="Log Food" href="/foodlog" color="blue" />
-        <QuickAction icon="📖" title="Recipes" href="/recipes" color="green" />
         <QuickAction
-          icon="🥕"
-          title="Ingredients"
-          href="/ingredients"
-          color="purple"
+          icon={<LuUtensils className="w-7 h-7" />}
+          title="Log Food"
+          href="/foodlog"
         />
         <QuickAction
-          icon="📦"
+          icon={<LuBookOpen className="w-7 h-7" />}
+          title="Recipes"
+          href="/recipes"
+        />
+        <QuickAction
+          icon={<LuCarrot className="w-7 h-7" />}
+          title="Ingredients"
+          href="/ingredients"
+        />
+        <QuickAction
+          icon={<LuBoxes className="w-7 h-7" />}
           title="Inventory"
           href="/inventory"
-          color="amber"
         />
       </div>
 
@@ -144,26 +151,17 @@ function QuickAction({
   icon,
   title,
   href,
-  color,
 }: {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   href: string;
-  color: "blue" | "green" | "amber" | "purple";
 }) {
-  const colorClasses = {
-    blue: "bg-blue-600 hover:bg-blue-700",
-    green: "bg-green-600 hover:bg-green-700",
-    amber: "bg-amber-600 hover:bg-amber-700",
-    purple: "bg-purple-600 hover:bg-purple-700",
-  };
-
   return (
     <Link
       href={href}
-      className={`${colorClasses[color]} text-white p-6 rounded-xl text-center transition-colors transform hover:scale-105`}
+      className="text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105"
     >
-      <div className="text-3xl mb-3">{icon}</div>
+      <div className="flex justify-center mb-3">{icon}</div>
       <div className="font-medium">{title}</div>
     </Link>
   );

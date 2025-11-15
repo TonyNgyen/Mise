@@ -145,7 +145,7 @@ export default function AddLogForm({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="cursor-pointer bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
+        className="cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
       >
         Log Food
       </button>

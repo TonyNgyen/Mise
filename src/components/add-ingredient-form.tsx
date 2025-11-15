@@ -430,7 +430,7 @@ export default function AddIngredientForm({
       {/* Trigger Button */}
       <button
         onClick={openModal}
-        className="cursor-pointer flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
+        className="cursor-pointer flex items-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
       >
         <LuPlus size={20} />
         Add New Ingredient
@@ -472,7 +472,7 @@ export default function AddIngredientForm({
                 )}
                 {/* --- Section: Basic Information --- */}
                 <section>
-                  <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2">
+                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2">
                     1. Basic Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -489,7 +489,7 @@ export default function AddIngredientForm({
                         placeholder="e.g., Almond Milk (Unsweetened)"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         required
                       />
                     </div>
@@ -506,7 +506,7 @@ export default function AddIngredientForm({
                         placeholder="e.g., Silk, Trader Joe's"
                         value={brand}
                         onChange={(e) => setBrand(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       />
                     </div>
                   </div>
@@ -514,12 +514,12 @@ export default function AddIngredientForm({
 
                 {/* --- Section: Serving Size & Packaging --- */}
                 <section>
-                  <h3 className="text-xl flex gap-2 font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2">
+                  <h3 className="text-xl flex gap-2 font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2">
                     2. Serving Information{" "}
                     <Tooltip content="This is optional if Custom Units are used in Section 3.">
                       <LuInfo
                         size={14}
-                        className="text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-help"
+                        className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
                       />
                     </Tooltip>
                   </h3>
@@ -538,7 +538,7 @@ export default function AddIngredientForm({
                         placeholder="e.g., 100 or 240"
                         value={servingSize}
                         onChange={(e) => setServingSize(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         // Removed 'required' attribute
                       />
                     </div>
@@ -553,7 +553,7 @@ export default function AddIngredientForm({
                         id="servingUnit"
                         value={servingUnit}
                         onChange={(e) => setServingUnit(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl appearance-none pr-10 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        className="w-full border border-gray-300 p-3 rounded-xl appearance-none pr-10 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         // Removed 'required' attribute
                       >
                         {STANDARD_UNITS.map((unit) => (
@@ -579,7 +579,7 @@ export default function AddIngredientForm({
                         onChange={(e) =>
                           setServingsPerContainer(e.target.value)
                         }
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       />
                     </div>
                   </div>
@@ -587,12 +587,12 @@ export default function AddIngredientForm({
 
                 {/* --- Section: Units & Conversions (Collapsible/Dynamic) --- */}
                 <section>
-                  <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2 flex items-center gap-2">
+                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2 flex items-center gap-2">
                     3. Custom Unit Conversions{" "}
                     <Tooltip content="This is optional if Serving Information is provided in Section 2.">
                       <LuInfo
                         size={14}
-                        className="text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-help"
+                        className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
                       />
                     </Tooltip>
                   </h3>
@@ -637,14 +637,14 @@ export default function AddIngredientForm({
                             onChange={(e) =>
                               updateUnit(i, "is_default", e.target.checked)
                             }
-                            className="form-checkbox cursor-pointer h-4 w-4 text-indigo-600 rounded border-gray-300 dark:bg-gray-600 dark:border-gray-500 focus:ring-indigo-500"
+                            className="form-checkbox cursor-pointer h-4 w-4 text-blue-600 rounded border-gray-300 dark:bg-gray-600 dark:border-gray-500 focus:ring-blue-500"
                           />{" "}
                           <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                             Default Unit
                             <Tooltip content="This unit will be the default display unit when tracking meals.">
                               <LuInfo
                                 size={14}
-                                className="text-gray-400 dark:text-gray-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-help"
+                                className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
                               />
                             </Tooltip>
                           </label>
@@ -666,7 +666,7 @@ export default function AddIngredientForm({
                   <button
                     type="button"
                     onClick={addUnit}
-                    className="cursor-pointer mt-3 flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-semibold transition-colors"
+                    className="cursor-pointer mt-3 flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-semibold transition-colors"
                   >
                     <LuPlus size={16} />
                     Add Custom Unit
@@ -674,7 +674,7 @@ export default function AddIngredientForm({
                 </section>
 
                 <section>
-                  <h3 className="text-xl font-bold mb-4 text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-2">
+                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2">
                     4. Nutritional Information (Per Serving)
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
@@ -737,9 +737,9 @@ export default function AddIngredientForm({
                         </span>
                       </span>
                       {showNicheNutrients ? (
-                        <LuChevronUp size={20} className="text-indigo-600" />
+                        <LuChevronUp size={20} className="text-blue-600" />
                       ) : (
-                        <LuChevronDown size={20} className="text-indigo-600" />
+                        <LuChevronDown size={20} className="text-blue-600" />
                       )}
                     </button>
 
@@ -758,7 +758,7 @@ export default function AddIngredientForm({
                               }
                               className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
                                 activeNicheCategory === category
-                                  ? "bg-indigo-600 text-white shadow-md"
+                                  ? "bg-blue-600 text-white shadow-md"
                                   : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500 cursor-pointer"
                               }`}
                             >
@@ -820,7 +820,7 @@ export default function AddIngredientForm({
                   </button>
                   <button
                     type="submit"
-                    className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold transition-colors shadow-md shadow-indigo-500/30 dark:shadow-indigo-500/20"
+                    className="cursor-pointer bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-8 py-2.5 rounded-xl font-bold transition-colors shadow-md shadow-blue-500/30 dark:shadow-blue-500/20"
                   >
                     Save Ingredient
                   </button>

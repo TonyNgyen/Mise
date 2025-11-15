@@ -295,7 +295,7 @@ export default function AddRecipeForm({
       {/* Trigger Button (Styled to fit a common theme) */}
       <button
         onClick={openModal}
-        className="cursor-pointer mx-auto flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
+        className="cursor-pointer mx-auto flex items-center gap-2 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-200 ease-in-out transform hover:scale-[1.01]"
       >
         <LuBookOpen size={20} />
         Add New Recipe
@@ -330,7 +330,7 @@ export default function AddRecipeForm({
             >
               {/* --- 1. Recipe Info --- */}
               <section className="space-y-4">
-                <h2 className="text-xl font-bold text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-1 text-left">
+                <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-1 text-left">
                   Recipe Details
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -348,7 +348,7 @@ export default function AddRecipeForm({
                       placeholder="e.g., Chicken Alfredo Pasta"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
                       required
                       disabled={isSubmitting}
                     />
@@ -370,7 +370,7 @@ export default function AddRecipeForm({
                       placeholder="4"
                       value={servings}
                       onChange={(e) => setServings(e.target.valueAsNumber)}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
                       required
                       disabled={isSubmitting}
                     />
@@ -381,14 +381,14 @@ export default function AddRecipeForm({
               {/* --- 2. Ingredients Section --- */}
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-indigo-600 dark:text-indigo-400 border-b border-indigo-100 dark:border-gray-700 pb-1">
+                  <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-1">
                     Ingredients List
                   </h2>
                   <button
                     type="button"
                     onClick={addIngredient}
                     disabled={isSubmitting}
-                    className="cursor-pointer flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/50 text-indigo-700 dark:text-indigo-300 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="cursor-pointer flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <LuPlus size={16} />
                     Add Item
@@ -404,7 +404,7 @@ export default function AddRecipeForm({
                         flex items-center gap-3 p-3 rounded-xl border-2 transition-all duration-200
                         ${
                           ing.isSelected
-                            ? "bg-indigo-50 dark:bg-gray-700/70 border-indigo-200 dark:border-indigo-800"
+                            ? "bg-blue-50 dark:bg-gray-700/70 border-blue-200 dark:border-blue-800"
                             : "bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-700"
                         }
                       `}
@@ -421,7 +421,7 @@ export default function AddRecipeForm({
                           onChange={(e) =>
                             handleInputChange(idx, "quantity", e.target.value)
                           }
-                          className="text-left w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
+                          className="text-left w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
                           required={ing.isSelected}
                           disabled={isSubmitting || !ing.isSelected}
                         />
@@ -436,7 +436,7 @@ export default function AddRecipeForm({
                             onChange={(e) =>
                               handleInputChange(idx, "unit", e.target.value)
                             }
-                            className="w-full px-3 py-2 text-left border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm appearance-none"
+                            className="w-full px-3 py-2 text-left border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-colors text-sm appearance-none"
                             required
                             disabled={isSubmitting}
                           >
@@ -466,7 +466,7 @@ export default function AddRecipeForm({
                             type="text"
                             placeholder="Unit"
                             value=""
-                            className="w-full px-3 py-2 text-left border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
+                            className="w-full px-3 py-2 text-left border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-colors text-sm"
                             disabled
                           />
                         )}
@@ -476,11 +476,11 @@ export default function AddRecipeForm({
                       <div className="flex-1 relative">
                         {ing.isSelected ? (
                           // Selected Tag Display
-                          <div className="flex items-center justify-between px-3 py-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg border border-indigo-300 dark:border-indigo-700 text-sm font-medium text-indigo-800 dark:text-indigo-200 transition-colors">
+                          <div className="flex items-center justify-between px-3 py-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg border border-blue-300 dark:border-blue-700 text-sm font-medium text-blue-800 dark:text-blue-200 transition-colors">
                             <span className="truncate">
                               {ing.selectedIngredient?.name}
                               {/* {ing.selectedIngredient?.brand && (
-                                <span className="text-xs text-indigo-600 dark:text-indigo-400 ml-1">
+                                <span className="text-xs text-blue-600 dark:text-blue-400 ml-1">
                                   ({ing.selectedIngredient.brand})
                                 </span>
                               )} */}
@@ -489,7 +489,7 @@ export default function AddRecipeForm({
                               type="button"
                               onClick={() => deselectIngredient(idx)}
                               disabled={isSubmitting}
-                              className="cursor-pointer ml-2 text-indigo-500 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-100 p-0.5 rounded-full hover:bg-indigo-200/50 dark:hover:bg-indigo-800/50 transition-colors"
+                              className="cursor-pointer ml-2 text-blue-500 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-100 p-0.5 rounded-full hover:bg-blue-200/50 dark:hover:bg-blue-800/50 transition-colors"
                             >
                               <LuX size={14} />
                             </button>
@@ -506,7 +506,7 @@ export default function AddRecipeForm({
                                 handleInputChange(idx, "ingredient_name", val);
                                 searchIngredients(val, idx);
                               }}
-                              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors text-sm pr-10"
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors text-sm pr-10"
                               disabled={isSubmitting}
                               required={!ing.isSelected}
                             />
@@ -514,7 +514,7 @@ export default function AddRecipeForm({
                               {ing.isSearching ? (
                                 <LuLoader
                                   size={16}
-                                  className="animate-spin text-indigo-500"
+                                  className="animate-spin text-blue-500"
                                 />
                               ) : (
                                 <LuSearch size={16} />
@@ -531,7 +531,7 @@ export default function AddRecipeForm({
                               {ing.searchResults.map((res) => (
                                 <li
                                   key={res.id}
-                                  className="text-left px-4 py-2 cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors border-b dark:border-gray-600 last:border-b-0"
+                                  className="text-left px-4 py-2 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors border-b dark:border-gray-600 last:border-b-0"
                                   onClick={() =>
                                     !isSubmitting && selectIngredient(idx, res)
                                   }
@@ -549,7 +549,7 @@ export default function AddRecipeForm({
                                         </span>
                                       )}
                                       {(res.serving_unit || res.units) && (
-                                        <span className="font-mono text-xs text-indigo-600 dark:text-indigo-400">
+                                        <span className="font-mono text-xs text-blue-600 dark:text-blue-400">
                                           {
                                             res.units.find((u) => u.is_default)
                                               ?.amount
@@ -615,7 +615,7 @@ export default function AddRecipeForm({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="cursor-pointer px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:disabled:bg-indigo-400 text-white rounded-xl font-bold transition-colors shadow-md shadow-indigo-500/30 dark:shadow-indigo-500/20 flex items-center justify-center disabled:cursor-not-allowed"
+                  className="cursor-pointer px-8 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:disabled:bg-blue-400 text-white rounded-xl font-bold transition-colors shadow-md shadow-blue-500/30 dark:shadow-blue-500/20 flex items-center justify-center disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
