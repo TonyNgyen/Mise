@@ -357,6 +357,7 @@ async function getFoodDetails(fdcId: number): Promise<FoodDetail | null> {
 }
 
 async function main() {
+  const start = performance.now();
   const results: Record<string, any[]> = {};
 
   for (const food of popularFoods) {
@@ -401,8 +402,12 @@ async function main() {
   }
   console.log(results);
 
-  // fs.writeFileSync("usda_foods_full.json", JSON.stringify(results, null, 2));
-  // console.log("✅ Saved to usda_foods_full.json");
+  fs.writeFileSync("usda_foods_full.json", JSON.stringify(results, null, 2));
+  console.log("✅ Saved to usda_foods_full.json");
+  const end = performance.now();
+  const totalMs = end - start;
+
+  console.log(`⏱️ Total time: ${(totalMs / 1000).toFixed(2)} seconds`);
 }
 
 main().catch(console.error);
