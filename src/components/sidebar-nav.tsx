@@ -24,7 +24,7 @@ export default function SidebarNav() {
     { href: "/ingredients", label: "Ingredients", icon: LuApple },
     { href: "/inventory", label: "Inventory", icon: LuBox },
     { href: "/goals", label: "Goals", icon: LuTrophy },
-    { href: "/settings", label: "Settings", icon: LuSettings },
+    // { href: "/settings", label: "Settings", icon: LuSettings },
   ];
 
   return (
@@ -67,3 +67,4 @@ export default function SidebarNav() {
     </aside>
   );
 }
+  

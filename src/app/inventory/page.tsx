@@ -2,6 +2,7 @@
 
 import AddInventoryForm from "@/components/add-inventory-form";
 import React, { useEffect, useState } from "react";
+import { LuBox } from "react-icons/lu";
 
 type Ingredient = { id: string; name: string; brand: string | null };
 type Recipe = { id: string; name: string };
@@ -110,7 +111,7 @@ export default function InventoryPage() {
         {inventory.length === 0 ? (
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 text-center">
             <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
-              📦
+              <LuBox className="mx-auto" />
             </div>
             <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
               Inventory is empty

@@ -3,6 +3,7 @@
 import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
 import React, { useEffect, useMemo, useState } from "react";
 import AddRecipeForm from "./add-recipe-form";
+import { LuChefHat } from "react-icons/lu";
 
 type Ingredient = {
   id: string;
@@ -326,7 +327,7 @@ export default function RecipeList() {
       <div className="p-6 text-center">
         <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 max-w-md mx-auto">
           <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
-            🍳
+            <LuChefHat className="mx-auto" />
           </div>
           <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
             No recipes yet

@@ -32,7 +32,7 @@ export default async function RootLayout({
           {user ? (
             <>
               <SidebarNav />
-              <main className="flex-1 overflow-y-auto p-6">{children}</main>
+              <main className="flex-1 overflow-y-auto p-6 bg-gray-100">{children}</main>
             </>
           ) : (
             <div className="flex flex-col w-full h-screen">

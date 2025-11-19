@@ -1,16 +1,10 @@
-import { createClient } from "@/utils/supabase/server";
-import { logout } from "./logout/actions";
-import Link from "next/link";
-import InventoryCard from "@/components/dashboard/inventory-card";
-import NutrientOverview from "@/components/dashboard/nutrient-overview";
+import DashboardClient from "@/components/dashboard/dashboard-client";
 import RadialGradient from "@/components/radial-gradient";
-import RecentMealsCard from "@/components/dashboard/recent-meals-card";
-import { LuUtensils, LuBookOpen, LuCarrot, LuBoxes } from "react-icons/lu";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
-
   if (error || !data?.user) {
     return (
       <div className="flex-1 flex flex-col justify-center items-center">
@@ -50,119 +44,79 @@ export default async function Home() {
       </div>
     );
   }
-
-  // Fetch user data for dashboard
   const { data: userData } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", data.user.id)
     .single();
 
-  // Fetch recent meals (last 3 logs)
   const { data: recentMealsRaw } = await supabase
     .from("food_logs")
     .select(
-      `
-      id, log_datetime,
+      `id, log_datetime,
       ingredient:ingredients!left(name),
       recipe:recipes!left(name),
-      nutrients:food_log_nutrients(nutrient_key, amount)
-    `
+      nutrients:food_log_nutrients(nutrient_key, amount)`
     )
     .eq("user_id", data.user.id)
     .order("log_datetime", { ascending: false })
     .limit(3);
 
+  const { data: inventoryItemsRaw } = await supabase
+    .from("inventories")
+    .select(
+      `
+        id,
+        quantity,
+        unit,
+        created_at,
+        ingredient:ingredient_id (
+          id,
+          name,
+          brand,
+          units:ingredient_units (
+            id,
+            unit_name,
+            is_default,
+            amount
+          )
+        ),
+        recipe:recipe_id (
+          id,
+          name,
+          servings
+        )
+      `
+    )
+    .eq("user_id", data.user.id);
+
+  // Transform data
+  const inventoryItems =
+    inventoryItemsRaw?.map((item) => ({
+      id: item.id,
+      quantity: item.quantity,
+      unit: item.unit,
+      ingredient: Array.isArray(item.ingredient)
+        ? item.ingredient[0]
+        : item.ingredient,
+      recipe: Array.isArray(item.recipe) ? item.recipe[0] : item.recipe,
+    })) || [];
+
   const recentMeals =
     recentMealsRaw?.map((meal) => ({
       ...meal,
       ingredient: Array.isArray(meal.ingredient)
-        ? meal.ingredient[0] || null
+        ? meal.ingredient[0]
         : meal.ingredient,
-      recipe: Array.isArray(meal.recipe) ? meal.recipe[0] || null : meal.recipe,
-    })) || null;
+      recipe: Array.isArray(meal.recipe) ? meal.recipe[0] : meal.recipe,
+    })) || [];
 
+  // Pass to client component for state management
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-8">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Welcome back, {userData?.first_name || "Chef"}
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Here&apos;s your overview for today
-          </p>
-        </div>
-        <form>
-          <button
-            formAction={logout}
-            className="cursor-pointer px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            Logout
-          </button>
-        </form>
-      </div>
-
-      {/* Nutrition Overview Cards */}
-      <NutrientOverview />
-
-      {/* Quick Actions */}
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-        Quick Actions
-      </h3>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <QuickAction
-          icon={<LuUtensils className="w-7 h-7" />}
-          title="Log Food"
-          href="/foodlog"
-        />
-        <QuickAction
-          icon={<LuBookOpen className="w-7 h-7" />}
-          title="Recipes"
-          href="/recipes"
-        />
-        <QuickAction
-          icon={<LuCarrot className="w-7 h-7" />}
-          title="Ingredients"
-          href="/ingredients"
-        />
-        <QuickAction
-          icon={<LuBoxes className="w-7 h-7" />}
-          title="Inventory"
-          href="/inventory"
-        />
-      </div>
-
-      {/* Two Column Layout */}
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Recent Meals (NEW COMPONENT) */}
-        <RecentMealsCard recentMeals={recentMeals} />
-
-        {/* Inventory Status */}
-        <InventoryCard />
-      </div>
-    </div>
-  );
-}
-
-// Helper Components
-function QuickAction({
-  icon,
-  title,
-  href,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  href: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105"
-    >
-      <div className="flex justify-center mb-3">{icon}</div>
-      <div className="font-medium">{title}</div>
-    </Link>
+    <DashboardClient
+      userData={userData}
+      initialRecentMeals={recentMeals}
+      initialInventoryItems={inventoryItems}
+    />
   );
 }

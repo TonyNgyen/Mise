@@ -29,7 +29,7 @@ type Recipe = { id: string; name: string };
 
 interface AddLogFormProps {
   selectedDate: string;
-  onLogSuccess: () => void;
+  onLogSuccess?: () => void;
 }
 
 export default function AddLogForm({
@@ -124,7 +124,7 @@ export default function AddLogForm({
       const data = await res.json();
 
       if (data.success) {
-        onLogSuccess();
+        onLogSuccess?.();
         handleClose();
         alert("Food logged successfully!");
       } else {
@@ -219,9 +219,9 @@ export default function AddLogForm({
               {/* Search and Selection Content */}
               {activeTab === "ingredient" ? (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {/* <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Search Ingredients
-                  </label>
+                  </label> */}
                   <input
                     type="text"
                     value={ingredientQuery}
@@ -264,9 +264,9 @@ export default function AddLogForm({
                 </div>
               ) : (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {/* <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Search Recipes
-                  </label>
+                  </label> */}
                   <input
                     type="text"
                     value={recipeQuery}

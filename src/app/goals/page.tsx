@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
 import AddGoalForm from "@/components/add-goal-form";
+import { LuTrophy } from "react-icons/lu";
 
 type Goal = {
   id: string;
@@ -178,7 +179,7 @@ export default function GoalsPage() {
         {goals.length === 0 ? (
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 text-center">
             <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
-              🎯
+              <LuTrophy className="mx-auto" />
             </div>
             <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
               No goals yet

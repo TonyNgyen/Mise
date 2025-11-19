@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { LuBox } from "react-icons/lu";
 
 type InventoryItemType = {
@@ -61,27 +61,13 @@ function EmptyInventoryState() {
   );
 }
 
-function InventoryCard() {
-  const [inventory, setInventory] = useState<InventoryItemType[]>([]);
+type InventoryCardProps = { inventoryItems?: InventoryItemType[] };
+
+const InventoryCard = forwardRef<
+  { refresh: () => Promise<void> },
+  InventoryCardProps
+>(({ inventoryItems = [] }, ref) => {
   const [loading, setLoading] = useState(true);
-
-  const fetchInventory = async () => {
-    try {
-      const res = await fetch("/api/inventory");
-      const data = await res.json();
-      if (data.success) {
-        setInventory(data.inventory);
-      }
-    } catch (error) {
-      console.error("Error fetching inventory:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchInventory();
-  }, []);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
@@ -94,18 +80,11 @@ function InventoryCard() {
         </span> */}
       </div>
 
-      {loading ? (
-        <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
-            Loading inventory...
-          </p>
-        </div>
-      ) : inventory.length === 0 ? (
+      {inventoryItems.length === 0 ? (
         <EmptyInventoryState />
       ) : (
         <div className="space-y-2">
-          {inventory.map((item) => (
+          {inventoryItems.map((item) => (
             <InventoryItem
               key={item.id}
               name={item.ingredient?.name || item.recipe?.name || ""}
@@ -116,6 +95,6 @@ function InventoryCard() {
       )}
     </div>
   );
-}
+});
 
 export default InventoryCard;

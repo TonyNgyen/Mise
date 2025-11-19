@@ -16,7 +16,7 @@ export async function GET() {
         nutrients:food_log_nutrients(*)
       `
       )
-      .order("logged_at", { ascending: false })
+      .order("log_datetime", { ascending: false })
       .limit(3);
 
     if (error) throw error;

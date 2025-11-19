@@ -1,6 +1,6 @@
 // components/dashboard/RecentMealsCard.tsx
 import Link from "next/link";
-import React from "react";
+import React, { forwardRef } from "react";
 import { LuUtensils } from "react-icons/lu";
 
 type FoodLogNutrient = {
@@ -18,7 +18,10 @@ interface RecentMealsCardProps {
   }> | null;
 }
 
-export default function RecentMealsCard({ recentMeals }: RecentMealsCardProps) {
+const RecentMealsCard = forwardRef<
+  { refresh: () => Promise<void> },
+  RecentMealsCardProps
+>(({ recentMeals }, ref) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
@@ -59,16 +62,22 @@ export default function RecentMealsCard({ recentMeals }: RecentMealsCardProps) {
       </div>
     </div>
   );
-}
+});
 
-function MealItem({ name, nutrients }: { name: string; nutrients: FoodLogNutrient[] }) {
+function MealItem({
+  name,
+  nutrients,
+}: {
+  name: string;
+  nutrients: FoodLogNutrient[];
+}) {
   const nutrientsDict: { [key: string]: number } = {};
   if (Array.isArray(nutrients)) {
     nutrients.forEach((n) => {
       nutrientsDict[n.nutrient_key] = n.amount;
     });
   }
-  console.log(nutrients)
+  console.log(nutrients);
   console.log(nutrientsDict);
   return (
     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -77,9 +86,11 @@ function MealItem({ name, nutrients }: { name: string; nutrients: FoodLogNutrien
       </div>
       <div className="text-right">
         <div className="font-bold text-gray-900 dark:text-white">
-          {nutrientsDict["calories"]} cal
+          {nutrientsDict["calories"].toFixed(2)} cal
         </div>
       </div>
     </div>
   );
 }
+
+export default RecentMealsCard;
