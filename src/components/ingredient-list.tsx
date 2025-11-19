@@ -165,7 +165,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-32 bg-gray-200 dark:bg-gray-700 rounded-xl"
+              className="h-32 bg-zinc-200 dark:bg-zinc-700 rounded-xl"
             ></div>
           ))}
         </div>
@@ -176,14 +176,14 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
   if (ingredients.length === 0) {
     return (
       <div className="p-6">
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 max-w-md mx-auto flex flex-col items-center">
-          <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
+        <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-8 max-w-md mx-auto flex flex-col items-center">
+          <div className="text-zinc-400 dark:text-zinc-500 text-6xl mb-4">
             🥗
           </div>
-          <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
+          <h3 className="text-lg font-semibold text-zinc-600 dark:text-zinc-300 mb-2">
             No ingredients yet
           </h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-6">
             Add your first ingredient to get started with meal prep!
           </p>
           <AddIngredientForm
@@ -199,7 +199,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
     <div className="p-4 space-y-4 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
             My Ingredients
           </h1>
           <AddIngredientForm
@@ -208,13 +208,13 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
           />
         </div>
 
-        <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+        <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-3 py-1 rounded-full">
           {ingredients.length} ingredient{ingredients.length !== 1 ? "s" : ""}
         </span>
       </div>
 
       <div className="flex flex-wrap items-center gap-2 mb-6">
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">
+        <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mr-2">
           Sort by:
         </span>
         {SORTABLE_NUTRIENTS.map((item) => (
@@ -226,7 +226,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
               ${
                 sortKey === item.key
                   ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 cursor-pointer"
+                  : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
               }
             `}
           >
@@ -241,16 +241,16 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
         {sortedIngredients.map((ingredient) => (
           <div
             key={ingredient.id}
-            className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
+            className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
-                <h2 className="font-bold text-xl text-gray-900 dark:text-white mb-1">
+                <h2 className="font-bold text-xl text-zinc-900 dark:text-white mb-1">
                   {ingredient.name}
                 </h2>
                 {ingredient.brand && (
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">
                     Brand: {ingredient.brand}
                   </p>
                 )}
@@ -260,21 +260,21 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                       (u) => u.is_default
                     );
                     return defaultUnit ? (
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      <p className="text-zinc-600 dark:text-zinc-400 text-sm">
                         Serving: {defaultUnit.amount} {defaultUnit.unit_name}{" "}
                         {ingredient.serving_size &&
                           ingredient.serving_unit &&
                           `(${ingredient.serving_size}${ingredient.serving_unit})`}
                       </p>
                     ) : (
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      <p className="text-zinc-600 dark:text-zinc-400 text-sm">
                         Serving: {ingredient.serving_size}
                         {ingredient.serving_unit}
                       </p>
                     );
                   })()}
                   {ingredient.servings_per_container && (
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    <p className="text-zinc-600 dark:text-zinc-400 text-sm">
                       Servings per container:{" "}
                       {ingredient.servings_per_container}
                     </p>
@@ -284,11 +284,11 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
 
               <button
                 onClick={() => toggleExpand(ingredient.id)}
-                className="ml-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
+                className="ml-4 p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg transition-colors cursor-pointer"
               >
                 {expandedIngredient === ingredient.id ? (
                   <svg
-                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                    className="w-5 h-5 text-zinc-600 dark:text-zinc-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -302,7 +302,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                   </svg>
                 ) : (
                   <svg
-                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                    className="w-5 h-5 text-zinc-600 dark:text-zinc-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -323,13 +323,13 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
               <div className="flex items-center gap-6">
                 {getMainNutrients(ingredient.nutrients).map((nutrient) => (
                   <div key={nutrient.id} className="text-center">
-                    <div className="text-lg font-semibold text-gray-900 dark:text-white">
+                    <div className="text-lg font-semibold text-zinc-900 dark:text-white">
                       {nutrient.amount}
-                      <span className="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">
+                      <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-1">
                         {nutrient.unit}
                       </span>
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">
                       {nutrient.display_name}
                     </div>
                   </div>
@@ -339,8 +339,8 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
 
             {/* Expandable Section */}
             {expandedIngredient === ingredient.id && (
-              <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
-                <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-3 text-sm uppercase tracking-wide">
+              <div className="pt-4 mt-4 border-t border-zinc-200 dark:border-zinc-700">
+                <h4 className="font-semibold text-zinc-700 dark:text-zinc-300 mb-3 text-sm uppercase tracking-wide">
                   Full Nutrition Facts
                 </h4>
 
@@ -348,12 +348,12 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                   {getOtherNutrients(ingredient.nutrients).map((nutrient) => (
                     <div
                       key={nutrient.id}
-                      className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                      className="flex items-center justify-between p-2 bg-zinc-50 dark:bg-zinc-700 rounded-lg"
                     >
-                      <span className="text-sm text-gray-700 dark:text-gray-300">
+                      <span className="text-sm text-zinc-700 dark:text-zinc-300">
                         {nutrient.display_name}
                       </span>
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">
                         {nutrient.amount} {nutrient.unit}
                       </span>
                     </div>
@@ -361,7 +361,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                 </div>
 
                 {getOtherNutrients(ingredient.nutrients).length === 0 && (
-                  <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+                  <div className="text-center py-6 text-zinc-500 dark:text-zinc-400">
                     <div className="text-4xl mb-2">📊</div>
                     <p className="text-sm">No additional nutrition data</p>
                   </div>
@@ -370,8 +370,8 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
             )}
 
             {/* Quick Actions */}
-            {/* <div className="flex justify-end space-x-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
-              <button className="px-3 py-1 text-xs text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+            {/* <div className="flex justify-end space-x-2 mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-700">
+              <button className="px-3 py-1 text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-md transition-colors">
                 Edit
               </button>
               <button className="px-3 py-1 text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md transition-colors">

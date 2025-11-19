@@ -85,11 +85,11 @@ export default function SignupPage() {
       <div className="max-w-md w-full space-y-8">
         {/* Header Section */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
             Create Your Account
           </h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Join Mise and simplify your meal prep
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+            Join Alimon and simplify your meal prep
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function SignupPage() {
         {/* 4. Attach the handleSubmit handler */}
         <form
           onSubmit={handleSubmit}
-          className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700"
+          className="mt-8 space-y-6 bg-white dark:bg-zinc-800 p-8 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-700"
         >
           <div className="space-y-4">
             {/* Name Row and other inputs are the same */}
@@ -108,7 +108,7 @@ export default function SignupPage() {
               <div>
                 <label
                   htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
                 >
                   First Name
                 </label>
@@ -121,7 +121,7 @@ export default function SignupPage() {
                   required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent transition-all duration-200"
+                  className="relative block w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 placeholder-zinc-500 dark:placeholder-zinc-400 text-zinc-900 dark:text-white bg-white dark:bg-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 focus:border-transparent transition-all duration-200"
                   placeholder="First Name"
                 />
               </div>
@@ -129,7 +129,7 @@ export default function SignupPage() {
               <div>
                 <label
                   htmlFor="last-name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
                 >
                   Last Name
                 </label>
@@ -142,7 +142,7 @@ export default function SignupPage() {
                   required
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent transition-all duration-200"
+                  className="relative block w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 placeholder-zinc-500 dark:placeholder-zinc-400 text-zinc-900 dark:text-white bg-white dark:bg-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 focus:border-transparent transition-all duration-200"
                   placeholder="Last Name"
                 />
               </div>
@@ -153,7 +153,7 @@ export default function SignupPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
               >
                 Email address
               </label>
@@ -170,9 +170,9 @@ export default function SignupPage() {
             ${
               serverError && errorField === "email"
                 ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500"
-                : "border-gray-300 dark:border-gray-600 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-200"
+                : "border-zinc-300 dark:border-zinc-600 focus:ring-zinc-500 dark:focus:ring-zinc-400 transition-all duration-200"
             }
-            placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent`}
+            placeholder-zinc-500 dark:placeholder-zinc-400 text-zinc-900 dark:text-white bg-white dark:bg-zinc-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 focus:border-transparent`}
                 placeholder="Email address"
               />
             </div>
@@ -182,7 +182,7 @@ export default function SignupPage() {
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
               >
                 Username
               </label>
@@ -200,9 +200,9 @@ export default function SignupPage() {
             ${
               serverError && errorField === "username"
                 ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500"
-                : "border-gray-300 dark:border-gray-600 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-200"
+                : "border-zinc-300 dark:border-zinc-600 focus:ring-zinc-500 dark:focus:ring-zinc-400 transition-all duration-200"
             }
-            placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent`}
+            placeholder-zinc-500 dark:placeholder-zinc-400 text-zinc-900 dark:text-white bg-white dark:bg-zinc-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 focus:border-transparent`}
                 placeholder="Username"
               />
             </div>
@@ -212,7 +212,7 @@ export default function SignupPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
               >
                 Password
               </label>
@@ -229,9 +229,9 @@ export default function SignupPage() {
             ${
               serverError && errorField === "password"
                 ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500"
-                : "border-gray-300 dark:border-gray-600 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-200"
+                : "border-zinc-300 dark:border-zinc-600 focus:ring-zinc-500 dark:focus:ring-zinc-400 transition-all duration-200"
             }
-            placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent`}
+            placeholder-zinc-500 dark:placeholder-zinc-400 text-zinc-900 dark:text-white bg-white dark:bg-zinc-700 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 focus:border-transparent`}
                 placeholder="Password"
               />
             </div>
@@ -251,7 +251,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className=" cursor-pointer group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              className=" cursor-pointer group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-zinc-800 dark:bg-zinc-700 hover:bg-zinc-900 dark:hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               {/* ... Loading/Sign up button content ... */}
               {isLoading ? (
@@ -303,11 +303,11 @@ export default function SignupPage() {
 
           {/* ... Existing Sign in link ... */}
           <div className="text-center pt-4">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-medium text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition-colors duration-200"
+                className="font-medium text-zinc-800 dark:text-zinc-200 hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors duration-200"
               >
                 Sign in
               </Link>

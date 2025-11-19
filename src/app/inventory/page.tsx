@@ -66,7 +66,7 @@ export default function InventoryPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-gray-200 dark:bg-gray-700 rounded-xl p-6 h-32"
+              className="bg-zinc-200 dark:bg-zinc-700 rounded-xl p-6 h-32"
             ></div>
           ))}
         </div>
@@ -79,7 +79,7 @@ export default function InventoryPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
             My Inventory
           </h1>
           <button
@@ -90,7 +90,7 @@ export default function InventoryPage() {
           </button>
         </div>
 
-        <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+        <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-3 py-1 rounded-full">
           {inventory.length} item{inventory.length !== 1 ? "s" : ""}
         </span>
       </div>
@@ -104,19 +104,19 @@ export default function InventoryPage() {
 
       {/* ✅ Inventory List */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">
           Current Inventory
         </h2>
 
         {inventory.length === 0 ? (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 text-center">
-            <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
+          <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-8 text-center">
+            <div className="text-zinc-400 dark:text-zinc-500 text-6xl mb-4">
               <LuBox className="mx-auto" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
+            <h3 className="text-lg font-semibold text-zinc-600 dark:text-zinc-300 mb-2">
               Inventory is empty
             </h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm">
               Add ingredients or recipes to get started!
             </p>
             <button
@@ -131,7 +131,7 @@ export default function InventoryPage() {
             {inventory.map((item) => (
               <div
                 key={item.id}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200"
+                className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -139,11 +139,11 @@ export default function InventoryPage() {
                       {item.ingredient ? (
                         <>
                           <span className="text-2xl">🥕</span>
-                          <span className="font-medium text-gray-900 dark:text-white">
+                          <span className="font-medium text-zinc-900 dark:text-white">
                             {item.ingredient.name}
                           </span>
                           {item.ingredient.brand && (
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                            <span className="text-sm text-zinc-500 dark:text-zinc-400">
                               ({item.ingredient.brand})
                             </span>
                           )}
@@ -151,13 +151,13 @@ export default function InventoryPage() {
                       ) : (
                         <>
                           <span className="text-2xl">📖</span>
-                          <span className="font-medium text-gray-900 dark:text-white">
+                          <span className="font-medium text-zinc-900 dark:text-white">
                             {item.recipe?.name}
                           </span>
                         </>
                       )}
                     </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                    <div className="text-sm text-zinc-500 dark:text-zinc-400">
                       Added {formatDate(item.created_at)}
                     </div>
                   </div>
@@ -165,7 +165,7 @@ export default function InventoryPage() {
                     <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                       {item.quantity}
                     </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400 uppercase">
+                    <div className="text-sm text-zinc-500 dark:text-zinc-400 uppercase">
                       {item.unit}
                     </div>
                   </div>

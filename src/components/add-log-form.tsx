@@ -158,18 +158,18 @@ export default function AddLogForm({
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
+          <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
             {/* Modal Header */}
-            <div className="flex justify-between items-center mb-4 border-b pb-3 border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between items-center mb-4 border-b pb-3 border-zinc-200 dark:border-zinc-700">
               <h2
                 id="modal-title"
-                className="text-xl font-semibold text-gray-900 dark:text-white"
+                className="text-xl font-semibold text-zinc-900 dark:text-white"
               >
                 Log Food for {new Date(selectedDate).toLocaleDateString()}
               </h2>
               <button
                 onClick={handleClose}
-                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
+                className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <svg
@@ -191,14 +191,14 @@ export default function AddLogForm({
             {/* Log Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Tab Selection */}
-              <div className="flex border-b border-gray-200 dark:border-gray-700">
+              <div className="flex border-b border-zinc-200 dark:border-zinc-700">
                 <button
                   type="button"
                   onClick={() => setActiveTab("ingredient")}
                   className={`px-4 py-2 font-medium text-sm ${
                     activeTab === "ingredient"
                       ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                      : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+                      : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer"
                   }`}
                 >
                   🥕 Ingredient
@@ -209,7 +209,7 @@ export default function AddLogForm({
                   className={`px-4 py-2 font-medium text-sm ${
                     activeTab === "recipe"
                       ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                      : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+                      : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer"
                   }`}
                 >
                   📖 Recipe
@@ -219,7 +219,7 @@ export default function AddLogForm({
               {/* Search and Selection Content */}
               {activeTab === "ingredient" ? (
                 <div>
-                  {/* <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {/* <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                     Search Ingredients
                   </label> */}
                   <input
@@ -229,17 +229,17 @@ export default function AddLogForm({
                       setIngredientQuery(e.target.value);
                       setSelectedIngredient(null);
                     }}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     placeholder="Search ingredients..."
                     disabled={isSubmitting}
                   />
 
                   {ingredientResults.length > 0 && !selectedIngredient && (
-                    <ul className="mt-2 border border-gray-200 dark:border-gray-600 rounded-lg max-h-40 overflow-y-auto">
+                    <ul className="mt-2 border border-zinc-200 dark:border-zinc-600 rounded-lg max-h-40 overflow-y-auto">
                       {ingredientResults.map((ing) => (
                         <li
                           key={ing.id}
-                          className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-sm"
+                          className="px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700 text-sm"
                           onClick={() => {
                             setSelectedIngredient(ing);
                             setIngredientQuery(ing.name);
@@ -264,7 +264,7 @@ export default function AddLogForm({
                 </div>
               ) : (
                 <div>
-                  {/* <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {/* <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                     Search Recipes
                   </label> */}
                   <input
@@ -274,17 +274,17 @@ export default function AddLogForm({
                       setRecipeQuery(e.target.value);
                       setSelectedRecipe(null);
                     }}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     placeholder="Search recipes..."
                     disabled={isSubmitting}
                   />
 
                   {recipeResults.length > 0 && !selectedRecipe && (
-                    <ul className="mt-2 border border-gray-200 dark:border-gray-600 rounded-lg max-h-40 overflow-y-auto">
+                    <ul className="mt-2 border border-zinc-200 dark:border-zinc-600 rounded-lg max-h-40 overflow-y-auto">
                       {recipeResults.map((rec) => (
                         <li
                           key={rec.id}
-                          className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-sm"
+                          className="px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700 text-sm"
                           onClick={() => {
                             setSelectedRecipe(rec);
                             setRecipeQuery(rec.name);
@@ -303,7 +303,7 @@ export default function AddLogForm({
               {/* Quantity and Unit */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                     Quantity *
                   </label>
                   <input
@@ -312,19 +312,19 @@ export default function AddLogForm({
                     min="0"
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     required
                     disabled={isSubmitting}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                     Unit *
                   </label>
                   <select
                     value={unit}
                     onChange={(e) => setUnit(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     required
                     disabled={isSubmitting}
                   >
@@ -360,12 +360,12 @@ export default function AddLogForm({
                   id="updateInventory"
                   checked={updateInventory}
                   onChange={(e) => setUpdateInventory(e.target.checked)}
-                  className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  className="mr-2 h-4 w-4 text-blue-600 border-zinc-300 rounded focus:ring-blue-500"
                   disabled={isSubmitting}
                 />
                 <label
                   htmlFor="updateInventory"
-                  className="text-sm text-gray-700 dark:text-gray-300"
+                  className="text-sm text-zinc-700 dark:text-zinc-300"
                 >
                   Update inventory (reduce quantity by logged amount)
                 </label>

@@ -90,7 +90,7 @@ const NICHE_NUTRIENTS: NicheNutrientCategory = {
     { key: "phosphorus", display_name: "Phosphorus", unit: "mg" },
     { key: "iodine", display_name: "Iodine", unit: "mcg" },
     { key: "magnesium", display_name: "Magnesium", unit: "mg" },
-    { key: "zinc", display_name: "Zinc", unit: "mg" },
+    { key: "zinc", display_name: "zinc", unit: "mg" },
     { key: "selenium", display_name: "Selenium", unit: "mcg" },
     { key: "copper", display_name: "Copper", unit: "mg" }, // Fixed typo "Cupper" -> "Copper" for display
     { key: "manganese", display_name: "Manganese", unit: "mg" },
@@ -147,7 +147,7 @@ const Tooltip = ({
     {children}
     <span
       className="absolute left-1/2 -top-10 transform -translate-x-1/2 scale-0 group-hover:scale-100 transition-all duration-200 origin-bottom 
-					 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 text-xs rounded py-1 px-2 z-50 whitespace-nowrap shadow-lg"
+					 bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-900 text-xs rounded py-1 px-2 z-50 whitespace-nowrap shadow-lg"
     >
       {content}
     </span>
@@ -439,15 +439,15 @@ export default function AddIngredientForm({
       {/* Modal Overlay */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/75 dark:bg-black/90 flex items-center justify-center p-4 sm:p-8 z-[100]">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col transition-all duration-300">
+          <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col transition-all duration-300">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="flex items-center justify-between p-6 border-b border-zinc-200 dark:border-zinc-700 flex-shrink-0">
+              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
                 Add New Ingredient
               </h2>
               <button
                 onClick={closeModal}
-                className="cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="cursor-pointer text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors p-1 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-700"
                 aria-label="Close modal"
               >
                 <LuX size={24} />
@@ -472,14 +472,14 @@ export default function AddIngredientForm({
                 )}
                 {/* --- Section: Basic Information --- */}
                 <section>
-                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2">
+                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-zinc-700 pb-2">
                     1. Basic Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label
                         htmlFor="name"
-                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                        className="block text-sm font-semibold mb-1 text-zinc-700 dark:text-zinc-300"
                       >
                         Ingredient Name *
                       </label>
@@ -489,14 +489,14 @@ export default function AddIngredientForm({
                         placeholder="e.g., Almond Milk (Unsweetened)"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-zinc-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-400"
                         required
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="brand"
-                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                        className="block text-sm font-semibold mb-1 text-zinc-700 dark:text-zinc-300"
                       >
                         Brand
                       </label>
@@ -506,7 +506,7 @@ export default function AddIngredientForm({
                         placeholder="e.g., Silk, Trader Joe's"
                         value={brand}
                         onChange={(e) => setBrand(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-zinc-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-400"
                       />
                     </div>
                   </div>
@@ -514,12 +514,12 @@ export default function AddIngredientForm({
 
                 {/* --- Section: Serving Size & Packaging --- */}
                 <section>
-                  <h3 className="text-xl flex gap-2 font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2">
+                  <h3 className="text-xl flex gap-2 font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-zinc-700 pb-2">
                     2. Serving Information{" "}
                     <Tooltip content="This is optional if Custom Units are used in Section 3.">
                       <LuInfo
                         size={14}
-                        className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
+                        className="text-zinc-400 dark:text-zinc-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
                       />
                     </Tooltip>
                   </h3>
@@ -527,7 +527,7 @@ export default function AddIngredientForm({
                     <div>
                       <label
                         htmlFor="servingSize"
-                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                        className="block text-sm font-semibold mb-1 text-zinc-700 dark:text-zinc-300"
                       >
                         Serving Amount (for nutritional label)
                       </label>
@@ -538,14 +538,14 @@ export default function AddIngredientForm({
                         placeholder="e.g., 100 or 240"
                         value={servingSize}
                         onChange={(e) => setServingSize(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-zinc-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-400"
                         // Removed 'required' attribute
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="servingUnit"
-                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                        className="block text-sm font-semibold mb-1 text-zinc-700 dark:text-zinc-300"
                       >
                         Serving Unit
                       </label>
@@ -553,7 +553,7 @@ export default function AddIngredientForm({
                         id="servingUnit"
                         value={servingUnit}
                         onChange={(e) => setServingUnit(e.target.value)}
-                        className="w-full border border-gray-300 p-3 rounded-xl appearance-none pr-10 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        className="w-full border border-zinc-300 p-3 rounded-xl appearance-none pr-10 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
                         // Removed 'required' attribute
                       >
                         {STANDARD_UNITS.map((unit) => (
@@ -566,7 +566,7 @@ export default function AddIngredientForm({
                     <div>
                       <label
                         htmlFor="servingsPerContainer"
-                        className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300"
+                        className="block text-sm font-semibold mb-1 text-zinc-700 dark:text-zinc-300"
                       >
                         Servings Per Container
                       </label>
@@ -579,7 +579,7 @@ export default function AddIngredientForm({
                         onChange={(e) =>
                           setServingsPerContainer(e.target.value)
                         }
-                        className="w-full border border-gray-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                        className="w-full border border-zinc-300 p-3 rounded-xl focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-400"
                       />
                     </div>
                   </div>
@@ -587,26 +587,27 @@ export default function AddIngredientForm({
 
                 {/* --- Section: Units & Conversions (Collapsible/Dynamic) --- */}
                 <section>
-                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2 flex items-center gap-2">
+                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-zinc-700 pb-2 flex items-center gap-2">
                     3. Custom Unit Conversions{" "}
                     <Tooltip content="This is optional if Serving Information is provided in Section 2.">
                       <LuInfo
                         size={14}
-                        className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
+                        className="text-zinc-400 dark:text-zinc-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
                       />
                     </Tooltip>
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                    Define custom units (e.g., &quot;scoop&quot;, &quot;slice&quot;)
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+                    Define custom units (e.g., &quot;scoop&quot;,
+                    &quot;slice&quot;)
                   </p>
                   <div className="">
                     {unitsForDisplay.map((unit, i) => (
                       <div
                         key={i}
-                        className="grid grid-cols-1 sm:grid-cols-4 gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-750"
+                        className="grid grid-cols-1 sm:grid-cols-4 gap-4 p-4 border border-zinc-200 dark:border-zinc-700 rounded-xl bg-zinc-50 dark:bg-zinc-750"
                       >
                         <div className="col-span-1">
-                          <div className="flex items-center border border-gray-300 p-2 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                          <div className="flex items-center border border-zinc-300 p-2 rounded-lg dark:bg-zinc-700 dark:border-zinc-600">
                             <input
                               type="number"
                               step="0.1"
@@ -627,7 +628,7 @@ export default function AddIngredientForm({
                           onChange={(e) =>
                             updateUnit(i, "unit_name", e.target.value)
                           }
-                          className="border border-gray-300 p-2 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                          className="border border-zinc-300 p-2 rounded-lg dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
                           required
                         />
                         <div className="flex items-center gap-2">
@@ -637,14 +638,14 @@ export default function AddIngredientForm({
                             onChange={(e) =>
                               updateUnit(i, "is_default", e.target.checked)
                             }
-                            className="form-checkbox cursor-pointer h-4 w-4 text-blue-600 rounded border-gray-300 dark:bg-gray-600 dark:border-gray-500 focus:ring-blue-500"
+                            className="form-checkbox cursor-pointer h-4 w-4 text-blue-600 rounded border-zinc-300 dark:bg-zinc-600 dark:border-zinc-500 focus:ring-blue-500"
                           />{" "}
-                          <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                          <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
                             Default Unit
                             <Tooltip content="This unit will be the default display unit when tracking meals.">
                               <LuInfo
                                 size={14}
-                                className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
+                                className="text-zinc-400 dark:text-zinc-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-help"
                               />
                             </Tooltip>
                           </label>
@@ -674,17 +675,17 @@ export default function AddIngredientForm({
                 </section>
 
                 <section>
-                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-gray-700 pb-2">
+                  <h3 className="text-xl font-bold mb-4 text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-zinc-700 pb-2">
                     4. Nutritional Information (Per Serving)
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
                     Enter the amount of each nutrient for the defined serving
                     size. Leave fields blank or &apos;0&apos; if the nutrient is
                     not present.
                   </p>
 
-                  <div className="mb-6 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
-                    <h4 className="text-lg font-bold mb-3 text-gray-800 dark:text-gray-200">
+                  <div className="mb-6 border border-zinc-200 dark:border-zinc-700 rounded-xl p-4">
+                    <h4 className="text-lg font-bold mb-3 text-zinc-800 dark:text-zinc-200">
                       Nutrients
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
@@ -697,7 +698,7 @@ export default function AddIngredientForm({
                             key={nutrient.nutrient_key}
                             className="flex items-center justify-between gap-2"
                           >
-                            <label className="flex-1 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis mr-2">
+                            <label className="flex-1 text-sm text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis mr-2">
                               {nutrient.display_name}
                             </label>
                             <div className="flex items-center">
@@ -710,9 +711,9 @@ export default function AddIngredientForm({
                                 onChange={(e) =>
                                   updateNutrient(globalIndex, e.target.value)
                                 }
-                                className="w-20 border border-gray-300 p-2 rounded-l-lg text-right dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 text-sm"
+                                className="w-20 border border-zinc-300 p-2 rounded-l-lg text-right dark:bg-zinc-700 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-400 text-sm"
                               />
-                              <span className="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 p-2 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 w-12 text-center">
+                              <span className="text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 p-2 rounded-r-lg border border-l-0 border-zinc-300 dark:border-zinc-600 w-12 text-center">
                                 {nutrient.unit}
                               </span>
                             </div>
@@ -727,11 +728,12 @@ export default function AddIngredientForm({
                     <button
                       type="button"
                       onClick={() => setShowNicheNutrients(!showNicheNutrients)}
-                      className="cursor-pointer w-full flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-xl text-lg font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      className={(showNicheNutrients ? `rounded-b-none` : ``) + ` cursor-pointer w-full flex items-center justify-between p-3 bg-zinc-100 dark:bg-zinc-700 rounded-xl text-lg font-bold text-zinc-700 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-600 transition-colors
+                    `}
                     >
                       <span>
                         Additional Nutrients
-                        <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
+                        <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400 ml-2">
                           ({ALL_NUTRIENTS.length - COMMON_NUTRIENTS.length}{" "}
                           total)
                         </span>
@@ -744,7 +746,7 @@ export default function AddIngredientForm({
                     </button>
 
                     {showNicheNutrients && (
-                      <div className="bg-gray-50 dark:bg-gray-750 rounded-b-xl p-4 transition-all duration-300 border border-t-0 border-gray-200 dark:border-gray-700">
+                      <div className="bg-zinc-50 dark:bg-zinc-800 rounded-b-xl p-4 transition-all duration-300 border border-t-0 border-zinc-200 dark:border-zinc-700">
                         {/* Category Tabs */}
                         <div className="flex flex-wrap gap-2 mb-4">
                           {Object.keys(NICHE_NUTRIENTS).map((category) => (
@@ -759,7 +761,7 @@ export default function AddIngredientForm({
                               className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
                                 activeNicheCategory === category
                                   ? "bg-blue-600 text-white shadow-md"
-                                  : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500 cursor-pointer"
+                                  : "bg-zinc-200 text-zinc-700 dark:bg-zinc-600 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-500 cursor-pointer"
                               }`}
                             >
                               {formatCategoryTitle(category)}
@@ -778,7 +780,7 @@ export default function AddIngredientForm({
                                 key={nutrient.nutrient_key}
                                 className="flex items-center justify-between gap-2"
                               >
-                                <label className="flex-1 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis mr-2">
+                                <label className="flex-1 text-sm text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis mr-2">
                                   {nutrient.display_name}
                                 </label>
                                 <div className="flex items-center">
@@ -794,9 +796,9 @@ export default function AddIngredientForm({
                                         e.target.value
                                       )
                                     }
-                                    className="w-20 border border-gray-300 p-2 rounded-l-lg text-right dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 text-sm"
+                                    className="w-20 border border-zinc-300 p-2 rounded-l-lg text-right dark:bg-zinc-700 dark:border-zinc-600 dark:text-white dark:placeholder-zinc-400 text-sm"
                                   />
-                                  <span className="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 p-2 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 w-12 text-center">
+                                  <span className="text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 p-2 rounded-r-lg border border-l-0 border-zinc-300 dark:border-zinc-600 w-12 text-center">
                                     {nutrient.unit}
                                   </span>
                                 </div>
@@ -810,11 +812,11 @@ export default function AddIngredientForm({
                 </section>
 
                 {/* --- Form Actions --- */}
-                <div className="flex gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex gap-4 justify-end pt-6 border-t border-zinc-200 dark:border-zinc-700">
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="cursor-pointer px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl font-medium transition-colors"
+                    className="cursor-pointer px-6 py-2.5 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-300 dark:border-zinc-600 rounded-xl font-medium transition-colors"
                   >
                     Cancel
                   </button>

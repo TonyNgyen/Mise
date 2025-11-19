@@ -161,18 +161,18 @@ export default function AddGoalForm({
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
+          <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-2xl p-6 w-full max-w-lg mx-4 transform transition-all">
             {/* Modal Header */}
-            <div className="flex justify-between items-center mb-4 border-b pb-3 border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between items-center mb-4 border-b pb-3 border-zinc-200 dark:border-zinc-700">
               <h2
                 id="modal-title"
-                className="text-xl font-semibold text-gray-900 dark:text-white"
+                className="text-xl font-semibold text-zinc-900 dark:text-white"
               >
                 Set New Nutrition Goal
               </h2>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
+                className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <svg
@@ -196,13 +196,13 @@ export default function AddGoalForm({
               <div className="grid grid-cols-1 gap-4">
                 {/* Nutrient Dropdown */}
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                     Nutrient *
                   </label>
                   <select
                     value={form.nutrient_key}
                     onChange={(e) => handleNutrientChange(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white transition-colors"
                     required
                   >
                     <option value="">Select a nutrient...</option>
@@ -250,7 +250,7 @@ export default function AddGoalForm({
                 {/* Target Amount */}
                 <div className="grid grid-cols-3 gap-3">
                     <div className="col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                             Target Amount *
                         </label>
                         <input
@@ -260,20 +260,20 @@ export default function AddGoalForm({
                             placeholder="0.0"
                             value={form.target}
                             onChange={(e) => setForm({ ...form, target: e.target.value })}
-                            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
+                            className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 transition-colors"
                             required
                         />
                     </div>
                     {/* Unit Display (read-only) */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                             Unit
                         </label>
-                        <div className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-600 text-gray-900 dark:text-white flex items-center justify-center">
+                        <div className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg bg-zinc-50 dark:bg-zinc-600 text-zinc-900 dark:text-white flex items-center justify-center">
                             {selectedNutrient ? (
                                 <span className="font-medium">{currentUnit}</span>
                             ) : (
-                                <span className="text-gray-500 dark:text-gray-400 text-xs">
+                                <span className="text-zinc-500 dark:text-zinc-400 text-xs">
                                     Unit
                                 </span>
                             )}

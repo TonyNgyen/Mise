@@ -56,10 +56,10 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         {/* ... Header Section ... */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Welcome to Mise
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+            Welcome to Alimon
           </h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
+          <p className="mt-2 text-zinc-600 dark:text-zinc-300">
             Your personal meal prep assistant
           </p>
         </div>
@@ -87,9 +87,9 @@ export default function LoginPage() {
                       serverError &&
                       (errorField === "email" || errorField === "form")
                         ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500 focus:border-red-500 dark:focus:border-red-500"
-                        : "border-gray-300 dark:border-gray-700 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-gray-500 dark:focus:border-gray-400"
+                        : "border-zinc-300 dark:border-zinc-700 focus:ring-zinc-500 dark:focus:ring-zinc-400 focus:border-zinc-500 dark:focus:border-zinc-400"
                     }
-                    placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:z-10 sm:text-sm`}
+                    placeholder-zinc-500 dark:placeholder-zinc-400 text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 focus:outline-none focus:z-10 sm:text-sm`}
                 placeholder="Email address"
               />
             </div>
@@ -113,9 +113,9 @@ export default function LoginPage() {
                       serverError &&
                       (errorField === "password" || errorField === "form")
                         ? "border-red-500 dark:border-red-500 focus:ring-red-500 dark:focus:ring-red-500 focus:border-red-500 dark:focus:border-red-500"
-                        : "border-gray-300 dark:border-gray-700 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-gray-500 dark:focus:border-gray-400"
+                        : "border-zinc-300 dark:border-zinc-700 focus:ring-zinc-500 dark:focus:ring-zinc-400 focus:border-zinc-500 dark:focus:border-zinc-400"
                     }
-                    placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:z-10 sm:text-sm`}
+                    placeholder-zinc-500 dark:placeholder-zinc-400 text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 focus:outline-none focus:z-10 sm:text-sm`}
                 placeholder="Password"
               />
             </div>
@@ -124,7 +124,7 @@ export default function LoginPage() {
           {/* 🔑 NEW: Error Display */}
           {serverError && (
             <div
-              className="p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 border border-red-300 text-center"
+              className="p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-zinc-800 dark:text-red-400 border border-red-300 text-center"
               role="alert"
             >
               {serverError}
@@ -136,7 +136,7 @@ export default function LoginPage() {
               type="submit" // 🔑 Change: Use type="submit" to trigger the onSubmit handler
               disabled={isLoading}
               // ❌ Remove formAction={login}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-800 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5 cursor-pointer"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-zinc-800 dark:bg-zinc-700 hover:bg-zinc-900 dark:hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 dark:focus:ring-offset-zinc-800 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5 cursor-pointer"
             >
               {/* Spinner logic remains the same */}
               {isLoading ? (
@@ -166,11 +166,11 @@ export default function LoginPage() {
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Don&apos;t have an account?{" "}
               <Link
                 href="/signup"
-                className="font-medium text-gray-600 dark:text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                className="font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-500 dark:hover:text-zinc-300"
               >
                 Sign up
               </Link>

@@ -36,7 +36,7 @@ const colorClasses = {
   green: "text-green-600 dark:text-green-400",
   amber: "text-amber-600 dark:text-amber-400",
   red: "text-red-600 dark:text-red-400",
-  gray: "text-gray-600 dark:text-gray-400",
+  zinc: "text-zinc-600 dark:text-zinc-400",
 };
 
 type NutrientCardProps = {
@@ -59,14 +59,14 @@ function NutrientCard({
 }: NutrientCardProps) {
   if (compact) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3">
+      <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
         <div className={`text-lg font-bold ${colorClasses[color]}`}>
           {value}
         </div>
-        <div className="text-xs text-gray-600 dark:text-gray-400 truncate">
+        <div className="text-xs text-zinc-600 dark:text-zinc-400 truncate">
           {title}
         </div>
-        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+        <div className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
           {subtitle}
         </div>
       </div>
@@ -74,14 +74,35 @@ function NutrientCard({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+    <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 p-4">
       <div className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</div>
-      <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+      <div className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
         {title}
       </div>
-      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+      <div className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
         {subtitle}
       </div>
+    </div>
+  );
+}
+
+// Skeleton loading component
+function NutrientCardSkeleton({ compact = false }: { compact?: boolean }) {
+  if (compact) {
+    return (
+      <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3 animate-pulse">
+        <div className="h-5 bg-zinc-200 dark:bg-zinc-700 rounded w-16 mb-2"></div>
+        <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-full mb-2"></div>
+        <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-3/4"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 p-4 animate-pulse">
+      <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-20 mb-2"></div>
+      <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-full mb-2"></div>
+      <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-3/4"></div>
     </div>
   );
 }
@@ -94,6 +115,7 @@ const NutrientOverview = forwardRef(
     const [selectedDate, setSelectedDate] = useState(
       new Date().toISOString().split("T")[0]
     );
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchFoodLogs = async (date: string) => {
       const res = await fetch(`/api/food-logs?date=${date}`);
@@ -112,8 +134,10 @@ const NutrientOverview = forwardRef(
     };
 
     const refresh = async () => {
+      setIsLoading(true);
       const today = new Date().toISOString().split("T")[0];
       await Promise.all([fetchFoodLogs(today), fetchGoals()]);
+      setIsLoading(false);
     };
 
     useImperativeHandle(ref, () => ({
@@ -121,9 +145,14 @@ const NutrientOverview = forwardRef(
     }));
 
     useEffect(() => {
-      const today = new Date().toISOString().split("T")[0];
-      fetchFoodLogs(today);
-      fetchGoals();
+      const loadInitialData = async () => {
+        setIsLoading(true);
+        const today = new Date().toISOString().split("T")[0];
+        await Promise.all([fetchFoodLogs(today), fetchGoals()]);
+        setIsLoading(false);
+      };
+
+      loadInitialData();
     }, []);
 
     const getTotalNutrients = () => {
@@ -243,7 +272,7 @@ const NutrientOverview = forwardRef(
 
     const getColor = (percent: number | null, hasGoal: boolean) => {
       if (!hasGoal) return "blue";
-      if (!percent) return "gray";
+      if (!percent) return "zinc";
       if (percent >= 90) return "green";
       if (percent >= 70) return "amber";
       return "red";
@@ -263,16 +292,28 @@ const NutrientOverview = forwardRef(
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-3">
             Nutrients
           </h3>
 
-          {hasNoFoodLogs ? (
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-10">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2 text-center">
+          {isLoading ? (
+            <div className="space-y-4">
+              <div className="flex space-x-4 border-b border-zinc-200 dark:border-zinc-700 pb-2">
+                <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-20 animate-pulse"></div>
+                <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-20 animate-pulse"></div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <NutrientCardSkeleton key={i} />
+                ))}
+              </div>
+            </div>
+          ) : hasNoFoodLogs ? (
+            <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 p-10">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white mb-2 text-center">
                 No food logged today
               </h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-4 text-center">
+              <p className="text-zinc-500 dark:text-zinc-400 mb-4 text-center">
                 Log food to see your daily nutrients
               </p>
               <div className="flex items-center justify-center">
@@ -283,8 +324,8 @@ const NutrientOverview = forwardRef(
               </div>
             </div>
           ) : hasNoNutrients ? (
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 text-center">
-              <div className="text-gray-400 dark:text-gray-500 mb-4">
+            <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 p-4 text-center">
+              <div className="text-zinc-400 dark:text-zinc-500 mb-4">
                 <svg
                   className="w-16 h-16 mx-auto"
                   fill="none"
@@ -299,16 +340,16 @@ const NutrientOverview = forwardRef(
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white mb-2">
                 No nutrient data available
               </h3>
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-zinc-500 dark:text-zinc-400">
                 The logged food items don&apos;t contain nutrient information
               </p>
             </div>
           ) : (
             <>
-              <div className="border-b border-gray-200 dark:border-gray-700 mb-4">
+              <div className="border-b border-zinc-200 dark:border-zinc-700 mb-4">
                 <nav className="flex space-x-4">
                   {Object.entries(categorizedNutrients)
                     .filter(([, nutrients]) => nutrients.length > 0)
@@ -319,7 +360,7 @@ const NutrientOverview = forwardRef(
                         className={`px-3 py-2 text-sm font-medium rounded-t ${
                           activeTab === category
                             ? "text-blue-600 border-b-2 border-blue-600"
-                            : "text-gray-500 hover:text-gray-700 cursor-pointer"
+                            : "text-zinc-500 hover:text-zinc-700 cursor-pointer"
                         }`}
                       >
                         {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -356,5 +397,7 @@ const NutrientOverview = forwardRef(
     );
   }
 );
+
+NutrientOverview.displayName = "NutrientOverview";
 
 export default NutrientOverview;

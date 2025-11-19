@@ -1,24 +1,22 @@
 "use client";
-
-import { useState, useRef, useImperativeHandle, forwardRef } from "react";
+import { useState, useRef } from "react";
 import NutrientOverview from "./nutrient-overview";
 import RecentMealsCard from "./recent-meals-card";
 import InventoryCard from "./inventory-card";
 import { LuUtensils, LuBookOpen, LuCarrot, LuBoxes } from "react-icons/lu";
 import Link from "next/link";
+import AddLogModal from "../add-log-modal";
+import AddInventoryModal from "../add-inventory-modal"; // Import the inventory modal
 
 type NutrientOverviewHandle = {
   refresh: () => Promise<void>;
 };
-
 type RecentMealsHandle = {
   refresh: () => Promise<void>;
 };
-
 type InventoryHandle = {
   refresh: () => Promise<void>;
 };
-
 type DashboardClientProps = {
   userData: any;
   initialRecentMeals: any[];
@@ -32,6 +30,8 @@ export default function DashboardClient({
 }: DashboardClientProps) {
   const [recentMeals, setRecentMeals] = useState(initialRecentMeals);
   const [inventoryItems, setInventoryItems] = useState(initialInventoryItems);
+  const [isLogModalOpen, setIsLogModalOpen] = useState(false);
+  const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false); // Add inventory modal state
 
   const nutrientOverviewRef = useRef<NutrientOverviewHandle>(null);
   const recentMealsRef = useRef<RecentMealsHandle>(null);
@@ -40,6 +40,11 @@ export default function DashboardClient({
   const handleLogSuccess = async () => {
     nutrientOverviewRef.current?.refresh();
     await refreshRecentMeals();
+    await refreshInventory();
+  };
+
+  const handleInventorySuccess = async () => {
+    // Refresh inventory when item is added
     await refreshInventory();
   };
 
@@ -73,10 +78,10 @@ export default function DashboardClient({
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
             Welcome back, {userData?.first_name || "Chef"}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-zinc-600 dark:text-zinc-400">
             Here's your overview for today
           </p>
         </div>
@@ -89,15 +94,29 @@ export default function DashboardClient({
       />
 
       {/* Quick Actions */}
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-3">
         Quick Actions
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <QuickAction
-          icon={<LuUtensils className="w-7 h-7" />}
-          title="Log Food"
-          href="/foodlog"
-        />
+        {/* Log Food Button - opens modal */}
+        <button
+          onClick={() => setIsLogModalOpen(true)}
+          className="text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 cursor-pointer"
+        >
+          <div className="flex justify-center mb-3">
+            <LuUtensils className="w-7 h-7" />
+          </div>
+          <div className="font-medium">Log Food</div>
+        </button>
+        <button
+          onClick={() => setIsInventoryModalOpen(true)}
+          className="text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 cursor-pointer"
+        >
+          <div className="flex justify-center mb-3">
+            <LuBoxes className="w-7 h-7" />
+          </div>
+          <div className="font-medium">Add Inventory</div>
+        </button>
         <QuickAction
           icon={<LuBookOpen className="w-7 h-7" />}
           title="Recipes"
@@ -108,11 +127,6 @@ export default function DashboardClient({
           title="Ingredients"
           href="/ingredients"
         />
-        <QuickAction
-          icon={<LuBoxes className="w-7 h-7" />}
-          title="Inventory"
-          href="/inventory"
-        />
       </div>
 
       {/* Two Column Layout */}
@@ -120,6 +134,21 @@ export default function DashboardClient({
         <RecentMealsCard ref={recentMealsRef} recentMeals={recentMeals} />
         <InventoryCard ref={inventoryRef} inventoryItems={inventoryItems} />
       </div>
+
+      {/* Add Log Modal */}
+      <AddLogModal
+        isOpen={isLogModalOpen}
+        onClose={() => setIsLogModalOpen(false)}
+        selectedDate={new Date().toISOString().split("T")[0]}
+        onLogSuccess={handleLogSuccess}
+      />
+
+      {/* Add Inventory Modal */}
+      <AddInventoryModal
+        isOpen={isInventoryModalOpen}
+        onClose={() => setIsInventoryModalOpen(false)}
+        onSuccess={handleInventorySuccess}
+      />
     </div>
   );
 }
@@ -136,7 +165,7 @@ function QuickAction({
   return (
     <Link
       href={href}
-      className="text-gray-900 dark:text-white bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105"
+      className="text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105"
     >
       <div className="flex justify-center mb-3">{icon}</div>
       <div className="font-medium">{title}</div>

@@ -28,11 +28,11 @@ export default function SidebarNav() {
   ];
 
   return (
-    <aside className="w-64 h-screen border-r border-r-gray-200 dark:border-r-gray-700 flex flex-col">
+    <aside className="w-64 h-screen border-r border-r-zinc-200 dark:border-r-zinc-700 flex flex-col">
       {/* Logo/Brand */}
-      <div className="p-6 border-b border-b-gray-200 dark:border-b-gray-700">
+      <div className="p-6 border-b border-b-zinc-200 dark:border-b-zinc-700">
         <Link href="/" className="text-xl font-bold">
-          Mise
+          Alimon
         </Link>
       </div>
 
@@ -47,8 +47,8 @@ export default function SidebarNav() {
                   href={href}
                   className={`flex items-center p-3 rounded-lg transition-colors ${
                     isActive
-                      ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-medium"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-medium"
+                      : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                   }`}
                 >
                   <Icon className="w-5 h-5 mr-3" />
@@ -61,7 +61,7 @@ export default function SidebarNav() {
       </nav>
 
       {/* Footer with Theme Toggle */}
-      <div className="p-4 border-t border-t-gray-200 dark:border-t-gray-700">
+      <div className="p-4 border-t border-t-zinc-200 dark:border-t-zinc-700">
         <ThemeToggle />
       </div>
     </aside>

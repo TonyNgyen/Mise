@@ -47,10 +47,10 @@ const SORTABLE_KEYS = [
 // Skeleton Loading Component
 function NutritionSkeleton() {
   return (
-    <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-700">
       <div className="flex items-center justify-between mb-4">
-        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
-        <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded-full w-20"></div>
+        <div className="h-6 bg-zinc-200 dark:bg-zinc-700 rounded w-1/4"></div>
+        <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded-full w-20"></div>
       </div>
 
       {/* Main Nutrients Grid Skeleton */}
@@ -58,32 +58,32 @@ function NutritionSkeleton() {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 p-4 rounded-xl text-center animate-pulse"
+            className="bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-700 dark:to-zinc-600 p-4 rounded-xl text-center animate-pulse"
           >
-            <div className="h-8 bg-gray-300 dark:bg-gray-600 rounded-lg mx-auto mb-2"></div>
-            <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mx-auto mb-2"></div>
-            <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-5/6 mx-auto"></div>
+            <div className="h-8 bg-zinc-300 dark:bg-zinc-600 rounded-lg mx-auto mb-2"></div>
+            <div className="h-4 bg-zinc-300 dark:bg-zinc-600 rounded w-3/4 mx-auto mb-2"></div>
+            <div className="h-5 bg-zinc-300 dark:bg-zinc-600 rounded w-5/6 mx-auto"></div>
           </div>
         ))}
       </div>
 
       {/* Detailed Nutrients Skeleton */}
       <div className="mb-4">
-        <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-3"></div>
+        <div className="h-5 bg-zinc-200 dark:bg-zinc-700 rounded w-1/3 mb-3"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div
               key={i}
-              className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse"
+              className="flex items-center justify-between p-3 bg-zinc-100 dark:bg-zinc-700 rounded-lg animate-pulse"
             >
-              <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-2/3"></div>
-              <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
+              <div className="h-4 bg-zinc-300 dark:bg-zinc-600 rounded w-2/3"></div>
+              <div className="h-4 bg-zinc-300 dark:bg-zinc-600 rounded w-1/4"></div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mx-auto"></div>
+      <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-1/4 mx-auto"></div>
     </div>
   );
 }
@@ -106,8 +106,8 @@ function RecipeNutrients({
 
   if (!nutrients || nutrients.length === 0) {
     return (
-      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+      <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-700">
+        <div className="text-center py-6 text-zinc-500 dark:text-zinc-400">
           <div className="text-4xl mb-2">📊</div>
           <p className="text-sm">No nutrition data available</p>
         </div>
@@ -126,14 +126,14 @@ function RecipeNutrients({
   };
 
   return (
-    <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-700">
       <div className="flex items-center justify-between mb-4">
-        <h4 className="font-semibold text-gray-900 dark:text-white text-lg">
+        <h4 className="font-semibold text-zinc-900 dark:text-white text-lg">
           Nutrition Facts
         </h4>
         <button
           onClick={() => setShowPerServing(!showPerServing)}
-          className="cursor-pointer px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-full transition-colors"
+          className="cursor-pointer px-3 py-1 text-xs bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600 text-zinc-700 dark:text-zinc-300 rounded-full transition-colors"
         >
           {showPerServing ? "Per Serving" : "Total"}
         </button>
@@ -165,20 +165,20 @@ function RecipeNutrients({
       {/* Detailed Nutrients */}
       {getOtherNutrients().length > 0 && (
         <>
-          <h5 className="font-medium text-gray-700 dark:text-gray-300 text-sm mb-3">
+          <h5 className="font-medium text-zinc-700 dark:text-zinc-300 text-sm mb-3">
             Detailed Nutrition
           </h5>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {getOtherNutrients().map((nutrient) => (
               <div
                 key={nutrient.nutrient_key}
-                className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-700 rounded-lg"
               >
-                <span className="text-sm text-gray-700 dark:text-gray-300">
+                <span className="text-sm text-zinc-700 dark:text-zinc-300">
                   {ALL_NUTRIENTS_DICT[nutrient.nutrient_key]?.display_name ||
                     nutrient.nutrient_key}
                 </span>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                <span className="text-sm font-medium text-zinc-900 dark:text-white">
                   {showPerServing
                     ? (nutrient.total_amount / servings).toFixed(1)
                     : nutrient.total_amount.toFixed(1)}{" "}
@@ -190,7 +190,7 @@ function RecipeNutrients({
         </>
       )}
 
-      <div className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
+      <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-3 text-center">
         Based on {servings} serving{servings !== 1 ? "s" : ""}
       </div>
     </div>
@@ -314,7 +314,7 @@ export default function RecipeList() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-gray-200 dark:bg-gray-700 rounded-xl p-6 h-48"
+              className="bg-zinc-200 dark:bg-zinc-700 rounded-xl p-6 h-48"
             ></div>
           ))}
         </div>
@@ -325,14 +325,14 @@ export default function RecipeList() {
   if (recipes.length === 0) {
     return (
       <div className="p-6 text-center">
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 max-w-md mx-auto">
-          <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
+        <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-8 max-w-md mx-auto">
+          <div className="text-zinc-400 dark:text-zinc-500 text-6xl mb-4">
             <LuChefHat className="mx-auto" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
+          <h3 className="text-lg font-semibold text-zinc-600 dark:text-zinc-300 mb-2">
             No recipes yet
           </h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-6">
             Create your first recipe to start cooking!
           </p>
           <AddRecipeForm fetchRecipes={fetchRecipes} />
@@ -345,19 +345,19 @@ export default function RecipeList() {
     <div className="p-4 space-y-6 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
             My Recipes
           </h1>
           <AddRecipeForm fetchRecipes={fetchRecipes} />
         </div>
 
-        <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+        <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-3 py-1 rounded-full">
           {recipes.length} recipe{recipes.length !== 1 ? "s" : ""}
         </span>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">
+        <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mr-2">
           Sort by:
         </span>
         {SORTABLE_KEYS.map((item) => (
@@ -369,7 +369,7 @@ export default function RecipeList() {
               ${
                 sortKey === item.key
                   ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 cursor-pointer"
+                  : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
               }
             `}
           >
@@ -384,15 +384,15 @@ export default function RecipeList() {
         {sortedRecipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
+            className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             {/* Recipe Header */}
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h2 className="font-bold text-xl text-gray-900 dark:text-white mb-2">
+                <h2 className="font-bold text-xl text-zinc-900 dark:text-white mb-2">
                   {recipe.name}
                 </h2>
-                <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400">
                   <span className="flex items-center gap-1">
                     <svg
                       className="w-4 h-4"
@@ -427,7 +427,7 @@ export default function RecipeList() {
                   </span>
                 </div>
                 <div className="mt-2">
-                  <div className="flex gap-6 text-sm text-gray-800 dark:text-gray-200">
+                  <div className="flex gap-6 text-sm text-zinc-800 dark:text-zinc-200">
                     {(() => {
                       const preview = getPreviewNutrients(
                         recipe.recipe_nutrients
@@ -476,11 +476,11 @@ export default function RecipeList() {
 
               <button
                 onClick={() => toggleExpand(recipe.id)}
-                className="ml-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
+                className="ml-4 p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg transition-colors cursor-pointer"
               >
                 {expandedRecipe === recipe.id ? (
                   <svg
-                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                    className="w-5 h-5 text-zinc-600 dark:text-zinc-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -494,7 +494,7 @@ export default function RecipeList() {
                   </svg>
                 ) : (
                   <svg
-                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                    className="w-5 h-5 text-zinc-600 dark:text-zinc-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -514,22 +514,22 @@ export default function RecipeList() {
             {expandedRecipe === recipe.id && (
               <>
                 {/* Full Ingredients */}
-                <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <h4 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide mb-3">
+                <div className="pt-4 border-t border-zinc-200 dark:border-zinc-700">
+                  <h4 className="font-semibold text-zinc-700 dark:text-zinc-300 text-sm uppercase tracking-wide mb-3">
                     All Ingredients
                   </h4>
                   <div className="grid gap-3">
                     {recipe.recipe_ingredients.map((ri, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                        className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-700 rounded-lg"
                       >
                         <div>
-                          <div className="font-medium text-gray-900 dark:text-white">
+                          <div className="font-medium text-zinc-900 dark:text-white">
                             {ri.ingredient.name}
                           </div>
                           {ri.ingredient.brand && (
-                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                            <div className="text-sm text-zinc-600 dark:text-zinc-400">
                               {ri.ingredient.brand}
                             </div>
                           )}

@@ -6,7 +6,7 @@ export default function TopNav() {
   return (
     <header className="flex justify-between items-center px-96 py-4">
       <Link href="/" className="text-xl font-light">
-        Mise
+        Alimon
       </Link>
       <div className="flex items-center gap-4">
         {/* <Link href="/login" className="hover:underline">

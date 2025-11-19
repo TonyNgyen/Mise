@@ -1,4 +1,6 @@
+// components/add-inventory-modal.tsx
 "use client";
+
 import React, { useState, useEffect } from "react";
 
 type IngredientUnit = {
@@ -12,25 +14,25 @@ type Ingredient = {
   id: string;
   name: string;
   brand: string | null;
-  serving_size: number | null; // Changed to allow null based on your data example
-  serving_unit: string | null; // NEW: Added based on your data
+  serving_size: number | null;
+  serving_unit: string | null;
   servings_per_container: number | null;
-  units: IngredientUnit[]; // NEW: Added the nested units array
+  units: IngredientUnit[];
 };
 
 type Recipe = { id: string; name: string };
 
-interface AddInventoryFormProps {
+interface AddInventoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-export default function AddInventoryForm({
+export default function AddInventoryModal({
   isOpen,
   onClose,
   onSuccess,
-}: AddInventoryFormProps) {
+}: AddInventoryModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ingredientQuery, setIngredientQuery] = useState("");
   const [recipeQuery, setRecipeQuery] = useState("");
@@ -41,7 +43,6 @@ export default function AddInventoryForm({
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [ingredientQuantity, setIngredientQuantity] = useState("");
   const [ingredientUnit, setIngredientUnit] = useState("grams");
-
   const [recipeQuantity, setRecipeQuantity] = useState("");
   const [recipeUnit, setRecipeUnit] = useState("servings");
   const [activeTab, setActiveTab] = useState<"ingredient" | "recipe">(
@@ -49,8 +50,9 @@ export default function AddInventoryForm({
   );
   const [availableUnits, setAvailableUnits] = useState<IngredientUnit[]>([]);
 
-  // ✅ Search ingredients
+  // Search ingredients
   useEffect(() => {
+    if (!isOpen) return;
     if (ingredientQuery.length < 2) return setIngredientResults([]);
     const timeout = setTimeout(async () => {
       try {
@@ -58,7 +60,6 @@ export default function AddInventoryForm({
           `/api/ingredients/search?q=${encodeURIComponent(ingredientQuery)}`
         );
         const data = await res.json();
-        console.log("Ingredient search data:", data);
         if (data.success)
           setIngredientResults(data.results || data.ingredients);
       } catch (error) {
@@ -66,40 +67,36 @@ export default function AddInventoryForm({
       }
     }, 300);
     return () => clearTimeout(timeout);
-  }, [ingredientQuery]);
+  }, [ingredientQuery, isOpen]);
 
-  // ✅ Search recipes
+  // Search recipes
   useEffect(() => {
+    if (!isOpen) return;
     if (recipeQuery.length < 2) return setRecipeResults([]);
     const timeout = setTimeout(async () => {
       try {
         const res = await fetch(`/api/recipes/search?q=${recipeQuery}`);
         const data = await res.json();
-        console.log("Recipe search data:", data);
         if (data.success) setRecipeResults(data.results || data.recipes);
       } catch (error) {
         console.error("Search error:", error);
       }
     }, 300);
     return () => clearTimeout(timeout);
-  }, [recipeQuery]);
+  }, [recipeQuery, isOpen]);
 
+  // Update available units when ingredient is selected
   useEffect(() => {
     if (selectedIngredient) {
-      // Use the units already fetched with the ingredient search result
       setAvailableUnits(selectedIngredient.units);
-
-      // This logic can be removed if handled in the onClick, but keep it
-      // here to ensure state consistency if selectedIngredient is set elsewhere.
       const defaultUnitName =
         selectedIngredient.units.find((u) => u.is_default)?.unit_name ||
         selectedIngredient.serving_unit ||
         "grams";
       setIngredientUnit(defaultUnitName);
     } else {
-      // Clear if no ingredient is selected
       setAvailableUnits([]);
-      setIngredientUnit("grams"); // Default unit when nothing is selected
+      setIngredientUnit("grams");
     }
   }, [selectedIngredient]);
 
@@ -130,7 +127,6 @@ export default function AddInventoryForm({
 
     try {
       if (activeTab === "ingredient") {
-        // --- Ingredient path ---
         if (!selectedIngredient) {
           alert("Please select an ingredient");
           return;
@@ -178,7 +174,6 @@ export default function AddInventoryForm({
         const data = await res.json();
         if (!data.success) throw new Error(data.message || "Unknown error");
       } else {
-        // --- ✅ Recipe path (simplified) ---
         if (!selectedRecipe) {
           alert("Please select a recipe");
           return;
@@ -204,13 +199,11 @@ export default function AddInventoryForm({
         if (!data.success) throw new Error(data.message || "Unknown error");
       }
 
-      // ✅ If everything succeeds
       onSuccess();
-      handleClose(); // resets form
+      handleClose();
     } catch (err: unknown) {
       console.error("Error updating inventory:", err);
       const message = err instanceof Error ? err.message : "Unknown error";
-
       alert(`Error: ${message}`);
     } finally {
       setIsSubmitting(false);
@@ -240,21 +233,34 @@ export default function AddInventoryForm({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-700 p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-2xl border border-zinc-200 dark:border-zinc-700 p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
         {/* Modal Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 border-b pb-3 border-zinc-200 dark:border-zinc-700">
           <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
             Add to Inventory
           </h2>
           <button
             onClick={handleClose}
-            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 text-2xl cursor-pointer"
+            className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors cursor-pointer"
             disabled={isSubmitting}
+            aria-label="Close modal"
           >
-            ×
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
 
@@ -267,7 +273,7 @@ export default function AddInventoryForm({
               className={`px-4 py-2 font-medium text-sm cursor-pointer ${
                 activeTab === "ingredient"
                   ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300"
               }`}
             >
               🥕 Ingredient
@@ -278,7 +284,7 @@ export default function AddInventoryForm({
               className={`px-4 py-2 font-medium text-sm cursor-pointer ${
                 activeTab === "recipe"
                   ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300"
               }`}
             >
               📖 Recipe
@@ -291,8 +297,6 @@ export default function AddInventoryForm({
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                 Search Ingredients
               </label>
-              {/* {ingredientQuantity}
-              {ingredientUnit} */}
               <div className="relative">
                 <input
                   type="text"
@@ -401,6 +405,7 @@ export default function AddInventoryForm({
             </div>
           )}
 
+          {/* Quantity and Unit */}
           <div className="grid grid-cols-2 gap-4">
             {activeTab === "ingredient" && (
               <>
@@ -428,31 +433,26 @@ export default function AddInventoryForm({
                     onChange={(e) => setIngredientUnit(e.target.value)}
                     className="cursor-pointer w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white transition-colors"
                     required
-                    // Disabled if no ingredient is selected
                     disabled={isSubmitting || !selectedIngredient}
                   >
-                    {/* Always include 'servings' and 'containers' (if applicable) */}
                     <option value="servings">servings</option>
 
                     {selectedIngredient?.servings_per_container && (
                       <option value="containers">containers</option>
                     )}
 
-                    {/* Standard Serving Unit (e.g., 'grams' or 'mL') */}
                     {selectedIngredient?.serving_unit && (
                       <option value={selectedIngredient.serving_unit}>
                         {selectedIngredient.serving_unit}
                       </option>
                     )}
 
-                    {/* Custom Units from the database (availableUnits state) */}
                     {availableUnits.map((unit) => (
                       <option key={unit.id} value={unit.unit_name}>
                         {unit.unit_name}
                       </option>
                     ))}
 
-                    {/* Default / Placeholder option */}
                     {!selectedIngredient && (
                       <option value="" disabled>
                         Select an Ingredient
@@ -498,6 +498,7 @@ export default function AddInventoryForm({
             )}
           </div>
 
+          {/* Action Buttons */}
           <div className="flex gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-700">
             <button
               type="button"

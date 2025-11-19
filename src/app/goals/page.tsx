@@ -148,7 +148,7 @@ export default function GoalsPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-4">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
               Nutrition Goals
             </h1>{" "}
             <AddGoalForm
@@ -159,32 +159,32 @@ export default function GoalsPage() {
             />
           </div>
 
-          <p className="text-gray-600 dark:text-gray-400 mt-4">
+          <p className="text-zinc-600 dark:text-zinc-400 mt-4">
             Set and track your daily nutrition targets
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+          <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-3 py-1 rounded-full">
             {goals.length} goal{goals.length !== 1 ? "s" : ""}
           </span>
         </div>
       </div>
 
       <div className="">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">
           Your Goals
         </h2>
 
         {/* Goals List */}
         {goals.length === 0 ? (
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 text-center">
-            <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">
+          <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-8 text-center">
+            <div className="text-zinc-400 dark:text-zinc-500 text-6xl mb-4">
               <LuTrophy className="mx-auto" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
+            <h3 className="text-lg font-semibold text-zinc-600 dark:text-zinc-300 mb-2">
               No goals yet
             </h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm">
               Set your first nutrition goal!
             </p>
           </div>
@@ -195,15 +195,15 @@ export default function GoalsPage() {
               return (
                 <div
                   key={goal.id}
-                  className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
+                  className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+                      <h3 className="font-semibold text-lg text-zinc-900 dark:text-white">
                         {nutrientInfo?.display_name ||
                           formatNutrientName(goal.nutrient_key)}
                       </h3>
-                      <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      <div className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400 mt-1">
                         <span className="flex items-center gap-1">
                           Target: {goal.target_amount}{" "}
                           {nutrientInfo?.unit || ""}
@@ -237,7 +237,7 @@ export default function GoalsPage() {
 
                   {/* Progress bar */}
                   <div className="mt-4">
-                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
+                    <div className="flex justify-between text-sm text-zinc-600 dark:text-zinc-400 mb-1">
                       <span>Progress</span>
                       <span>
                         {(
@@ -248,7 +248,7 @@ export default function GoalsPage() {
                         %
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-2">
                       <div
                         className="bg-blue-600 h-2 rounded-full"
                         style={{

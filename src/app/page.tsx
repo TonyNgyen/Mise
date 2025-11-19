@@ -11,11 +11,11 @@ export default async function Home() {
         <RadialGradient />
         <div className="text-center space-y-8 max-w-md z-10">
           <div className="space-y-4">
-            <h1 className="text-5xl font-light tracking-wide text-gray-900 dark:text-white">
-              Mise
+            <h1 className="text-5xl font-light tracking-wide text-zinc-900 dark:text-white">
+              Alimon
             </h1>
-            <div className="h-px w-16 bg-gray-300 dark:bg-gray-600 mx-auto"></div>
-            <p className="text-lg font-light text-gray-600 dark:text-gray-300 tracking-wide uppercase letter-spacing: 0.05em;">
+            <div className="h-px w-16 bg-zinc-300 dark:bg-zinc-600 mx-auto"></div>
+            <p className="text-lg font-light text-zinc-600 dark:text-zinc-300 tracking-wide uppercase letter-spacing: 0.05em;">
               Meal Prep Made Simple
             </p>
           </div>
@@ -23,13 +23,13 @@ export default async function Home() {
           <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/login"
-              className="px-8 py-3 rounded-sm border border-gray-300 text-gray-700 bg-white dark:bg-[#121212] hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 transition-all duration-300 font-light tracking-wide text-sm uppercase"
+              className="px-8 py-3 rounded-sm border border-zinc-300 text-zinc-700 bg-white dark:bg-[#121212] hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-all duration-300 font-light tracking-wide text-sm uppercase"
             >
               Log in
             </a>
             <a
               href="/signup"
-              className="px-8 py-3 rounded-sm bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-300 transition-all duration-300 font-light tracking-wide text-sm uppercase"
+              className="px-8 py-3 rounded-sm bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300 transition-all duration-300 font-light tracking-wide text-sm uppercase"
             >
               Sign up
             </a>
@@ -37,7 +37,7 @@ export default async function Home() {
         </div>
 
         <div className="absolute bottom-8 text-center">
-          <p className="text-xs text-gray-500 dark:text-gray-500 tracking-wide">
+          <p className="text-xs text-zinc-500 dark:text-zinc-500 tracking-wide">
             Elevate your meal prep experience
           </p>
         </div>

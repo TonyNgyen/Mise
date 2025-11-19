@@ -304,7 +304,7 @@ const NUTRIENT_MAP: Record<string, string> = {
   "Phosphorus, P": "phosphorus",
   "Iodine, I": "iodine",
   "Magnesium, Mg": "magnesium",
-  "Zinc, Zn": "zinc",
+  "zinc, Zn": "zinc",
   "Selenium, Se": "selenium",
   "Copper, Cu": "copper",
   "Manganese, Mn": "manganese",
