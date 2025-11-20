@@ -17,10 +17,42 @@ type RecentMealsHandle = {
 type InventoryHandle = {
   refresh: () => Promise<void>;
 };
+interface UserData {
+  id: string;
+  username: string;
+  email: string;
+  first_name: string | null;
+  last_name: string | null;
+  avatar_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+type FoodLogNutrient = {
+  nutrient_key: string;
+  amount: number;
+};
+type recentMeals = Array<{
+  id: string;
+  log_datetime: string;
+  ingredient: { name: string } | null;
+  recipe: { name: string } | null;
+  nutrients: FoodLogNutrient[] | null;
+}> | null;
+type InventoryItemType = {
+  id: string;
+  ingredient?: {
+    name: string;
+  };
+  recipe?: {
+    name: string;
+  };
+  quantity: number;
+  unit: string;
+};
 type DashboardClientProps = {
-  userData: any;
-  initialRecentMeals: any[];
-  initialInventoryItems: any[];
+  userData: UserData | null;
+  initialRecentMeals: recentMeals | null;
+  initialInventoryItems?: InventoryItemType[];
 };
 
 export default function DashboardClient({
@@ -31,7 +63,7 @@ export default function DashboardClient({
   const [recentMeals, setRecentMeals] = useState(initialRecentMeals);
   const [inventoryItems, setInventoryItems] = useState(initialInventoryItems);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
-  const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false); // Add inventory modal state
+  const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false);
 
   const nutrientOverviewRef = useRef<NutrientOverviewHandle>(null);
   const recentMealsRef = useRef<RecentMealsHandle>(null);
@@ -44,7 +76,6 @@ export default function DashboardClient({
   };
 
   const handleInventorySuccess = async () => {
-    // Refresh inventory when item is added
     await refreshInventory();
   };
 
@@ -82,7 +113,7 @@ export default function DashboardClient({
             Welcome back, {userData?.first_name || "Chef"}
           </h1>
           <p className="text-zinc-600 dark:text-zinc-400">
-            Here's your overview for today
+            Here&apos;s your overview for today
           </p>
         </div>
       </div>

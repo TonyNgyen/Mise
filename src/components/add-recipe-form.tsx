@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
-// Assuming you have lucide-react installed for professional icons
 import {
   LuPlus,
   LuX,
   LuTrash2,
   LuLoader,
-  LuBookOpen,
   LuSearch,
-} from "react-icons/lu"; // Using lucide-react for icons
+} from "react-icons/lu";
 
 type Nutrient = {
   id: number;
@@ -26,7 +24,6 @@ type Unit = {
   amount: number;
 };
 
-// --- Type Definitions (Improved) ---
 type Ingredient = {
   id: string;
   name: string;
@@ -113,8 +110,6 @@ export default function AddRecipeForm({
     setIsModalOpen(false);
     resetForm();
   }, [resetForm]);
-
-  // --- Search & Selection Logic ---
 
   const searchIngredients = async (query: string, index: number) => {
     if (!query || query.length < 2) {
