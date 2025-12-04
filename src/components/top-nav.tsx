@@ -5,7 +5,7 @@ import ThemeToggle from "./theme-toggle";
 export default function TopNav() {
   return (
     <header className="flex justify-between items-center px-96 py-4">
-      <Link href="/" className="text-xl font-light">
+      <Link href="/" className="text-xl font-sans font-medium">
         Alimon
       </Link>
       <div className="flex items-center gap-4">

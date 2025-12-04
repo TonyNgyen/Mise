@@ -7,6 +7,7 @@ import { LuUtensils, LuBookOpen, LuCarrot, LuBoxes } from "react-icons/lu";
 import Link from "next/link";
 import AddLogModal from "../add-log-modal";
 import AddInventoryModal from "../add-inventory-modal"; // Import the inventory modal
+import { logout } from "@/app/logout/actions";
 
 type NutrientOverviewHandle = {
   refresh: () => Promise<void>;
@@ -116,6 +117,7 @@ export default function DashboardClient({
             Here&apos;s your overview for today
           </p>
         </div>
+        <button onClick={logout} className="hover:bg-gray-200 cursor-pointer px-4 py-2 rounded-md transition-all">Log out</button>
       </div>
 
       {/* Nutrition Overview - pass callback for refresh */}

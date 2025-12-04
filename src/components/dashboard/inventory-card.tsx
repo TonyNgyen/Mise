@@ -35,9 +35,9 @@ function InventoryItem({
   };
 
   return (
-    <div className="flex justify-between items-center py-2">
+    <div className="flex justify-between items-center p-3 bg-zinc-50 dark:bg-zinc-700 rounded-lg">
       <span className="text-zinc-900 dark:text-white">{name}</span>
-      <span className={`text-sm font-medium ${statusColors["good"]}`}>
+      <span className={`text-sm font-bold ${statusColors["good"]}`}>
         {quantity}
       </span>
     </div>

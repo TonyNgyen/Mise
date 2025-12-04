@@ -10,7 +10,6 @@ import {
   LuApple,
   LuBox,
   LuUtensils,
-  LuSettings,
   LuTrophy,
 } from "react-icons/lu";
 
@@ -31,7 +30,7 @@ export default function SidebarNav() {
     <aside className="w-64 h-screen border-r border-r-zinc-200 dark:border-r-zinc-700 flex flex-col">
       {/* Logo/Brand */}
       <div className="p-6 border-b border-b-zinc-200 dark:border-b-zinc-700">
-        <Link href="/" className="text-xl font-bold">
+        <Link href="/" className="text-xl font-sans font-semibold">
           Alimon
         </Link>
       </div>
@@ -67,4 +66,3 @@ export default function SidebarNav() {
     </aside>
   );
 }
-  

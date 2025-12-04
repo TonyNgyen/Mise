@@ -88,7 +88,7 @@ export default function SignupPage() {
           <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
             Create Your Account
           </h1>
-          <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400 font-sans font-medium">
             Join Alimon and simplify your meal prep
           </p>
         </div>
