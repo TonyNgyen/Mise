@@ -32,7 +32,7 @@ type Goal = {
 };
 
 const colorClasses = {
-  blue: "text-blue-600 dark:text-blue-400",
+  blue: "text-[#3A8F9E] dark:text-[#C9E6EA]",
   green: "text-green-600 dark:text-green-400",
   amber: "text-amber-600 dark:text-amber-400",
   red: "text-red-600 dark:text-red-400",
@@ -359,8 +359,8 @@ const NutrientOverview = forwardRef(
                         onClick={() => setActiveTab(category)}
                         className={`px-3 py-2 text-sm font-medium rounded-t ${
                           activeTab === category
-                            ? "text-blue-600 border-b-2 border-blue-600"
-                            : "text-zinc-500 hover:text-zinc-700 cursor-pointer"
+                            ? "text-[#3A8F9E] dark:text-[#C9E6EA] border-b-2 border-[#3A8F9E] dark:border-[#C9E6EA]"
+                            : "text-zinc-400 hover:text-[#3A8F9E] dark:hover:text-[#C9E6EA] hover:border-b-2 hover:border-[#3A8F9E] dark:hover:border-[#C9E6EA] cursor-pointer"
                         }`}
                       >
                         {category.charAt(0).toUpperCase() + category.slice(1)}

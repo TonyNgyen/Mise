@@ -12,7 +12,7 @@ export default async function Home() {
         <div className="text-center space-y-8 max-w-md z-10">
           <div className="space-y-4">
             <h1 className="font-sans font-medium text-6xl tracking-wide text-zinc-900 dark:text-white">
-              Alimon
+              meap
             </h1>
             <div className="h-px w-16 bg-zinc-300 dark:bg-zinc-600 mx-auto"></div>
             <p className="text-lg font-sans font-medium text-zinc-600 dark:text-zinc-300 tracking-wide uppercase letter-spacing: 0.05em;">

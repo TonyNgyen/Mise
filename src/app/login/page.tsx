@@ -57,7 +57,7 @@ export default function LoginPage() {
         {/* ... Header Section ... */}
         <div className="text-center">
           <h1 className="text-3xl text-zinc-900 dark:text-white font-sans font-medium">
-            Welcome to Alimon
+            Welcome to meap
           </h1>
           <p className="mt-2 text-zinc-600 dark:text-zinc-300">
             Your personal meal prep assistant

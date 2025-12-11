@@ -31,7 +31,7 @@ export default function SidebarNav() {
       {/* Logo/Brand */}
       <div className="p-6 border-b border-b-zinc-200 dark:border-b-zinc-700">
         <Link href="/" className="text-xl font-sans font-semibold">
-          Alimon
+          meap
         </Link>
       </div>
 
@@ -46,8 +46,8 @@ export default function SidebarNav() {
                   href={href}
                   className={`flex items-center p-3 rounded-lg transition-colors ${
                     isActive
-                      ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-medium"
-                      : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                      ? "bg-[#E5F3F5] dark:bg-[#3A8F9E] text-zinc-900 dark:text-white font-medium"
+                      : "text-zinc-700 dark:text-white hover:bg-[#E5F3F5] dark:hover:bg-[#3A8F9E]"
                   }`}
                 >
                   <Icon className="w-5 h-5 mr-3" />

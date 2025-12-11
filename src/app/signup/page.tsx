@@ -89,7 +89,7 @@ export default function SignupPage() {
             Create Your Account
           </h1>
           <p className="mt-2 text-zinc-600 dark:text-zinc-400 font-sans font-medium">
-            Join Alimon and simplify your meal prep
+            Join meap and simplify your meal prep
           </p>
         </div>
 

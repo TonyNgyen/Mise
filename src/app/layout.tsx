@@ -6,7 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Alimon",
+  title: "meap",
   description: "Meal prep and planning app",
 };
 
@@ -32,7 +32,7 @@ export default async function RootLayout({
           {user ? (
             <>
               <SidebarNav />
-              <main className="flex-1 overflow-y-auto p-6 bg-zinc-100 dark:bg-zinc-900">{children}</main>
+              <main className="flex-1 overflow-y-auto p-6 bg-[#F7F9FA] dark:bg-zinc-900">{children}</main>
             </>
           ) : (
             <div className="flex flex-col w-full h-screen">
