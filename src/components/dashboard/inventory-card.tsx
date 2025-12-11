@@ -60,11 +60,11 @@ function EmptyInventoryState() {
       <div className="text-zinc-400 dark:text-zinc-500 mb-4">
         <LuBox className="w-14 h-14 mx-auto" />
       </div>
-      <h3 className="text-lg font-medium text-zinc-900 dark:text-white mb-2">
+      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2">
         Your inventory is empty
       </h3>
-      <p className="text-zinc-500 dark:text-zinc-400 mb-4">
-        Add ingredients or recipes to track your inventory
+      <p className="text-zinc-500 dark:text-zinc-400 mb-4 font-medium">
+        Add items to track your inventory
       </p>
       <Link href="/inventory">
         <button className="px-4 py-2 bg-[#3A8F9E] text-white rounded-md hover:bg-[#337E8D] transition-colors cursor-pointer">

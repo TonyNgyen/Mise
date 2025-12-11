@@ -55,28 +55,12 @@ function NutrientCard({
   value,
   subtitle,
   color,
-  compact = false,
 }: NutrientCardProps) {
-  if (compact) {
-    return (
-      <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
-        <div className={`text-lg font-bold ${colorClasses[color]}`}>
-          {value}
-        </div>
-        <div className="text-xs text-zinc-600 dark:text-zinc-400 truncate">
-          {title}
-        </div>
-        <div className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
-          {subtitle}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 p-4">
       <div className={`text-2xl font-bold ${colorClasses[color]}`}>{value}</div>
-      <div className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+      <div className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mt-1">
         {title}
       </div>
       <div className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
@@ -292,7 +276,7 @@ const NutrientOverview = forwardRef(
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-3">
+          <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
             Nutrients
           </h3>
 

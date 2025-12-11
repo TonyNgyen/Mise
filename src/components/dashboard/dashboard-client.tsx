@@ -110,14 +110,19 @@ export default function DashboardClient({
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+          <h1 className="font-sans text-3xl font-bold text-zinc-900 dark:text-white">
             Welcome back, {userData?.first_name || "Chef"}
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-400">
+          <p className="font-semibold text-zinc-600 dark:text-zinc-400">
             Here&apos;s your overview for today
           </p>
         </div>
-        <button onClick={logout} className="hover:bg-gray-200 dark:hover:bg-zinc-800 cursor-pointer px-4 py-2 rounded-md transition-all">Log out</button>
+        <button
+          onClick={logout}
+          className="hover:bg-gray-200 dark:hover:bg-zinc-800 cursor-pointer px-4 py-2 rounded-md transition-all"
+        >
+          Log out
+        </button>
       </div>
 
       {/* Nutrition Overview - pass callback for refresh */}
@@ -127,7 +132,7 @@ export default function DashboardClient({
       />
 
       {/* Quick Actions */}
-      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-3">
+      <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
         Quick Actions
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
