@@ -145,7 +145,7 @@ export default function AddLogForm({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="cursor-pointer bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
+        className="cursor-pointer bg-[#3A8F9E] hover:bg-[#337E8D] text-white py-2 px-4 rounded-md font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
       >
         Log Food
       </button>
@@ -197,8 +197,8 @@ export default function AddLogForm({
                   onClick={() => setActiveTab("ingredient")}
                   className={`px-4 py-2 font-medium text-sm ${
                     activeTab === "ingredient"
-                      ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                      : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer"
+                      ? "dark:text-[#C9E6EA] dark:border-[#C9E6EA] border-b-2 border-[#3A8F9E] text-[#3A8F9E] font-semibold"
+                      : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
                   }`}
                 >
                   🥕 Ingredient
@@ -208,8 +208,8 @@ export default function AddLogForm({
                   onClick={() => setActiveTab("recipe")}
                   className={`px-4 py-2 font-medium text-sm ${
                     activeTab === "recipe"
-                      ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                      : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer"
+                      ? "dark:text-[#C9E6EA] dark:border-[#C9E6EA] border-b-2 border-[#3A8F9E] text-[#3A8F9E] font-semibold"
+                      : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
                   }`}
                 >
                   📖 Recipe
@@ -360,7 +360,7 @@ export default function AddLogForm({
                   id="updateInventory"
                   checked={updateInventory}
                   onChange={(e) => setUpdateInventory(e.target.checked)}
-                  className="mr-2 h-4 w-4 text-blue-600 border-zinc-300 rounded focus:ring-blue-500"
+                  className="mr-2 h-4 w-4 text-[#3A8F9E] border-zinc-300 rounded focus:ring-[#3A8F9E]"
                   disabled={isSubmitting}
                 />
                 <label
@@ -374,7 +374,7 @@ export default function AddLogForm({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-700 dark:hover:bg-blue-800 dark:disabled:bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
+                className="hover:bg-[#337E8D] cursor-pointer w-full bg-[#3A8F9E] text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

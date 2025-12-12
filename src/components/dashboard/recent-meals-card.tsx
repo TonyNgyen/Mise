@@ -104,7 +104,7 @@ const RecentMealsCard = forwardRef<
               Log your meals to see them here
             </p>
             <Link href="/foodlog">
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer">
+              <button className="px-4 py-2 bg-[#3A8F9E] hover:bg-[#337E8D] text-white rounded-md transition-colors cursor-pointer">
                 Log Meal
               </button>
             </Link>

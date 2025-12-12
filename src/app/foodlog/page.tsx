@@ -106,7 +106,7 @@ export default function FoodLogger() {
           </h3>
           <button
             onClick={() => setShowLogs(!showLogs)}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+            className="text-md font-semibold text-[#3A8F9E] dark:text-[#C9E6EA] hover:underline cursor-pointer transition-all"
           >
             {showLogs ? "Hide Logs" : "Show Log Details"}
           </button>
@@ -119,9 +119,9 @@ export default function FoodLogger() {
               {Object.entries(totalNutrients).map(([key, nutrient]) => (
                 <div
                   key={key}
-                  className="bg-zinc-50 dark:bg-zinc-700 p-3 rounded-lg flex flex-col justify-center items-center"
+                  className="bg-zinc-50 dark:bg-zinc-700/50 p-3 rounded-lg flex flex-col justify-center items-center"
                 >
-                  <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                  <div className="text-lg font-bold text-[#3A8F9E] dark:text-[#C9E6EA]">
                     {nutrient.amount.toFixed(1)}
                     <span className="text-xs ml-1">{nutrient.unit}</span>
                   </div>

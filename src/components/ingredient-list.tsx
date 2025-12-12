@@ -222,10 +222,10 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
             key={item.key}
             onClick={() => handleSortChange(item.key)}
             className={`
-              text-xs px-3 py-1 rounded-full transition-all duration-150 cursor-pointer
+              text-xs font-medium px-3 py-1 rounded-full transition-all duration-150 cursor-pointer
               ${
                 sortKey === item.key
-                  ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
+                  ? "bg-[#3A8F9E] text-white shadow-md hover:bg-[#337E8D]"
                   : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
               }
             `}
@@ -323,13 +323,13 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
               <div className="flex items-center gap-6">
                 {getMainNutrients(ingredient.nutrients).map((nutrient) => (
                   <div key={nutrient.id} className="text-center">
-                    <div className="text-lg font-semibold text-zinc-900 dark:text-white">
+                    <div className="text-lg font-semibold text-[#3A8F9E] dark:text-[#C9E6EA]">
                       {nutrient.amount}
-                      <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-1">
+                      <span className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 ml-1">
                         {nutrient.unit}
                       </span>
                     </div>
-                    <div className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">
+                    <div className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">
                       {nutrient.display_name}
                     </div>
                   </div>
@@ -350,7 +350,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
                       key={nutrient.id}
                       className="flex items-center justify-between p-2 bg-zinc-50 dark:bg-zinc-700 rounded-lg"
                     >
-                      <span className="text-sm text-zinc-700 dark:text-zinc-300">
+                      <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                         {nutrient.display_name}
                       </span>
                       <span className="text-sm font-medium text-zinc-900 dark:text-white">

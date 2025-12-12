@@ -110,7 +110,7 @@ export default function DashboardClient({
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="font-sans text-3xl font-bold text-zinc-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
             Welcome back, {userData?.first_name || "Chef"}
           </h1>
           <p className="font-semibold text-zinc-600 dark:text-zinc-400">
@@ -139,7 +139,7 @@ export default function DashboardClient({
         {/* Log Food Button - opens modal */}
         <button
           onClick={() => setIsLogModalOpen(true)}
-          className="hover:shadow-[#C9E6EA]  text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 cursor-pointer"
+          className="hover:shadow-[#C9E6EA] hover:border-[#C9E6EA]  text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 cursor-pointer"
         >
           <div className="flex justify-center mb-3">
             <LuUtensils className="w-7 h-7" />
@@ -148,7 +148,7 @@ export default function DashboardClient({
         </button>
         <button
           onClick={() => setIsInventoryModalOpen(true)}
-          className="hover:shadow-[#C9E6EA] text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 cursor-pointer"
+          className="hover:shadow-[#C9E6EA] hover:border-[#C9E6EA] text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 cursor-pointer"
         >
           <div className="flex justify-center mb-3">
             <LuBoxes className="w-7 h-7" />
@@ -203,7 +203,7 @@ function QuickAction({
   return (
     <Link
       href={href}
-      className="text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 hover:shadow-[#C9E6EA] cursor-pointer"
+      className="hover:border-[#C9E6EA] text-zinc-900 dark:text-white bg-white dark:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 rounded-xl text-center transition-colors transform hover:scale-105 hover:shadow-[#C9E6EA] cursor-pointer"
     >
       <div className="flex justify-center mb-3">{icon}</div>
       <div className="font-medium">{title}</div>

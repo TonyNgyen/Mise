@@ -270,10 +270,10 @@ export default function AddInventoryModal({
             <button
               type="button"
               onClick={() => setActiveTab("ingredient")}
-              className={`px-4 py-2 font-medium text-sm cursor-pointer ${
+              className={`px-4 py-2 font-medium text-sm ${
                 activeTab === "ingredient"
-                  ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300"
+                  ? "dark:text-[#C9E6EA] dark:border-[#C9E6EA] border-b-2 border-[#3A8F9E] text-[#3A8F9E] font-semibold"
+                  : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
               }`}
             >
               🥕 Ingredient
@@ -281,10 +281,10 @@ export default function AddInventoryModal({
             <button
               type="button"
               onClick={() => setActiveTab("recipe")}
-              className={`px-4 py-2 font-medium text-sm cursor-pointer ${
+              className={`px-4 py-2 font-medium text-sm ${
                 activeTab === "recipe"
-                  ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300"
+                  ? "dark:text-[#C9E6EA] dark:border-[#C9E6EA] border-b-2 border-[#3A8F9E] text-[#3A8F9E] font-semibold"
+                  : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
               }`}
             >
               📖 Recipe
@@ -305,7 +305,7 @@ export default function AddInventoryModal({
                     setIngredientQuery(e.target.value);
                     setSelectedIngredient(null);
                   }}
-                  className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 transition-colors"
+                  className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                   placeholder="Search ingredients..."
                   disabled={isSubmitting}
                 />
@@ -315,7 +315,7 @@ export default function AddInventoryModal({
                     {ingredientResults.map((ing) => (
                       <li
                         key={ing.id}
-                        className="px-4 py-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors border-b border-zinc-100 dark:border-zinc-600 last:border-b-0"
+                        className="text-left px-4 py-2 cursor-pointer hover:bg-[#C9E6EA]/30 dark:hover:bg-[#3A8F9E]/10 transition-colors border-b dark:border-zinc-600 last:border-b-0"
                         onClick={() => {
                           setSelectedIngredient(ing);
                           setIngredientQuery(ing.name);
@@ -369,7 +369,7 @@ export default function AddInventoryModal({
                     setRecipeQuery(e.target.value);
                     setSelectedRecipe(null);
                   }}
-                  className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 transition-colors"
+                  className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                   placeholder="Search recipes..."
                   disabled={isSubmitting}
                 />
@@ -379,7 +379,7 @@ export default function AddInventoryModal({
                     {recipeResults.map((rec) => (
                       <li
                         key={rec.id}
-                        className="px-4 py-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors border-b border-zinc-100 dark:border-zinc-600 last:border-b-0"
+                        className="text-left px-4 py-3 cursor-pointer hover:bg-[#C9E6EA]/30 dark:hover:bg-[#3A8F9E]/10 transition-colors border-b dark:border-zinc-600 last:border-b-0"
                         onClick={() => {
                           setSelectedRecipe(rec);
                           setRecipeQuery(rec.name);
@@ -419,7 +419,7 @@ export default function AddInventoryModal({
                     min="0"
                     value={ingredientQuantity}
                     onChange={(e) => setIngredientQuantity(e.target.value)}
-                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white transition-colors"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     required
                     disabled={isSubmitting}
                   />
@@ -431,7 +431,7 @@ export default function AddInventoryModal({
                   <select
                     value={ingredientUnit}
                     onChange={(e) => setIngredientUnit(e.target.value)}
-                    className="cursor-pointer w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white transition-colors"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     required
                     disabled={isSubmitting || !selectedIngredient}
                   >
@@ -475,7 +475,7 @@ export default function AddInventoryModal({
                     min="0"
                     value={recipeQuantity}
                     onChange={(e) => setRecipeQuantity(e.target.value)}
-                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white transition-colors"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     required
                     disabled={isSubmitting}
                   />
@@ -487,7 +487,7 @@ export default function AddInventoryModal({
                   <select
                     value={recipeUnit}
                     onChange={(e) => setRecipeUnit(e.target.value)}
-                    className="cursor-pointer w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white transition-colors"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
                     required
                     disabled={isSubmitting}
                   >
@@ -499,25 +499,25 @@ export default function AddInventoryModal({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-700">
-            <button
+          <div className="flex gap-3 pt-4 ">
+            {/* <button
               type="button"
               onClick={handleClose}
               disabled={isSubmitting}
               className="cursor-pointer flex-1 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600 text-zinc-800 dark:text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 disabled:opacity-50"
             >
               Cancel
-            </button>
+            </button> */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="cursor-pointer flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-700 dark:hover:bg-blue-800 dark:disabled:bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
+              className="hover:bg-[#337E8D] cursor-pointer w-full bg-[#3A8F9E]  text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
-                <>
+                <div className="flex justify-center items-center">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                   Adding...
-                </>
+                </div>
               ) : (
                 "Add to Inventory"
               )}

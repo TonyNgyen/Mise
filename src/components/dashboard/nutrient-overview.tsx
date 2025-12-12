@@ -7,7 +7,6 @@ import React, {
   useImperativeHandle,
 } from "react";
 import { ALL_NUTRIENTS_DICT } from "@/constants/constants";
-import Link from "next/link";
 import AddLogForm from "../add-log-form";
 
 type FoodLog = {
@@ -344,7 +343,7 @@ const NutrientOverview = forwardRef(
                         className={`px-3 py-2 text-sm font-medium rounded-t ${
                           activeTab === category
                             ? "text-[#3A8F9E] dark:text-[#C9E6EA] border-b-2 border-[#3A8F9E] dark:border-[#C9E6EA]"
-                            : "text-zinc-400 hover:text-[#3A8F9E] dark:hover:text-[#C9E6EA] hover:border-b-2 hover:border-[#3A8F9E] dark:hover:border-[#C9E6EA] cursor-pointer"
+                            : "text-zinc-400 hover:text-[#3A8F9E] dark:hover:text-[#C9E6EA] border-b-2 border-transparent hover:border-[#3A8F9E] dark:hover:border-[#C9E6EA] cursor-pointer"
                         }`}
                       >
                         {category.charAt(0).toUpperCase() + category.slice(1)}

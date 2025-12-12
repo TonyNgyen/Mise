@@ -49,8 +49,8 @@ function NutritionSkeleton() {
   return (
     <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-700">
       <div className="flex items-center justify-between mb-4">
-        <div className="h-6 bg-zinc-200 dark:bg-zinc-700 rounded w-1/4"></div>
-        <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded-full w-20"></div>
+        <div className="h-6 bg-zinc-200 dark:bg-zinc-700/40 rounded w-1/4"></div>
+        <div className="h-8 bg-zinc-200 dark:bg-zinc-700/40 rounded-full w-20"></div>
       </div>
 
       {/* Main Nutrients Grid Skeleton */}
@@ -69,12 +69,12 @@ function NutritionSkeleton() {
 
       {/* Detailed Nutrients Skeleton */}
       <div className="mb-4">
-        <div className="h-5 bg-zinc-200 dark:bg-zinc-700 rounded w-1/3 mb-3"></div>
+        <div className="h-5 bg-zinc-200 dark:bg-zinc-700/40 rounded w-1/3 mb-3"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div
               key={i}
-              className="flex items-center justify-between p-3 bg-zinc-100 dark:bg-zinc-700 rounded-lg animate-pulse"
+              className="flex items-center justify-between p-3 bg-zinc-100 dark:bg-zinc-700/40 rounded-lg animate-pulse"
             >
               <div className="h-4 bg-zinc-300 dark:bg-zinc-600 rounded w-2/3"></div>
               <div className="h-4 bg-zinc-300 dark:bg-zinc-600 rounded w-1/4"></div>
@@ -83,7 +83,7 @@ function NutritionSkeleton() {
         </div>
       </div>
 
-      <div className="h-3 bg-zinc-200 dark:bg-zinc-700 rounded w-1/4 mx-auto"></div>
+      <div className="h-3 bg-zinc-200 dark:bg-zinc-700/40 rounded w-1/4 mx-auto"></div>
     </div>
   );
 }
@@ -133,7 +133,7 @@ function RecipeNutrients({
         </h4>
         <button
           onClick={() => setShowPerServing(!showPerServing)}
-          className="cursor-pointer px-3 py-1 text-xs bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600 text-zinc-700 dark:text-zinc-300 rounded-full transition-colors"
+          className="cursor-pointer px-3 py-1 text-xs bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-700/40 dark:hover:bg-zinc-600 text-zinc-700 dark:text-zinc-300 rounded-full transition-colors"
         >
           {showPerServing ? "Per Serving" : "Total"}
         </button>
@@ -144,17 +144,17 @@ function RecipeNutrients({
         {getMainNutrients().map((nutrient) => (
           <div
             key={nutrient.nutrient_key}
-            className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 p-4 rounded-xl text-center"
+            className="dark:bg-zinc-700/40 bg-zinc-50 p-4 rounded-xl text-center"
           >
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <div className="text-2xl font-bold text-[#337E8D] dark:text-[#C9E6EA]">
               {showPerServing
                 ? (nutrient.total_amount / servings).toFixed(0)
                 : nutrient.total_amount.toFixed(0)}
-              <span className="text-xs text-blue-700 dark:text-blue-300 uppercase tracking-wide font-semibold ml-1">
+              <span className="text-xs text-[#337E8D] dark:text-[#C9E6EA] uppercase tracking-wide font-bold ml-1">
                 {nutrient.unit}
               </span>
             </div>
-            <div className="text-sm text-blue-800 dark:text-blue-200 mt-2">
+            <div className="text-sm font-medium text-[#337E8D] dark:text-[#C9E6EA] mt-2">
               {ALL_NUTRIENTS_DICT[nutrient.nutrient_key]?.display_name ||
                 nutrient.nutrient_key}
             </div>
@@ -172,7 +172,7 @@ function RecipeNutrients({
             {getOtherNutrients().map((nutrient) => (
               <div
                 key={nutrient.nutrient_key}
-                className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-700 rounded-lg"
+                className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-700/40 rounded-lg"
               >
                 <span className="text-sm text-zinc-700 dark:text-zinc-300">
                   {ALL_NUTRIENTS_DICT[nutrient.nutrient_key]?.display_name ||
@@ -314,7 +314,7 @@ export default function RecipeList() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-zinc-200 dark:bg-zinc-700 rounded-xl p-6 h-48"
+              className="bg-zinc-200 dark:bg-zinc-700/40 rounded-xl p-6 h-48"
             ></div>
           ))}
         </div>
@@ -351,7 +351,7 @@ export default function RecipeList() {
           <AddRecipeForm fetchRecipes={fetchRecipes} />
         </div>
 
-        <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-3 py-1 rounded-full">
+        <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700/40 px-3 py-1 rounded-full">
           {recipes.length} recipe{recipes.length !== 1 ? "s" : ""}
         </span>
       </div>
@@ -365,11 +365,11 @@ export default function RecipeList() {
             key={item.key}
             onClick={() => handleSortChange(item.key)}
             className={`
-              text-xs px-3 py-1 rounded-full transition-all duration-150 cursor-pointer
+              text-xs font-medium px-3 py-1 rounded-full transition-all duration-150 cursor-pointer
               ${
                 sortKey === item.key
-                  ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
-                  : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
+                  ? "bg-[#3A8F9E] text-white shadow-md hover:bg-[#337E8D]"
+                  : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-700/40 dark:text-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
               }
             `}
           >
@@ -476,7 +476,7 @@ export default function RecipeList() {
 
               <button
                 onClick={() => toggleExpand(recipe.id)}
-                className="ml-4 p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg transition-colors cursor-pointer"
+                className="ml-4 p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700/40 rounded-lg transition-colors cursor-pointer"
               >
                 {expandedRecipe === recipe.id ? (
                   <svg
@@ -522,20 +522,20 @@ export default function RecipeList() {
                     {recipe.recipe_ingredients.map((ri, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-700 rounded-lg"
+                        className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-700/40 rounded-lg"
                       >
                         <div>
                           <div className="font-medium text-zinc-900 dark:text-white">
                             {ri.ingredient.name}
                           </div>
                           {ri.ingredient.brand && (
-                            <div className="text-sm text-zinc-600 dark:text-zinc-400">
+                            <div className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
                               {ri.ingredient.brand}
                             </div>
                           )}
                         </div>
                         <div className="text-right">
-                          <div className="font-bold text-lg text-blue-600 dark:text-blue-400">
+                          <div className="font-bold text-lg text-[#337E8D] dark:text-[#C9E6EA]">
                             {ri.quantity} {ri.unit}
                           </div>
                         </div>

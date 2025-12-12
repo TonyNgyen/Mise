@@ -148,7 +148,7 @@ export default function AddGoalForm({
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200 shadow-md flex items-center gap-2 cursor-pointer"
+        className="cursor-pointer bg-[#3A8F9E] hover:bg-[#337E8D] text-white py-2 px-4 rounded-md font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
       >
         Add Goal
       </button>
@@ -156,7 +156,7 @@ export default function AddGoalForm({
       {/* Modal Backdrop and Content */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity"
           aria-labelledby="modal-title"
           role="dialog"
           aria-modal="true"
@@ -202,7 +202,7 @@ export default function AddGoalForm({
                   <select
                     value={form.nutrient_key}
                     onChange={(e) => handleNutrientChange(e.target.value)}
-                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white transition-colors"
+                    className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white transition-colors"
                     required
                   >
                     <option value="">Select a nutrient...</option>
@@ -249,36 +249,38 @@ export default function AddGoalForm({
 
                 {/* Target Amount */}
                 <div className="grid grid-cols-3 gap-3">
-                    <div className="col-span-2">
-                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
-                            Target Amount *
-                        </label>
-                        <input
-                            type="number"
-                            step="0.1"
-                            min="0"
-                            placeholder="0.0"
-                            value={form.target}
-                            onChange={(e) => setForm({ ...form, target: e.target.value })}
-                            className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-zinc-700 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 transition-colors"
-                            required
-                        />
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
+                      Target Amount *
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      placeholder="0.0"
+                      value={form.target}
+                      onChange={(e) =>
+                        setForm({ ...form, target: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 transition-colors"
+                      required
+                    />
+                  </div>
+                  {/* Unit Display (read-only) */}
+                  <div className="flex flex-col">
+                    <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
+                      Unit
+                    </label>
+                    <div className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg bg-zinc-50 dark:bg-zinc-700 text-zinc-900 dark:text-white flex items-center justify-center flex-1">
+                      {selectedNutrient ? (
+                        <span className="font-medium">{currentUnit}</span>
+                      ) : (
+                        <span className="text-zinc-500 dark:text-zinc-400 text-xs">
+                          Unit
+                        </span>
+                      )}
                     </div>
-                    {/* Unit Display (read-only) */}
-                    <div>
-                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
-                            Unit
-                        </label>
-                        <div className="w-full px-4 py-3 border border-zinc-300 dark:border-zinc-600 rounded-lg bg-zinc-50 dark:bg-zinc-600 text-zinc-900 dark:text-white flex items-center justify-center">
-                            {selectedNutrient ? (
-                                <span className="font-medium">{currentUnit}</span>
-                            ) : (
-                                <span className="text-zinc-500 dark:text-zinc-400 text-xs">
-                                    Unit
-                                </span>
-                            )}
-                        </div>
-                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -286,13 +288,13 @@ export default function AddGoalForm({
               <button
                 type="submit"
                 disabled={loading || !form.nutrient_key}
-                className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 dark:bg-blue-700 dark:hover:bg-blue-800 dark:disabled:bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center disabled:cursor-not-allowed"
+                className="cursor-pointer w-full px-8 py-2.5 bg-[#3A8F9E] hover:bg-[#337E8D] text-white rounded-xl font-bold transition-colors shadow-md shadow-[#3A8F9E]/30 dark:shadow-[#3A8F9E]/20 disabled:cursor-not-allowed"
               >
                 {loading ? (
-                  <>
+                  <div className="flex items-center justify-center">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                     Adding Goal...
-                  </>
+                  </div>
                 ) : (
                   "Add Goal"
                 )}

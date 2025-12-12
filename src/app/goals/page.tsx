@@ -159,7 +159,7 @@ export default function GoalsPage() {
             />
           </div>
 
-          <p className="text-zinc-600 dark:text-zinc-400 mt-4">
+          <p className="text-zinc-600 dark:text-zinc-400 mt-4 font-medium">
             Set and track your daily nutrition targets
           </p>
         </div>
@@ -184,7 +184,7 @@ export default function GoalsPage() {
             <h3 className="text-lg font-semibold text-zinc-600 dark:text-zinc-300 mb-2">
               No goals yet
             </h3>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">
               Set your first nutrition goal!
             </p>
           </div>
@@ -250,7 +250,7 @@ export default function GoalsPage() {
                     </div>
                     <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-2">
                       <div
-                        className="bg-blue-600 h-2 rounded-full"
+                        className="bg-[#3A8F9E] darl h-2 rounded-full"
                         style={{
                           width: `${Math.min(
                             100,

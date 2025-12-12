@@ -84,8 +84,8 @@ export default function InventoryPage() {
           </h1>
           <button
             onClick={openModal}
-            className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors cursor-pointer"
-          >
+            className="cursor-pointer bg-[#3A8F9E] hover:bg-[#337E8D] text-white py-2 px-4 rounded-md font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
+      >
             Add Item
           </button>
         </div>
@@ -121,8 +121,8 @@ export default function InventoryPage() {
             </p>
             <button
               onClick={openModal}
-              className="cursor-pointer mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-200"
-            >
+              className="cursor-pointer bg-[#3A8F9E] hover:bg-[#337E8D] text-white py-2 px-4 rounded-md font-semibold transition-colors duration-200 shadow-md gap-2 mt-4"
+      >
               Add Your First Item
             </button>
           </div>
@@ -162,7 +162,7 @@ export default function InventoryPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    <div className="text-2xl font-bold text-[#3A8F9E] dark:text-[#C9E6EA]">
                       {item.quantity}
                     </div>
                     <div className="text-sm text-zinc-500 dark:text-zinc-400 uppercase">
