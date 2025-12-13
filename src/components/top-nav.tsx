@@ -4,7 +4,7 @@ import ThemeToggle from "./theme-toggle";
 
 export default function TopNav() {
   return (
-    <header className="flex justify-between items-center px-96 py-4">
+    <header className="flex justify-between items-center px-96 py-4 bg-[#F7F9FA] dark:bg-zinc-900">
       <Link href="/" className="text-xl font-sans font-medium">
         meap
       </Link>

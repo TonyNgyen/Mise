@@ -4,6 +4,7 @@ import SidebarNav from "@/components/sidebar-nav";
 import TopNav from "@/components/top-nav";
 import { ThemeProvider } from "next-themes";
 import { createClient } from "@/utils/supabase/server";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "meap",
@@ -22,7 +23,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className="flex h-screen overflow-hidden">
+      <body className="">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -30,17 +31,20 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           {user ? (
-            <>
+            <main className="flex h-screen overflow-hidden">
               <SidebarNav />
-              <main className="flex-1 overflow-y-auto p-6 bg-[#F7F9FA] dark:bg-zinc-900">{children}</main>
-            </>
-          ) : (
-            <div className="flex flex-col w-full h-screen">
-              <TopNav />
-              <main className="flex-1 flex-col flex overflow-y-auto">
+              <main className="flex-1 overflow-y-auto p-6 bg-[#F7F9FA] dark:bg-zinc-900">
                 {children}
               </main>
-            </div>
+            </main>
+          ) : (
+            <>
+              <div className="min-h-screen flex flex-col">
+                <TopNav />
+                {children}
+              </div>
+              <Footer />
+            </>
           )}
         </ThemeProvider>
       </body>

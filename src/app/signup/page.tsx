@@ -81,7 +81,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center px-4 py-8 flex-1">
+    <div className="flex items-center justify-center px-4 py-8 flex-1 bg-[#F7F9FA] dark:bg-zinc-900">
       <div className="max-w-md w-full space-y-8">
         {/* Header Section */}
         <div className="text-center">
@@ -251,7 +251,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className=" cursor-pointer group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-zinc-800 dark:bg-zinc-700 hover:bg-zinc-900 dark:hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              className=" cursor-pointer group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#3A8F9E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500 dark:focus:ring-zinc-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               {/* ... Loading/Sign up button content ... */}
               {isLoading ? (

@@ -7,14 +7,14 @@ export default async function Home() {
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     return (
-      <div className="flex-1 flex flex-col justify-center items-center">
+      <div className="flex-1 flex flex-col justify-center items-center bg-[#F7F9FA] dark:bg-zinc-900 relative">
         <RadialGradient />
         <div className="text-center space-y-8 max-w-md z-10">
           <div className="space-y-4">
             <h1 className="font-sans font-medium text-6xl tracking-wide text-zinc-900 dark:text-white">
               meap
             </h1>
-            <div className="h-px w-16 bg-zinc-300 dark:bg-zinc-600 mx-auto"></div>
+            <div className="h-px w-16 bg-[#3A8F9E] mx-auto"></div>
             <p className="text-lg font-sans font-medium text-zinc-600 dark:text-zinc-300 tracking-wide uppercase letter-spacing: 0.05em;">
               Meal Prep Made Simple
             </p>
@@ -23,13 +23,13 @@ export default async function Home() {
           <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/login"
-              className="px-8 py-3 rounded-sm border border-zinc-300 text-zinc-700 bg-white dark:bg-[#121212] hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-all duration-300 font-light tracking-wide text-sm uppercase"
+              className="px-8 py-3 rounded-sm border border-zinc-300 text-zinc-700 bg-white dark:bg-[#121212] hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-all duration-300 font-semibold tracking-wide text-sm uppercase"
             >
               Log in
             </a>
             <a
               href="/signup"
-              className="px-8 py-3 rounded-sm bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300 transition-all duration-300 font-light tracking-wide text-sm uppercase"
+              className="px-8 py-3 rounded-sm bg-[#3A8F9E] text-white hover:bg-[#337E8D] transition-all duration-300 font-semibold tracking-wide text-sm uppercase"
             >
               Sign up
             </a>

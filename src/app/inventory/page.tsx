@@ -85,7 +85,7 @@ export default function InventoryPage() {
           <button
             onClick={openModal}
             className="cursor-pointer bg-[#3A8F9E] hover:bg-[#337E8D] text-white py-2 px-4 rounded-md font-semibold transition-colors duration-200 shadow-md flex items-center gap-2"
-      >
+          >
             Add Item
           </button>
         </div>
@@ -122,7 +122,7 @@ export default function InventoryPage() {
             <button
               onClick={openModal}
               className="cursor-pointer bg-[#3A8F9E] hover:bg-[#337E8D] text-white py-2 px-4 rounded-md font-semibold transition-colors duration-200 shadow-md gap-2 mt-4"
-      >
+            >
               Add Your First Item
             </button>
           </div>
@@ -138,7 +138,6 @@ export default function InventoryPage() {
                     <div className="flex items-center gap-2 mb-2">
                       {item.ingredient ? (
                         <>
-                          <span className="text-2xl">🥕</span>
                           <span className="font-medium text-zinc-900 dark:text-white">
                             {item.ingredient.name}
                           </span>
@@ -149,12 +148,9 @@ export default function InventoryPage() {
                           )}
                         </>
                       ) : (
-                        <>
-                          <span className="text-2xl">📖</span>
-                          <span className="font-medium text-zinc-900 dark:text-white">
-                            {item.recipe?.name}
-                          </span>
-                        </>
+                        <span className="font-medium text-zinc-900 dark:text-white">
+                          {item.recipe?.name}
+                        </span>
                       )}
                     </div>
                     <div className="text-sm text-zinc-500 dark:text-zinc-400">

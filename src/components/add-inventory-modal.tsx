@@ -276,7 +276,7 @@ export default function AddInventoryModal({
                   : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
               }`}
             >
-              🥕 Ingredient
+               Ingredient
             </button>
             <button
               type="button"
@@ -287,7 +287,7 @@ export default function AddInventoryModal({
                   : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
               }`}
             >
-              📖 Recipe
+               Recipe
             </button>
           </div>
 
