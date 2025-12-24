@@ -66,7 +66,7 @@ Currently working on:
 
 This is a personal learning project, but I'm open to feedback and suggestions! Feel free to:
 - Share thoughts on architecture or code quality
-- Connect with me on [LinkedIn](your-linkedin-url)
+- Connect with me on [LinkedIn](https://www.linkedin.com/in/tony-nguyen-813923212/)
 - Use contact page on meap
 
 ---
@@ -79,4 +79,4 @@ I'm a master's student graduating this school year, looking for full-time softwa
 - Ship production-ready code
 - Solve real problems with software
 
-**Let's connect:** [LinkedIn](your-linkedin-url) | [Email](tonynguyeenn@gmail.com)
+**Let's connect:** [LinkedIn](https://www.linkedin.com/in/tony-nguyen-813923212/) | [Email](tonynguyeenn@gmail.com)
