@@ -5,6 +5,7 @@ import TopNav from "@/components/top-nav";
 import { ThemeProvider } from "next-themes";
 import { createClient } from "@/utils/supabase/server";
 import Footer from "@/components/footer";
+import AuthFooter from "@/components/auth-footer";
 
 export const metadata: Metadata = {
   title: "meap",
@@ -19,6 +20,7 @@ export default async function RootLayout({
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   const user = data?.user;
+  const isAdmin = user?.id === process.env.ADMIN_USER_ID;
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -31,15 +33,20 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           {user ? (
-            <main className="flex h-screen overflow-hidden">
-              <SidebarNav />
-              <main className="flex-1 overflow-y-auto p-6 bg-[#F7F9FA] dark:bg-zinc-900">
-                {children}
-              </main>
+            <main className="flex h-screen">
+              <SidebarNav user={user} isAdmin={isAdmin} />
+
+              <div className="flex-1 flex flex-col overflow-y-auto">
+                <main className="flex-1 p-6 bg-zinc-200 dark:bg-zinc-900">
+                  {children}
+                </main>
+
+                <AuthFooter />
+              </div>
             </main>
           ) : (
             <>
-              <div className="min-h-screen flex flex-col">
+              <div className="min-h-screen flex flex-col bg-[#F7F9FA] dark:bg-zinc-900">
                 <TopNav />
                 {children}
               </div>

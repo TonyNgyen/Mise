@@ -160,7 +160,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-6 min-h-screen">
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => (
             <div
@@ -175,7 +175,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
 
   if (ingredients.length === 0) {
     return (
-      <div className="p-6">
+      <div className="p-6 min-h-screen">
         <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-8 max-w-md mx-auto flex flex-col items-center">
           <div className="text-zinc-400 dark:text-zinc-500 text-6xl mb-4">
             🥗
@@ -196,7 +196,7 @@ export default function IngredientsList({ user_id }: { user_id: string }) {
   }
 
   return (
-    <div className="p-4 space-y-4 max-w-4xl mx-auto">
+    <div className="p-4 space-y-4 max-w-4xl mx-auto min-h-screen">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">

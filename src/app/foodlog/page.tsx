@@ -66,7 +66,7 @@ export default function FoodLogger() {
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="p-6 space-y-6 max-w-4xl mx-auto min-h-screen">
       <div className="flex items-start justify-between">
         <div className="flex gap-4">
           <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">

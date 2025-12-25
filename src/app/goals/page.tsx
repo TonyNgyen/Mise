@@ -34,9 +34,33 @@ type GoalForm = {
   target: string;
 };
 
+// Skeleton Components
+const GoalCardSkeleton = () => (
+  <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-6 shadow-sm animate-pulse">
+    <div className="flex items-center justify-between">
+      <div className="flex-1">
+        <div className="h-6 bg-zinc-200 dark:bg-zinc-700 rounded w-40 mb-2"></div>
+        <div className="flex items-center gap-4">
+          <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-24"></div>
+          <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-32"></div>
+        </div>
+      </div>
+      <div className="ml-4 w-10 h-10 bg-zinc-200 dark:bg-zinc-700 rounded-lg"></div>
+    </div>
+    <div className="mt-4">
+      <div className="flex justify-between mb-1">
+        <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-16"></div>
+        <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-12"></div>
+      </div>
+      <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-2"></div>
+    </div>
+  </div>
+);
+
 export default function GoalsPage() {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [form, setForm] = useState<GoalForm>({
     nutrient_key: "",
     target: "",
@@ -73,6 +97,7 @@ export default function GoalsPage() {
 
   const fetchGoals = async () => {
     try {
+      setInitialLoading(true);
       const res = await fetch("/api/goals");
       const data = await res.json();
       if (data.success) {
@@ -80,6 +105,8 @@ export default function GoalsPage() {
       }
     } catch (error) {
       console.error("Error fetching goals:", error);
+    } finally {
+      setInitialLoading(false);
     }
   };
 
@@ -87,7 +114,6 @@ export default function GoalsPage() {
     fetchGoals();
   }, []);
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -105,7 +131,6 @@ export default function GoalsPage() {
       const data = await res.json();
 
       if (data.success) {
-        // Reset form state and refetch goals on success
         setForm({ nutrient_key: "", target: "" });
         await fetchGoals();
       }
@@ -116,7 +141,6 @@ export default function GoalsPage() {
     }
   };
 
-  // Handle delete
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this goal?")) return;
 
@@ -143,14 +167,14 @@ export default function GoalsPage() {
   };
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl mx-auto">
+    <div className="p-6 space-y-8 max-w-4xl mx-auto min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-4">
             <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
               Nutrition Goals
-            </h1>{" "}
+            </h1>
             <AddGoalForm
               form={form}
               setForm={setForm}
@@ -164,9 +188,13 @@ export default function GoalsPage() {
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-3 py-1 rounded-full">
-            {goals.length} goal{goals.length !== 1 ? "s" : ""}
-          </span>
+          {initialLoading ? (
+            <div className="h-6 w-16 bg-zinc-200 dark:bg-zinc-700 rounded-full animate-pulse"></div>
+          ) : (
+            <span className="text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700 px-3 py-1 rounded-full">
+              {goals.length} goal{goals.length !== 1 ? "s" : ""}
+            </span>
+          )}
         </div>
       </div>
 
@@ -175,8 +203,14 @@ export default function GoalsPage() {
           Your Goals
         </h2>
 
-        {/* Goals List */}
-        {goals.length === 0 ? (
+        {/* Loading State */}
+        {initialLoading ? (
+          <div className="grid gap-4">
+            <GoalCardSkeleton />
+            <GoalCardSkeleton />
+            <GoalCardSkeleton />
+          </div>
+        ) : goals.length === 0 ? (
           <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-8 text-center">
             <div className="text-zinc-400 dark:text-zinc-500 text-6xl mb-4">
               <LuTrophy className="mx-auto" />
@@ -250,14 +284,14 @@ export default function GoalsPage() {
                     </div>
                     <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-2">
                       <div
-                        className="bg-[#3A8F9E] darl h-2 rounded-full"
+                        className="bg-[#3A8F9E] h-2 rounded-full transition-all duration-300"
                         style={{
                           width: `${Math.min(
                             100,
                             ((totalNutrients[goal.nutrient_key]?.amount || 0) /
                               goal.target_amount) *
                               100
-                          )}%`, // Cap progress bar at 100% visually
+                          )}%`,
                         }}
                       ></div>
                     </div>

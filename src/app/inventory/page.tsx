@@ -61,7 +61,7 @@ export default function InventoryPage() {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-6 min-h-screen">
         <div className="animate-pulse space-y-6">
           {[1, 2, 3].map((i) => (
             <div
@@ -75,7 +75,7 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="p-6 space-y-6 max-w-4xl mx-auto min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">

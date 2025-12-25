@@ -32,28 +32,22 @@ export async function POST(req: Request) {
     if (userError || !user) throw userError || new Error("User not found");
 
     if (ingredient_id) {
-      const {error: logError } = await supabase.rpc(
-        "add_ingredient_log",
-        {
-          p_ingredient_id: ingredient_id,
-          p_unit: unit,
-          p_amount: quantity,
-          p_update_inventory: update_inventory,
-          p_log_datetime: logged_at,
-        }
-      );
+      const { error: logError } = await supabase.rpc("add_ingredient_log", {
+        p_ingredient_id: ingredient_id,
+        p_unit: unit,
+        p_amount: quantity,
+        p_update_inventory: update_inventory,
+        p_log_datetime: logged_at,
+      });
       if (logError) throw logError;
+      return NextResponse.json({ success: true });
     } else if (recipe_id) {
-      const {error: logError } = await supabase.rpc(
-        "add_recipe_log",
-        {
-          p_recipe_id: recipe_id,
-          p_amount: quantity,
-          p_update_inventory: update_inventory,
-          p_log_datetime: logged_at,
-        }
-      );
-
+      const { error: logError } = await supabase.rpc("add_recipe_log", {
+        p_recipe_id: recipe_id,
+        p_amount: quantity,
+        p_update_inventory: update_inventory,
+        p_log_datetime: logged_at,
+      });
       if (logError) throw logError;
 
       if (update_inventory) {
@@ -66,7 +60,7 @@ export async function POST(req: Request) {
               p_unit: unit,
             }
           );
-
+          console.log("Inventory error 1:", inventoryError);
           if (inventoryError) {
             throw inventoryError;
           }
@@ -83,7 +77,6 @@ export async function POST(req: Request) {
           if (inventoryError) throw inventoryError;
         }
       }
-
       return NextResponse.json({ success: true });
     }
   } catch (error) {

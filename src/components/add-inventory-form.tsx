@@ -240,7 +240,7 @@ export default function AddInventoryForm({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 h-full"
       onClick={handleBackdropClick}
     >
       <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-700 p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -270,7 +270,7 @@ export default function AddInventoryForm({
                   : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
               }`}
             >
-               Ingredient
+              Ingredient
             </button>
             <button
               type="button"
@@ -281,7 +281,7 @@ export default function AddInventoryForm({
                   : "text-zinc-500 dark:text-zinc-400 dark:hover:text-[#C9E6EA] hover:font-semibold cursor-pointer border-b-2 border-transparent hover:text-[#3A8F9E] dark:hover:border-[#C9E6EA] hover:border-[#3A8F9E]"
               }`}
             >
-               Recipe
+              Recipe
             </button>
           </div>
 

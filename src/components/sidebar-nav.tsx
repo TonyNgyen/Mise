@@ -11,10 +11,18 @@ import {
   LuBox,
   LuUtensils,
   LuTrophy,
+  LuUserRoundCog,
 } from "react-icons/lu";
+import type { User } from "@supabase/supabase-js";
 
-export default function SidebarNav() {
+interface SidebarNavProps {
+  user: User;
+  isAdmin: boolean;
+}
+
+export default function SidebarNav({ user, isAdmin }: SidebarNavProps) {
   const pathname = usePathname();
+  console.log(isAdmin);
 
   const navItems = [
     { href: "/", label: "Dashboard", icon: LuLayoutDashboard },
@@ -56,6 +64,21 @@ export default function SidebarNav() {
               </li>
             );
           })}
+          {isAdmin && (
+            <li>
+              <Link
+                href="/admin"
+                className={`flex items-center p-3 rounded-lg transition-colors ${
+                  pathname === "/admin"
+                    ? "bg-[#E5F3F5] dark:bg-[#3A8F9E] text-zinc-900 dark:text-white font-medium"
+                    : "text-zinc-700 dark:text-white hover:bg-[#E5F3F5] dark:hover:bg-[#3A8F9E] hover:font-medium"
+                }`}
+              >
+                <LuUserRoundCog className="w-5 h-5 mr-3" />
+                Admin
+              </Link>
+            </li>
+          )}
         </ul>
       </nav>
 

@@ -131,7 +131,7 @@ export default function AddLogModal({
       if (data.success) {
         onLogSuccess?.();
         handleClose();
-        alert("Food logged successfully!");
+        // alert("Food logged successfully!");
       } else {
         console.error("Error data:", data.error);
         alert("Error logging food: " + data.error);

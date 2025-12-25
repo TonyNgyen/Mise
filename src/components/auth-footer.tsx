@@ -1,11 +1,11 @@
 import React from "react";
 
-function Footer() {
+function AuthFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#F7F9FA] dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-700">
-      <div className="mx-auto px-96 py-12">
+    <footer className="w-full bg-[#F7F9FA] dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-700 flex-shrink-0">
+      <div className="mx-auto py-12 max-w-6xl">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
@@ -221,4 +221,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default AuthFooter;
