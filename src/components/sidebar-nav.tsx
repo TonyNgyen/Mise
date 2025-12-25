@@ -13,14 +13,12 @@ import {
   LuTrophy,
   LuUserRoundCog,
 } from "react-icons/lu";
-import type { User } from "@supabase/supabase-js";
 
 interface SidebarNavProps {
-  user: User;
   isAdmin: boolean;
 }
 
-export default function SidebarNav({ user, isAdmin }: SidebarNavProps) {
+export default function SidebarNav({ isAdmin }: SidebarNavProps) {
   const pathname = usePathname();
   console.log(isAdmin);
 

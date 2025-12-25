@@ -175,7 +175,7 @@ function PrivacyPolicyPage() {
 
           <section className="mb-10">
             <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">
-              Children's Privacy
+              Children&apos;s Privacy
             </h2>
             <p className="text-zinc-700 dark:text-zinc-300">
               meap is not intended for use by children under the age of 13. We
@@ -217,7 +217,7 @@ function PrivacyPolicyPage() {
             </p>
             <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300 space-y-2 mb-4">
               <li>Posting the new Privacy Policy on this page</li>
-              <li>Updating the "Last Updated" date at the top</li>
+              <li>Updating the &quot;Last Updated&quot; date at the top</li>
               <li>
                 Sending you an email notification for significant changes (if
                 you have an account)

@@ -22,10 +22,6 @@ function AdminPage() {
     null
   );
 
-  useEffect(() => {
-    fetchMessages();
-  }, [filter]);
-
   const fetchMessages = async () => {
     setLoading(true);
     try {
@@ -41,6 +37,10 @@ function AdminPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchMessages();
+  }, [filter, fetchMessages]);
 
   const toggleResolved = async (id: string, currentlyResolved: boolean) => {
     try {

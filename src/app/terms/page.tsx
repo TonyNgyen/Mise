@@ -19,10 +19,10 @@ function TermsOfServicePage() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="prose prose-zinc dark:prose-invert max-w-none">
           <p className="text-lg text-zinc-700 dark:text-zinc-300 mb-8">
-            Welcome to meap! These Terms of Service ("Terms") govern your use of
+            Welcome to meap! These Terms of Service (&quot;Terms&quot;) govern your use of
             the meap meal prep assistant and nutrition tracker service
-            ("Service"). By creating an account or using meap, you agree to
-            these Terms. If you don't agree, please don't use our Service.
+            (&quot;Service&quot;). By creating an account or using meap, you agree to
+            these Terms. If you don&apos;t agree, please don&apos;t use our Service.
           </p>
 
           <section className="mb-10">
@@ -149,8 +149,8 @@ function TermsOfServicePage() {
               Ingredient Database
             </h3>
             <p className="text-zinc-700 dark:text-zinc-300 mb-4">
-              When you add ingredients to our database (such as "Kraft American
-              Cheese Slices" or other branded products), you acknowledge that:
+              When you add ingredients to our database (such as &quot;Kraft American
+              Cheese Slices&quot; or other branded products), you acknowledge that:
             </p>
             <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300 space-y-2 mb-6">
               <li>Nutritional facts and brand names are factual information</li>
@@ -278,7 +278,7 @@ function TermsOfServicePage() {
               No Warranties
             </h3>
             <p className="text-zinc-700 dark:text-zinc-300 mb-4">
-              The Service is provided "as is" and "as available" without
+              The Service is provided &quot;as is&quot; and &quot;as available&quot; without
               warranties of any kind, either express or implied, including but
               not limited to:
             </p>

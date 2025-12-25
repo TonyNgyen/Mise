@@ -82,7 +82,7 @@ function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-            Have a question, feedback, or just want to say hello? We'd love to
+            Have a question, feedback, or just want to say hello? We&apos;d love to
             hear from you.
           </p>
         </div>
@@ -282,7 +282,7 @@ function ContactPage() {
               {submitStatus === "success" && (
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
                   <p className="text-sm text-green-800 dark:text-green-200">
-                    ✓ Thanks for reaching out! We'll get back to you soon.
+                    ✓ Thanks for reaching out! We&apos;ll get back to you soon.
                   </p>
                 </div>
               )}

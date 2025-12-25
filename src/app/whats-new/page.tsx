@@ -39,7 +39,7 @@ function WhatsNewPage() {
       <div className="">
         <div className="max-w-4xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-50 mb-4">
-            What's New
+            What&apos;s New
           </h1>
           <p className="text-lg text-zinc-600 dark:text-zinc-200 max-w-2xl mx-auto">
             Stay up to date with the latest features, improvements, and changes
@@ -156,7 +156,7 @@ function WhatsNewPage() {
               {update.isLaunch && (
                 <div className="mt-6 bg-white dark:bg-zinc-800 rounded-xl p-6 border border-zinc-200 dark:border-zinc-700">
                   <p className="text-zinc-700 dark:text-zinc-200 mb-4">
-                    Have suggestions or found a bug? We'd love to hear from you!
+                    Have suggestions or found a bug? We&apos;d love to hear from you!
                   </p>
                   <a
                     href="/contact"

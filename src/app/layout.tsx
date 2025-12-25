@@ -34,7 +34,7 @@ export default async function RootLayout({
         >
           {user ? (
             <main className="flex h-screen">
-              <SidebarNav user={user} isAdmin={isAdmin} />
+              <SidebarNav isAdmin={isAdmin} />
 
               <div className="flex-1 flex flex-col overflow-y-auto">
                 <main className="flex-1 p-6 bg-zinc-200 dark:bg-zinc-900">

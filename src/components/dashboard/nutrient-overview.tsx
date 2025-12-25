@@ -95,9 +95,10 @@ const NutrientOverview = forwardRef(
     const [foodLogs, setFoodLogs] = useState<FoodLog[]>([]);
     const [goals, setGoals] = useState<Goal[]>([]);
     const [activeTab, setActiveTab] = useState("main");
-    const [selectedDate, setSelectedDate] = useState(
-      new Date().toISOString().split("T")[0]
-    );
+    // const [selectedDate, setSelectedDate] = useState(
+    //   new Date().toISOString().split("T")[0]
+    // );
+    const selectedDate = new Date().toISOString().split("T")[0];
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchFoodLogs = async (date: string) => {

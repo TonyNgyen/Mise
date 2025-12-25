@@ -28,11 +28,11 @@ function InventoryItem({
   quantity: string;
   status?: string;
 }) {
-  const statusColors = {
-    low: "text-red-600 dark:text-red-400",
-    medium: "text-amber-600 dark:text-amber-400",
-    good: "text-green-600 dark:text-green-400",
-  };
+  // const statusColors = {
+  //   low: "text-red-600 dark:text-red-400",
+  //   medium: "text-amber-600 dark:text-amber-400",
+  //   good: "text-green-600 dark:text-green-400",
+  // };
 
   return (
     <div className="flex justify-between items-center p-3 bg-zinc-50 dark:bg-zinc-700 rounded-lg">
